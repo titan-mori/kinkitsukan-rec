@@ -1,0 +1,22 @@
+<%#
+  よくある質問のアコーディオン（スタイル：scss/component/_faq.scss）
+  <details> / <summary> で開閉（キーボード操作・読み上げはブラウザ標準。JS 不要）
+    include('partials/_faq', { items: [{ q: '…？', a: '…', open: true }] })
+  引数
+    items … 質問の配列
+      q    … 質問
+      a    … 回答（HTML 可）
+      open … 最初から開いておくなら true。省略可
+%>
+<div class="c-faq">
+  <% items.forEach((item) => { %>
+    <details class="c-faq__item"<%= item.open ? ' open' : '' %>>
+      <summary class="c-faq__q">
+        <span class="c-faq__mark" aria-hidden="true">Q.</span>
+        <span class="c-faq__q-txt"><%= item.q %></span>
+        <span class="c-faq__icon" aria-hidden="true"></span>
+      </summary>
+      <div class="c-faq__a"><%- item.a %></div>
+    </details>
+  <% }) %>
+</div>

@@ -1,0 +1,272 @@
+<% const page = { name: 'jobs', title: '港湾倉庫作業員という仕事', bodyClass: 'page-special', heroHeader: true }; %>
+<%- include('partials/_head', { page }) %>
+<%- include('partials/_header', { page }) %>
+<%
+  // 仕事の流れ（写真 500×330）
+  const steps = [
+    { ttl: '貨物を受け入れる・積み出す', txt: '輸入ではコンテナから貨物を取り出し、輸出では許可の下りた貨物をコンテナへ積み込みます。', point: '貨物の形状や重さに合わせて、フォークリフトで安全に動かす。' },
+    { ttl: '受け入れ時に検品する', txt: '伝票と貨物を照合し、個数、番号、外装の状態を確認します。', point: 'ここでの見落としは通関や出荷まで影響する。' },
+    { ttl: '仕分けて、保管する', txt: '品目や荷主ごとに仕分け、出荷まで決められた場所で保管します。', point: '出荷時に取り出しやすい配置を考えて置く。' },
+    { ttl: '荷造り・梱包する', txt: '輸送に耐える形に梱包し、パレットにまとめて出荷の準備をします。', point: '貨物に合わせた梱包で、輸送中の傷みを防ぐ。' },
+    { ttl: '社内の担当者と連絡を取り合う', txt: '船の予定や集荷の時間を確認し、社内の担当者と連絡を取り合います。', point: '予定の変更を早く共有し、貨物を待たせない。' },
+  ];
+
+  // 現場で使う道具（アイコン 110×80）
+  const tools = [
+    { name: 'フォークリフト', txt: '貨物を安全に持ち上げ、<br>倉庫内を移動させる。' },
+    { name: 'パレット', txt: '貨物をまとめて積み、<br>扱いやすい単位にする。' },
+    { name: '作業票・チェックリスト', txt: '確認した内容を残し、<br>次の担当へ引き継ぐ。' },
+    { name: '安全靴・ヘルメット', txt: '作業中の身を守るために<br>必ず着用する。' },
+  ];
+
+  // アンケート（10人中）。人数は Figma で未確定（0 人）のため仮
+  const counts = [
+    { label: '未経験で入社した人', num: 0 },
+    { label: '入社時に仕事関連資格を<br>持っていなかった人', num: 0 },
+    { label: '入社後に資格を取得した人', num: 0 },
+  ];
+  const tasks = [
+    ['貨物の受け入れ・積み出し', 8],
+    ['検品（個数・番号・状態）', 7],
+    ['仕分け・保管・ピッキング', 6],
+    ['フォークリフト作業', 5],
+    ['荷造り・梱包', 4],
+    ['船便・運送業者との連絡', 3],
+  ];
+  const rankings = [
+    { ttl: 'この仕事の好きなところ', items: [['チームで終えたときの達成感', 8], ['フォークリフトの技術が身につく', 7], ['毎回違う貨物を扱える', 6], ['物流を支えている実感がある', 5], ['体を動かして働ける', 4]] },
+    { ttl: '仕事で大変だと思うところ', items: [['貨物を傷つけない集中力', 8], ['倉庫内の暑さ・寒さ', 7], ['繁忙時の忙しさ', 6], ['忙しいときほど確認を省けない', 5], ['貨物ごとに作業方法が異なる', 4]] },
+  ];
+  const fits = ['確認を丁寧に続けられる人', '周囲を見て動ける人', '分からないことをそのままにせず聞ける人', '体を動かすことが好きな人', '仲間と声を掛け合える人'];
+
+  // 社員の声
+  const voices = [
+    { txt: '最初は貨物の名前も分かりませんでした。', meta: '入社○年目／中途入社' },
+    { txt: 'フォークリフトを思いどおりに動かせるようになると、仕事が面白くなります。', meta: '入社○年目／中途入社' },
+    { txt: '一人で黙々ではなく、意外と声を掛け合う仕事です。', meta: '入社○年目／新卒入社' },
+  ];
+  const careers = [
+    {
+      meta: '入社○年目／中途入社',
+      steps: [['入社前', '前職は○○。倉庫や港湾の経験はなく、仕事関連の資格もなし。'], ['最初の仕事', '先輩と一緒に、受け入れ時の検品から。'], ['現在', 'フォークリフトの資格を取り、受け入れから出荷準備までを担当。']],
+      growth: '任された貨物を、自分の判断で置き場所まで決められたときに成長を感じました。',
+    },
+    {
+      meta: '入社○年目／新卒入社',
+      steps: [['入社前', '物流の知識はなく、港湾倉庫作業員という職種も知らなかった。'], ['最初の仕事', '倉庫内の動線と安全ルールを覚えることから。'], ['現在', '税関検査の対応や通関への引き継ぎを任され、後輩にも手順を伝える。']],
+      growth: '後輩に聞かれたことを、自分の言葉で説明できたときです。',
+    },
+  ];
+
+  // よくある質問。1問目以外の回答は Figma にないため、仕事を知るページの内容から仮で作成
+  const faqs = [
+    { q: '港湾倉庫作業員とはどのような仕事ですか？', a: '輸入ではコンテナから貨物を取り出し、輸出では許可の下りた貨物をコンテナへ積み込みます。', open: true },
+    { q: '未経験でも応募できますか？', a: '応募できます。必要な資格はなく、未経験から始められます。' },
+    { q: '入社時にフォークリフトなどの資格は必要ですか？', a: '必要ありません。入社後にフォークリフトの運転技能講習を受講できます。' },
+    { q: '資格取得を会社が支援してくれますか？', a: 'フォークリフトの運転技能講習の費用は会社が負担します。' },
+    { q: '体力に自信がなくても働けますか？', a: '（回答文が入ります）' },
+    { q: '倉庫内の暑さ・寒さ対策はありますか？', a: '（回答文が入ります）' },
+  ];
+
+  const pad = (n) => String(n).padStart(2, '0');
+%>
+
+<main class="l-main p-special">
+  <%- include('partials/_page-hero', { page, en: 'SPECIAL CONTENT', img: 'special/mv.webp', imgSp: 'special/mvsp.webp', parents: [{ label: '仕事を知る', href: 'jobs/' }] }) %>
+
+  <div class="l-page-body">
+    <%# ===== WORK GUIDE / 仕事図鑑 ===== %>
+    <section class="p-special-guide">
+      <div class="p-special__inner">
+        <div class="c-intro">
+          <div class="c-ttl">
+            <p class="c-ttl__label"><span class="c-ttl__en">WORK GUIDE</span><span class="c-ttl__ja p-special__ttl-ja">／ 仕事図鑑</span></p>
+            <h2 class="c-ttl__main">動かすだけじゃない。<br>貨物ごとに、仕事がある。</h2>
+          </div>
+          <div class="c-intro__txt">
+            <p>港湾倉庫作業員は、輸入で届いた貨物と、輸出で送り出す貨物の両方を扱う仕事です。</p>
+            <p>港の倉庫で、受け入れ・検品から保管、ピッキング、荷造り、コンテナへの積み込み・取り出しまでを担当します。</p>
+          </div>
+        </div>
+
+        <ol class="p-special-steps">
+          <% steps.forEach((step, i) => { %>
+            <li class="p-special-step">
+              <div class="p-special-step__img">
+                <img src="<%= assets %>img/special/guide_<%= pad(i + 1) %>.webp" alt="" width="500" height="330" loading="lazy">
+              </div>
+              <div class="p-special-step__body">
+                <p class="p-special-step__num" aria-hidden="true"><%= pad(i + 1) %></p>
+                <h3 class="p-special-step__ttl"><%= step.ttl %></h3>
+                <p class="p-special-step__txt"><%= step.txt %></p>
+                <p class="p-special-step__point-ttl">作業のポイント</p>
+                <p class="p-special-step__point"><%= step.point %></p>
+              </div>
+            </li>
+          <% }) %>
+        </ol>
+
+        <ul class="p-special-tools" aria-label="現場で使う道具">
+          <% tools.forEach((tool, i) => { %>
+            <li class="p-special-tool">
+              <img class="p-special-tool__icon" src="<%= assets %>img/special/tool_<%= pad(i + 1) %>.svg" alt="" width="110" height="80" loading="lazy">
+              <h3 class="p-special-tool__name"><%= tool.name %></h3>
+              <p class="p-special-tool__txt"><%- tool.txt %></p>
+            </li>
+          <% }) %>
+        </ul>
+      </div>
+    </section>
+
+    <%# ===== TEAM SURVEY / 10人に聞きました ===== %>
+    <section class="p-special-survey">
+      <div class="p-special__inner">
+        <div class="c-intro">
+          <div class="c-ttl c-ttl--white">
+            <p class="c-ttl__label"><span class="c-ttl__en">TEAM SURVEY</span><span class="c-ttl__ja p-special__ttl-ja">／ 10人に聞きました</span></p>
+            <h2 class="c-ttl__main">働く10人に聞いた、<br>港湾倉庫作業員の本当。</h2>
+          </div>
+          <div class="c-intro__txt">
+            <p>近畿通関で倉庫の現場に携わる約10名に、入社前の経験、仕事の面白さ、大変さ、向いている人について聞きました。</p>
+          </div>
+        </div>
+
+        <div class="p-special-survey__cards">
+          <div class="p-special-survey__row">
+            <% counts.forEach((item, i) => { %>
+              <div class="p-special-card p-special-count">
+                <h3 class="p-special-card__ttl"><%- item.label %></h3>
+                <p class="p-special-count__num"><span class="p-special-count__big"><%= item.num %></span><span class="p-special-count__unit">人</span><span class="p-special-count__total">/ 10人中</span></p>
+                <img class="p-special-count__icon p-special-count__icon--<%= i + 1 %>" src="<%= assets %>img/special/survey_icon_<%= pad(i + 1) %>.svg" alt="" width="110" height="100" loading="lazy">
+              </div>
+            <% }) %>
+          </div>
+
+          <div class="p-special-survey__row">
+            <div class="p-special-card">
+              <h3 class="p-special-card__ttl">よく担当する仕事<small>（複数回答）</small></h3>
+              <ul class="p-special-bars">
+                <% tasks.forEach(([label, num]) => { %>
+                  <li class="p-special-bars__item" style="--num: <%= num %>">
+                    <span class="p-special-bars__label"><%= label %></span>
+                    <span class="p-special-bars__track" aria-hidden="true"><span class="p-special-bars__fill"></span></span>
+                    <span class="p-special-bars__val p-special-num"><%= num %><small>人</small></span>
+                  </li>
+                <% }) %>
+              </ul>
+            </div>
+
+            <%# 円グラフ：Figma に割合がないため、円とラベルの配置のみ（割合は未確定） %>
+            <div class="p-special-card">
+              <h3 class="p-special-card__ttl">仕事の進め方</h3>
+              <div class="p-special-pie">
+                <span class="p-special-pie__chart" aria-hidden="true"></span>
+                <p class="p-special-pie__label p-special-pie__label--both"><span>両方</span>ある</p>
+                <p class="p-special-pie__label p-special-pie__label--solo"><span>一人</span>で<br>行うことが多い</p>
+                <p class="p-special-pie__label p-special-pie__label--team"><span>複数人</span>で<br>行うことが多い</p>
+              </div>
+            </div>
+
+            <%# Figma で中身が未作成 %>
+            <div class="p-special-card">
+              <h3 class="p-special-card__ttl">仕事で使う力</h3>
+            </div>
+          </div>
+
+          <div class="p-special-survey__row p-special-survey__row--half">
+            <% rankings.forEach((ranking) => { %>
+              <div class="p-special-card">
+                <h3 class="p-special-card__ttl"><%= ranking.ttl %></h3>
+                <ol class="p-special-rank">
+                  <% ranking.items.forEach(([label, num], i) => { %>
+                    <li class="p-special-rank__item p-special-rank__item--<%= i + 1 %>">
+                      <span class="p-special-rank__no"><%= i + 1 %></span>
+                      <span class="p-special-rank__label"><%= label %></span>
+                      <span class="p-special-rank__val p-special-num"><%= num %><small>人</small></span>
+                    </li>
+                  <% }) %>
+                </ol>
+              </div>
+            <% }) %>
+          </div>
+
+          <div class="p-special-card p-special-fits">
+            <h3 class="p-special-card__ttl">働く人が考える「向いている人」（複数回答）</h3>
+            <ul class="p-special-fits__list">
+              <% fits.forEach((fit) => { %><li><%= fit %></li><% }) %>
+            </ul>
+            <img class="p-special-fits__icon" src="<%= assets %>img/special/survey_icon_04.svg" alt="" width="126" height="138" loading="lazy">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <%# ===== 社員の声 ===== %>
+    <section class="p-special-voice" aria-label="働く人の声">
+      <div class="p-special__inner">
+        <ul class="p-special-voice__list">
+          <% voices.forEach((voice, i) => { %>
+            <li class="p-special-quote">
+              <blockquote class="p-special-quote__txt"><p><%= voice.txt %></p></blockquote>
+              <p class="p-special-quote__meta"><%= voice.meta %></p>
+              <img class="p-special-quote__img" src="<%= assets %>img/special/voice_<%= pad(i + 1) %>.webp" alt="" width="96" height="97" loading="lazy">
+            </li>
+          <% }) %>
+        </ul>
+
+        <div class="p-special-career__list">
+          <% careers.forEach((career) => { %>
+            <div class="p-special-career">
+              <p class="p-special-career__meta"><%= career.meta %></p>
+              <dl class="p-special-career__steps">
+                <% career.steps.forEach(([dt, dd]) => { %>
+                  <div>
+                    <dt><%= dt %></dt>
+                    <dd><%= dd %></dd>
+                  </div>
+                <% }) %>
+              </dl>
+              <p class="p-special-career__growth"><%= career.growth %></p>
+            </div>
+          <% }) %>
+        </div>
+
+        <div class="p-special-conditions">
+          <p class="p-special-conditions__txt">勤務時間、休日、給与などの条件は募集要項をご確認ください</p>
+          <div class="p-special-conditions__btn">
+            <%- include('partials/_link-btn', { label: '募集要項を見る', href: root + 'requirements/', variant: 'white', size: 'lg' }) %>
+          </div>
+        </div>
+
+        <div class="p-special-people">
+          <%- include('partials/_people-link', {
+            img: 'special/interviewbtn.webp',
+            lead: '港で働く人の、本当の声を聞いてみました。',
+          }) %>
+        </div>
+      </div>
+    </section>
+
+    <%# ===== FAQ ===== %>
+    <section class="p-special-faq">
+      <div class="p-special__inner p-special-faq__inner">
+        <div class="c-ttl">
+          <p class="c-ttl__label"><span class="c-ttl__en">FAQ</span><span class="c-ttl__ja">／ よくある質問</span></p>
+          <h2 class="c-ttl__main">採用に関して<br>よくあるご質問</h2>
+        </div>
+        <%- include('partials/_faq', { items: faqs }) %>
+      </div>
+    </section>
+
+    <%- include('partials/_page-closing', {
+      img: 'common/closing.webp',
+      ttl: '知らない仕事だからこそ、<br>まずは港湾倉庫作業員を知ることから。',
+      btns: [
+        { label: '港湾倉庫作業員という仕事', en: 'SPECIAL CONTENT', href: '#', variant: 'red' },
+        { label: '社員インタビューを読む', href: root + 'interview/', variant: 'white' },
+      ],
+    }) %>
+  </div>
+</main>
+
+<%- include('partials/_footer', { page }) %>

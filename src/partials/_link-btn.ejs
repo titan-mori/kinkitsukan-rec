@@ -1,0 +1,26 @@
+<%#
+  四角いリンクボタン（スタイル：scss/component/_link-btn.scss）
+    include('partials/_link-btn', { label: '社員インタビュー', href: root + 'interview/', variant: 'white' })
+  引数
+    label   … ボタンの文言（和文）
+    href    … リンク先
+    en      … 上に添える英字（SPECIAL CONTENT など）。省略可
+    variant … '' (紺) / 'red' / 'white'。省略可
+    size    … 'lg' で PC の文字を 18px に。省略可
+%>
+<%
+  const btnEn = typeof en !== 'undefined' ? en : '';
+  const btnMods = [typeof variant !== 'undefined' ? variant : '', typeof size !== 'undefined' ? size : '']
+    .filter(Boolean).map((m) => ` c-link-btn--${m}`).join('');
+%>
+<a class="c-link-btn<%= btnMods %>" href="<%= href %>">
+  <% if (btnEn) { %>
+    <span class="c-link-btn__txt">
+      <span class="c-link-btn__en"><%= btnEn %></span>
+      <span class="c-link-btn__ja"><%= label %></span>
+    </span>
+  <% } else { %>
+    <span class="c-link-btn__ja"><%= label %></span>
+  <% } %>
+  <span class="c-circle-arrow c-link-btn__icon" aria-hidden="true"><%- include('partials/_arrow') %></span>
+</a>

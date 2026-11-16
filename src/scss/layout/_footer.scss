@@ -1,0 +1,318 @@
+@use "../foundation" as *;
+
+.l-footer {
+  padding-top: svw(40);
+  overflow: hidden;
+  color: #fff;
+  background: $color-dark;
+  border-radius: svw(16) svw(16) 0 0;
+
+  @include mq(pc) {
+    padding-top: fluid(98);
+    border-radius: 20px 20px 0 0;
+  }
+
+  &__inner {
+    max-width: calc(#{$inner-wide} + #{svw(40)});
+    padding: 0 svw(20);
+    margin: 0 auto;
+  }
+
+  // ---- ENTRY / カジュアル面談
+  &__cta {
+    display: grid;
+    gap: svw(10);
+
+    @include mq(pc) {
+      grid-template-columns: repeat(2, minmax(0, 690px));
+      gap: 35px;
+      justify-content: space-between;
+    }
+  }
+
+  &__cta-link {
+    display: flex;
+    align-items: center;
+    height: svw(76);
+    padding: 0 svw(20);
+    border-radius: svw(3);
+    transition: opacity 0.3s;
+
+    @include hover {
+      opacity: 0.85;
+    }
+
+    @include mq(pc) {
+      height: 130px;
+      padding: 0 52px 0 53px;
+    }
+
+    &--entry {
+      background: $color-dark-sub;
+
+      .c-arrow {
+        transition: transform 0.3s;
+      }
+
+      // ホバー：丸の中の矢印だけ右へ（仕事カードと同じ動き。PC で約 5px）
+      @include hover {
+        .c-arrow {
+          transform: translateX(28%);
+        }
+      }
+    }
+
+    &--casual {
+      color: $color-accent;
+      background: #fff;
+    }
+  }
+
+  &__cta-en {
+    margin-right: svw(22);
+    font-family: $font-en;
+    font-size: sfont(20);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0.06em;
+
+    @include mq(pc) {
+      margin-right: 18px;
+      font-size: rem(30);
+      letter-spacing: 0;
+    }
+  }
+
+  &__cta-ja {
+    margin-right: auto;
+    font-size: sfont(15);
+    font-weight: 700;
+
+    @include mq(pc) {
+      font-size: rem(20);
+    }
+  }
+
+  &__cta-icon {
+    width: svw(36);
+
+    @include mq(pc) {
+      width: 53px;
+    }
+  }
+
+  &__lead {
+    margin-top: svw(20);
+    font-size: sfont(14);
+    line-height: 1.72;
+    color: $color-footer-lead;
+    letter-spacing: 0.04em;
+
+    @include mq(pc) {
+      margin-top: 42px;
+      font-size: rem(18);
+      line-height: 1.89;
+      color: #fff;
+      letter-spacing: 0;
+    }
+  }
+
+  &__br {
+    @include mq(pc) {
+      display: none;
+    }
+  }
+
+  // ---- 流れる文字
+  &__marquee {
+    margin-top: svw(56);
+    font-size: sfont(64);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.02em;
+
+    @include mq(pc) {
+      margin-top: 59px;
+      font-size: fluid(150, 90);
+      line-height: 1.05;
+      letter-spacing: 0;
+    }
+  }
+
+  // ---- ロゴ・サイトマップ
+  &__bottom {
+    padding-top: svw(48);
+    padding-bottom: svw(24);
+
+    @include mq(pc) {
+      padding-top: fluid(116);
+    }
+  }
+
+  &__head {
+    // 幅が足りないときはナビをロゴの下へ回す
+    @include mq(pc) {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 48px 80px;
+      align-items: flex-start;
+    }
+  }
+
+  &__logo {
+    display: flex;
+    gap: svw(14);
+    align-items: center;
+
+    img {
+      width: svw(151);
+
+      @include mq(pc) {
+        width: 255px;
+      }
+    }
+  }
+
+  &__site {
+    font-family: $font-en;
+    font-size: sfont(9);
+    font-weight: 700;
+    line-height: 1;
+
+    @include mq(pc) {
+      font-size: rem(18);
+    }
+  }
+
+  &__nav {
+    margin-top: svw(32);
+
+    @include mq(pc) {
+      margin-top: 0;
+      margin-left: auto;
+    }
+  }
+
+  &__nav-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: svw(30) svw(16);
+
+    @include mq(pc) {
+      display: flex;
+      gap: 60px;
+    }
+  }
+
+  // SP：「物流を知る」は1行で単独表示
+  &__nav-item:first-child {
+    grid-column: 1 / -1;
+  }
+
+  &__nav-link {
+    display: block;
+    font-size: sfont(13);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.06em;
+
+    @include mq(pc) {
+      font-size: rem(18);
+      letter-spacing: 0;
+    }
+  }
+
+  &__sub {
+    display: grid;
+    gap: svw(12);
+    margin-top: svw(14);
+
+    @include mq(pc) {
+      gap: 0;
+      margin-top: 10px;
+    }
+  }
+
+  &__sub-link {
+    display: block;
+    font-size: sfont(12);
+    font-weight: 400;
+    line-height: 1;
+    color: $color-footer-sub;
+    letter-spacing: 0.04em;
+
+    @include mq(pc) {
+      font-size: rem(14);
+      font-weight: 500;
+      line-height: 2.14;
+      color: $color-footer-sub-pc;
+      letter-spacing: 0;
+    }
+  }
+
+  &__nav-link,
+  &__sub-link {
+    transition: opacity 0.3s;
+
+    @include hover {
+      opacity: 0.7;
+    }
+  }
+
+  &__foot {
+    display: grid;
+    gap: svw(20);
+    padding-top: svw(28);
+    margin-top: svw(60);
+    border-top: 1px solid rgb(255 255 255 / 20%);
+
+    @include mq(pc) {
+      display: flex;
+      justify-content: space-between;
+      padding-top: 24px;
+      margin-top: fluid(160);
+    }
+  }
+
+  &__links {
+    display: flex;
+    gap: svw(24);
+  }
+
+  &__link {
+    display: inline-flex;
+    gap: svw(4);
+    align-items: center;
+    font-size: sfont(11);
+    line-height: 1;
+    color: $color-footer-link;
+
+    @include mq(pc) {
+      font-size: rem(12);
+      color: $color-gray;
+    }
+
+    @include hover {
+      text-decoration: underline;
+    }
+  }
+
+  &__copy {
+    font-family: $font-en;
+    font-size: sfont(10);
+    line-height: 1;
+    color: $color-footer-copy;
+    letter-spacing: 0.06em;
+
+    @include mq(pc) {
+      font-family: $font-base;
+      font-size: rem(12);
+      color: $color-footer-copy-pc;
+      letter-spacing: 0;
+    }
+
+    small {
+      font-size: inherit;
+    }
+  }
+}

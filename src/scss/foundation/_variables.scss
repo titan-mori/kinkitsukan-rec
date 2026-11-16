@@ -1,0 +1,82 @@
+// ブレークポイント
+$bp-sp: 375px;
+$bp-tb: 768px;
+$bp-pc: 897px; // 本文の PC レイアウト
+$bp-nav: 1024px; // ヘッダーの横並びナビ（それ未満はハンバーガー）
+$bp-lg: 1440px;
+$bp-design: 1536px; // PC デザイン幅（fluid() の上限）
+
+// SP の全体比例（svw() / sfont()）
+$sp-design: 375; // SP デザイン幅
+$sp-scale-max: 540; // この幅より広い画面では拡大を止める（タブレットで大きくなりすぎないように）
+
+// ================================================================
+// カラー
+// 白（#fff）・黒（#000）と、影・重ね用の半透明色（rgb(... / N%)）は直書きでOK。
+// それ以外の色は必ずここに登録して変数で使う。
+// ================================================================
+
+// ---- 基本
+$color-txt: #2c2c2c; // 本文
+$color-bg: #fff;
+$color-main: #094a88; // Figma: #094A88_濃い青
+$color-accent: #005eb8;
+$color-mark: #e30d10; // 見出し横の菱形
+$color-sub: #bec3c6; // 見出し横の和文サブ
+$color-gray: #8c8c8c;
+$color-border: #d8dce1;
+$color-pale: #e3efff; // 淡い青（枠線・青背景上の文字）
+$color-navy: #363c70; // スクロール後・白背景時のヘッダー文字
+
+// ---- 暗い背景（フッター）
+$color-dark: $color-txt; // 本文と同じ色
+$color-dark-sub: #616161;
+
+// ---- 青背景の上
+$color-sub-on-blue: $color-pale; // 見出し横の和文サブ
+
+// ---- カード
+$color-card: #2a7bc9;
+
+// ---- グラデーション・背景
+$color-grad-blue-1: #094e90; // 青背景グラデーション（始点）
+$color-grad-blue-2: #579fe3; // 〃（中間）
+$color-grad-blue-3: #04529c; // 〃（終点）
+$color-glow: #c8e0ff; // 淡い青のにじみ（radial-gradient の起点）
+$color-blue-light: #61a8ec; // 募集要項カード ホバー時のグラデーション（外側）
+$color-bg-soft: #f0f3f8; // にじみ背景の地色
+$color-bg-soft-light: #f7faff; // 〃（明るめ）
+$color-track: #e3e6eb; // スライダーの進捗バー（未到達部分）・物流を知る STEP の区切り線
+$color-bg-gray: #f4f5f7; // 物流を知る：フロー背景・タブ枠
+$color-tag-border: #eaeef6; // 担当職種タグの枠線
+$color-line: #e3e7f0; // 白地の四角ボタン（c-link-btn--white）の枠線
+$color-inactive: #d9d9d9; // 仕事を知る：職種ナビの非選択
+$color-meta: #9aa1b2; // 見出し横の和文サブ（小）・社員の声の入社年次
+$color-frame: #e6e6e6; // 港湾倉庫作業員：道具カードの枠線
+$color-chart: #0b62b8; // 港湾倉庫作業員：アンケートのグラフ・人数
+$color-rank-2: #7ca2cb; // 〃：ランキング 2位のリボン
+$color-rank-3: #bdd3ea; // 〃：ランキング 3位のリボン
+$color-shadow: #dfe4ef; // 社員インタビュー導線の影
+
+// ---- 画像の仮背景（画像未配置・読み込み前）
+$color-placeholder: #c9d6e6;
+$color-mv-bg: #3f86d2;
+
+// ---- フッター文字（暗い背景の上。SP / PC でデザイン上わずかに違う）
+$color-footer-lead: #e6e6e6; // リード文（SP）
+$color-footer-sub: #c4c4c4; // サブリンク（SP）
+$color-footer-sub-pc: #d6d4cf; // サブリンク（PC）
+$color-footer-link: #9a9a9a; // プライバシーポリシー等（SP）
+$color-footer-copy: #7a7a7a; // コピーライト（SP）
+$color-footer-copy-pc: #8a8880; // コピーライト（PC）
+
+// フォント
+$font-base: "Zen Kaku Gothic New", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+$font-en: "Montserrat", sans-serif;
+$font-scroll: "Figtree", sans-serif;
+
+// レイアウト
+$inner-width: 1100px;
+$inner-wide: 1416px;
+$header-height: 80px;
+$header-height-sp: 56px;

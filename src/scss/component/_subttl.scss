@@ -1,0 +1,21 @@
+@use "../foundation" as *;
+
+// 菱形付きの小見出し（主な仕事 / 仕事選びのポイント など）
+// 続く本文を菱形の分だけ字下げしたいときは、本文側で padding-left: $subttl-indent 相当を指定する
+.c-subttl {
+  display: flex;
+  gap: svw(6);
+  align-items: center;
+  font-size: sfont(17);
+  font-weight: 700;
+  line-height: 1.75;
+  color: $color-main;
+
+  @include mq(pc) {
+    font-size: rem(20);
+  }
+
+  &::before {
+    @include diamond-mark;
+  }
+}

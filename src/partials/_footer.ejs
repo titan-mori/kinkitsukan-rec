@@ -1,0 +1,69 @@
+<footer class="l-footer">
+  <div class="l-footer__inner">
+    <ul class="l-footer__cta">
+      <li>
+        <a class="l-footer__cta-link l-footer__cta-link--entry" href="<%= site.entry.form %>">
+          <span class="l-footer__cta-en">ENTRY</span>
+          <span class="l-footer__cta-ja">応募フォーム</span>
+          <span class="c-circle-arrow l-footer__cta-icon"><%- include('_arrow') %></span>
+        </a>
+      </li>
+      <li>
+        <a class="l-footer__cta-link l-footer__cta-link--casual" href="<%= site.entry.casual %>">
+          <span class="l-footer__cta-ja">カジュアル面談</span>
+          <img class="l-footer__cta-icon" src="<%= assets %>img/common/icon_casual.svg" alt="" width="53" height="53">
+        </a>
+      </li>
+    </ul>
+    <p class="l-footer__lead">物流という仕事に、少しでも<br class="l-footer__br">興味を持っていただけたら。<br>まずは気軽に、話を聞くところから<br class="l-footer__br">始めてみませんか。</p>
+  </div>
+
+  <div class="c-marquee l-footer__marquee" aria-hidden="true">
+    <div class="c-marquee__track">
+      <% for (let i = 0; i < 2; i++) { %>
+        <p class="c-marquee__group"><span>世界は四角い。</span><span>世界は四角い。</span><span>世界は四角い。</span></p>
+      <% } %>
+    </div>
+  </div>
+
+  <div class="l-footer__inner l-footer__bottom">
+    <div class="l-footer__head">
+      <a class="l-footer__logo" href="<%= root %>">
+        <img src="<%= assets %>img/common/logo_wh.svg" alt="近畿通関" width="255" height="39">
+        <span class="l-footer__site">RECRUIT SITE</span>
+      </a>
+      <nav class="l-footer__nav" aria-label="フッターナビゲーション">
+        <ul class="l-footer__nav-list">
+          <% site.nav.forEach((item) => { %>
+            <li class="l-footer__nav-item">
+              <a class="l-footer__nav-link" href="<%= root %><%= item.href %>"><%= item.label %></a>
+              <% if (item.children.length) { %>
+                <ul class="l-footer__sub">
+                  <% item.children.forEach((child) => { %>
+                    <li><a class="l-footer__sub-link" href="<%= root %><%= child.href %>"><%= child.label %></a></li>
+                  <% }) %>
+                </ul>
+              <% } %>
+            </li>
+          <% }) %>
+        </ul>
+      </nav>
+    </div>
+
+    <div class="l-footer__foot">
+      <ul class="l-footer__links">
+        <li>
+          <a class="l-footer__link" href="<%= site.corporateUrl %>" target="_blank" rel="noopener">
+            コーポレートサイト
+            <img class="l-footer__ext" src="<%= assets %>img/common/icon_external.svg" alt="" width="15" height="13">
+            <span class="u-visually-hidden">（新しいタブで開きます）</span>
+          </a>
+        </li>
+        <li><a class="l-footer__link" href="#">個人情報保護方針</a></li>
+      </ul>
+      <p class="l-footer__copy"><small>&copy; KINKI TSUKAN CO., LTD.</small></p>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

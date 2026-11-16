@@ -1,0 +1,37 @@
+<%#
+  下層ページ共通のヒーロー（スタイル：scss/layout/_page.scss）
+  使い方：page に heroHeader: true を指定し、<main class="l-main"> の先頭で読み込む。続けて本文を .l-page-body で囲む
+    include('partials/_page-hero', { page, en: 'LOGISTICS', img: 'logistics/mv.webp', imgSp: 'logistics/mvsp.webp' })
+    → 続けて <div class="l-page-body"> ... </div>
+  引数
+    page    … 見出しとパンくずの現在地に page.title を使う
+    en      … 右下の大きな英字（装飾）
+    img     … PC 画像（1536×532）。assets/img/ からのパス
+    imgSp   … SP 画像（375×300）。省略時は img を使う
+    parents … パンくずの中間階層 [{ label, href }]（href は root からのパス）。省略可
+%>
+<%
+  const heroParents = typeof parents !== 'undefined' ? parents : [];
+  const heroImgSp = typeof imgSp !== 'undefined' ? imgSp : img;
+%>
+<div class="l-page-hero">
+  <picture class="l-page-hero__img">
+    <source media="(min-width: 897px)" srcset="<%= assets %>img/<%= img %>" width="1536" height="532">
+    <img src="<%= assets %>img/<%= heroImgSp %>" alt="" width="375" height="300">
+  </picture>
+  <div class="l-page-hero__body">
+    <h1 class="l-page-hero__ttl"><%= page.title %></h1>
+    <nav class="l-page-hero__bread" aria-label="パンくずリスト">
+      <ol class="l-page-hero__bread-list">
+        <li><a href="<%= root %>">採用トップ</a></li>
+        <% heroParents.forEach((item) => { %>
+          <li><a href="<%= root %><%= item.href %>"><%= item.label %></a></li>
+        <% }) %>
+        <li aria-current="page"><%= page.title %></li>
+      </ol>
+    </nav>
+  </div>
+  <p class="l-page-hero__en" aria-hidden="true"><%= en %></p>
+</div>
+<%# ヘッダー切り替えの目印（main.js initHeader）。ヒーローは固定されるので、スクロールするこの要素を監視する %>
+<div class="l-page-sentinel" data-mv aria-hidden="true"></div>

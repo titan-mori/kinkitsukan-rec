@@ -1,0 +1,66 @@
+@use "sass:math";
+@use "../foundation" as *;
+
+// SP の全体比例の単位（svw() / sfont() が使う。_mixin.scss 参照）
+// SP：1デザインpx = 画面幅 / 375（$sp-scale-max までで拡大を止める）
+// PC：1px（SP 用に書いた値がそのまま px になる）
+:root {
+  --sp-unit: min(calc(100vw / #{$sp-design}), #{math.div($sp-scale-max, $sp-design)}px);
+
+  @include mq(pc) {
+    --sp-unit: 1px;
+  }
+}
+
+// ページ内リンクの着地位置を固定ヘッダーの分だけ下げる（Lenis の anchors もこの値を読む）
+html {
+  scroll-padding-top: $header-height-sp;
+
+  @include mq(nav) {
+    scroll-padding-top: $header-height;
+  }
+}
+
+body {
+  font-family: $font-base;
+  font-weight: 500;
+  line-height: 1.8;
+  color: $color-txt;
+  background: $color-bg;
+
+  &.is-menu-open {
+    overflow: hidden;
+  }
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+:focus-visible {
+  outline: 2px solid $color-accent;
+  outline-offset: 2px;
+}
+
+.u-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

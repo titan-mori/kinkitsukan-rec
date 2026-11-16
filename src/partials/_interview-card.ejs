@@ -1,0 +1,36 @@
+<%#
+  社員インタビューのカード（スタイル：scss/component/_interview-card.scss）
+    include('partials/_interview-card', { num: 1, href: '#', img: 'top/people_03.webp', catchCopy: '港の仕事は、<br>一人では動かせない。', job: '港湾倉庫作業員', meta: '2022年入社 / A. K', color: '' })
+  引数
+    num       … 通し番号（1 → "01"）
+    href      … 詳細ページ
+    img       … 写真（350×440 の比率。TOP と共通の top/people_0x.webp）。assets/img/ からのパス
+    imgHvr    … ホバー時に切り替える写真（TOP と共通の top/people_0xhvr.webp）。省略可（省略時は拡大のみ）
+    catchCopy … キャッチ。<br> の位置で行を分け、1行ずつ帯を敷く（WP 化時は改行で分割）
+    job       … 職種
+    meta      … 入社年 / イニシャル
+    color     … '' (紺) / 'red'。省略可
+    tag       … キャッチの見出しタグ。省略時 h3
+%>
+<%
+  const cardColor = typeof color !== 'undefined' && color ? ` c-interview-card--${color}` : '';
+  const cardTag = typeof tag !== 'undefined' ? tag : 'h3';
+  const catchLines = String(catchCopy).split(/<br\s*\/?>/i);
+  const cardImgHvr = typeof imgHvr !== 'undefined' ? imgHvr : '';
+%>
+<a class="c-interview-card<%= cardColor %>" href="<%= href %>">
+  <div class="c-interview-card__img">
+    <img src="<%= assets %>img/<%= img %>" alt="" width="350" height="440" loading="lazy">
+    <% if (cardImgHvr) { %>
+      <img class="c-interview-card__hvr" src="<%= assets %>img/<%= cardImgHvr %>" alt="" width="350" height="440" loading="lazy">
+    <% } %>
+  </div>
+  <div class="c-interview-card__body">
+    <p class="c-interview-card__num" aria-hidden="true"><%= String(num).padStart(2, '0') %></p>
+    <<%= cardTag %> class="c-interview-card__catch">
+      <% catchLines.forEach((line) => { %><span class="c-interview-card__catch-line"><%- line %></span><% }) %>
+    </<%= cardTag %>>
+    <p class="c-interview-card__job"><%= job %></p>
+    <p class="c-interview-card__meta"><%= meta %></p>
+  </div>
+</a>

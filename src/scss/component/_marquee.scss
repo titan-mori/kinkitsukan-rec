@@ -1,0 +1,28 @@
+@use "../foundation" as *;
+
+// 無限に横へ流れる帯。__group を2つ並べて -50% 移動でループさせる
+.c-marquee {
+  overflow: hidden;
+  white-space: nowrap;
+
+  &__track {
+    display: flex;
+    width: max-content;
+    animation: c-marquee var(--marquee-duration, 40s) linear infinite;
+  }
+
+  &__group {
+    display: flex;
+    flex-shrink: 0;
+  }
+
+  &--reverse &__track {
+    animation-direction: reverse;
+  }
+}
+
+@keyframes c-marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}

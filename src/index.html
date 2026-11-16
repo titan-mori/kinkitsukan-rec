@@ -1,0 +1,273 @@
+<%
+  const page = { name: 'top', title: '', bodyClass: 'page-top' };
+
+  const gallery = [
+    { src: 'top/gallery_01.webp', alt: '海を進むコンテナ船' },
+    { src: 'top/gallery_02.webp', alt: '会議をする社員' },
+    { src: 'top/gallery_03.webp', alt: '倉庫のフォークリフト' },
+    { src: 'top/gallery_04.webp', alt: '倉庫で作業する社員' },
+  ];
+
+  const jobs = [
+    { name: '港湾倉庫作業員', lead: '世界と日本をつなぐ現場の仕事', icon: 'top/job_icon_01.svg', href: 'jobs/#job01' },
+    { name: '通関士', lead: '貿易の関門を担う国家資格職', icon: 'top/job_icon_02.svg', href: 'jobs/#job02' },
+    { name: '貿易事務', lead: '輸出入の手続きを支える', icon: 'top/job_icon_03.svg', href: 'jobs/#job03' },
+    { name: '営業', lead: '物流の課題を提案で解決する', icon: 'top/job_icon_04.svg', href: 'jobs/#job04' },
+  ];
+
+  const people = [
+    { job: '通関士', copy: '全員が活躍できる場所があり、それぞれの強みがかけ合わさる会社', meta: '2022年入社 / A. K', src: 'top/people_01.webp' },
+    { job: '貿易事務', copy: '全員が活躍できる場所があり、それぞれの強みがかけ合わさる会社', meta: '2022年入社 / A. K', src: 'top/people_02.webp' },
+    { job: '港湾倉庫作業員', copy: '全員が活躍できる場所があり、それぞれの強みがかけ合わさる会社', meta: '2022年入社 / A. K', src: 'top/people_03.webp' },
+    { job: '営業', copy: '全員が活躍できる場所があり、それぞれの強みがかけ合わさる会社', meta: '2022年入社 / A. K', src: 'top/people_04.webp' },
+  ];
+
+  // 会社を知るページ内の各セクションへ（site.json のナビと同じリンク先）
+  const companyLinks = site.nav.find((n) => n.key === 'company').children;
+
+  const reqs = [
+    { name: '港湾倉庫作業員', icon: 'top/job_icon_01.svg' },
+    { name: '通関士', icon: 'top/job_icon_02.svg' },
+    { name: '貿易事務', icon: 'top/job_icon_03.svg' },
+    { name: '営業', icon: 'top/job_icon_04.svg' },
+  ];
+%>
+<%- include('partials/_head', { page }) %>
+<%- include('partials/_header', { page }) %>
+
+<main class="l-main p-top">
+
+  <%# ===== MV ===== %>
+  <section class="p-top-mv" data-mv>
+    <picture class="p-top-mv__img">
+      <source media="(min-width: 897px)" srcset="<%= assets %>img/top/mv.webp" width="1536" height="800">
+      <img src="<%= assets %>img/top/mvsp.webp" alt="" width="375" height="640" fetchpriority="high">
+    </picture>
+    <div class="p-top-mv__body">
+      <h1 class="p-top-mv__ttl">世界は、<br>四角い。</h1>
+      <p class="p-top-mv__lead">世界中のモノは<br class="p-top-mv__br">コンテナに積まれ、港へ届く。<br>その「世界の入口」で働く。</p>
+    </div>
+    <div class="p-top-mv__scroll" aria-hidden="true">
+      <span class="p-top-mv__scroll-txt">SCROLL</span>
+      <span class="p-top-mv__scroll-line"></span>
+    </div>
+  </section>
+
+  <%# ===== MOVIE ===== %>
+  <section class="p-top-movie" aria-label="コーポレートムービー">
+    <div class="c-marquee p-top-movie__marquee" aria-hidden="true">
+      <div class="c-marquee__track">
+        <% for (let i = 0; i < 2; i++) { %>
+          <p class="c-marquee__group"><span>CORPORATE MOVIE</span><span>CORPORATE MOVIE</span></p>
+        <% } %>
+      </div>
+    </div>
+    <div class="p-top-movie__frame">
+      <img class="p-top-movie__img" src="<%= assets %>img/top/movie.webp" alt="" width="1100" height="472" loading="lazy">
+      <button class="p-top-movie__play" type="button" aria-haspopup="dialog" aria-controls="movie-modal" data-modal-open="movie-modal">
+        <span class="p-top-movie__play-icon" aria-hidden="true"></span>
+        <span class="p-top-movie__play-txt">MOVIE</span>
+        <span class="u-visually-hidden">コーポレートムービーを再生する</span>
+      </button>
+    </div>
+  </section>
+
+  <dialog class="c-modal" id="movie-modal" aria-label="コーポレートムービー" data-modal>
+    <div class="c-modal__inner">
+      <button class="c-modal__close" type="button" data-modal-close>
+        <span class="u-visually-hidden">閉じる</span>
+      </button>
+      <div class="c-modal__video" data-video-src="">
+        <%# 動画URL確定後、data-video-src に YouTube の embed URL を入れる %>
+        <p class="c-modal__empty">動画は準備中です。</p>
+      </div>
+    </div>
+  </dialog>
+
+  <%# ===== ABOUT US ===== %>
+  <section class="p-top-about">
+    <div class="p-top-about__inner">
+      <div class="c-ttl p-top-about__ttl">
+        <p class="c-ttl__label"><span class="c-ttl__en">ABOUT US</span><span class="c-ttl__ja">/ 私たちについて</span></p>
+        <h2 class="c-ttl__main">物流という仕事の魅力を、<br>知ってもらう。</h2>
+      </div>
+      <div class="p-top-about__txt">
+        <p>港湾・通関・貿易という仕事は、まだ広く知られていません。<br class="p-top-about__br">だからこそ、会社説明より先に「この仕事、面白そう」という<br class="p-top-about__br">感情を生み出したい。</p>
+        <p>私たちは、世界と日本をつなぐ物流の最前線で、<br class="p-top-about__br">社会のインフラを支えています。</p>
+      </div>
+    </div>
+    <div class="c-marquee p-top-gallery" style="--marquee-duration: 50s;">
+      <div class="c-marquee__track">
+        <% for (let i = 0; i < 2; i++) { %>
+          <ul class="c-marquee__group p-top-gallery__list"<%- i ? ' aria-hidden="true"' : '' %>>
+            <% gallery.forEach((g) => { %>
+              <li class="p-top-gallery__item">
+                <img src="<%= assets %>img/<%= g.src %>" alt="<%= i ? '' : g.alt %>" width="336" height="298" loading="lazy">
+              </li>
+            <% }) %>
+          </ul>
+        <% } %>
+      </div>
+    </div>
+  </section>
+
+  <%# ===== LOGISTICS / JOBS（青背景） ===== %>
+  <div class="p-top-blue">
+    <section class="p-top-logistics">
+      <img class="p-top-logistics__earth" src="<%= assets %>img/top/logistics_earth.svg" alt="" width="1374" height="356" loading="lazy">
+      <div class="p-top-logistics__inner">
+        <div class="p-top-logistics__body">
+          <div class="c-ttl c-ttl--white">
+            <p class="c-ttl__label"><span class="c-ttl__en">LOGISTICS</span><span class="c-ttl__ja">/ 物流を知る</span></p>
+            <h2 class="c-ttl__main">物流・貿易・通関の<br>世界を知る。</h2>
+          </div>
+          <p class="p-top-logistics__txt">私たちが毎日手にするものの多くは、海を越えて運ばれてきます。<br>その道のりをつないでいるのが物流の仕事です。<br>運ぶだけでなく、積み下ろす、保管する、手続きを行う、情報を管理する。<br>多くの仕事がつながって、ひとつの商品が届きます</p>
+          <a class="c-btn c-btn--line p-top-logistics__btn" href="<%= root %>logistics/">物流の世界を知る<%- include('partials/_arrow') %></a>
+        </div>
+        <ul class="p-top-diagram" aria-label="物流を構成する3つの仕事">
+          <li class="p-top-diagram__item p-top-diagram__item--port">
+            <img class="p-top-diagram__icon" src="<%= assets %>img/top/icon_port.svg" alt="" width="110" height="77" loading="lazy">
+            <span class="p-top-diagram__label">港湾</span>
+          </li>
+          <li class="p-top-diagram__item p-top-diagram__item--trade">
+            <img class="p-top-diagram__icon" src="<%= assets %>img/top/icon_trade.svg" alt="" width="106" height="102" loading="lazy">
+            <span class="p-top-diagram__label">貿易</span>
+          </li>
+          <li class="p-top-diagram__item p-top-diagram__item--customs">
+            <img class="p-top-diagram__icon" src="<%= assets %>img/top/icon_customs.svg" alt="" width="89" height="97" loading="lazy">
+            <span class="p-top-diagram__label">通関</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="p-top-jobs">
+      <div class="p-top-jobs__inner">
+        <div class="p-top-jobs__head">
+          <div class="c-ttl c-ttl--white">
+            <p class="c-ttl__label"><span class="c-ttl__en">JOBS</span><span class="c-ttl__ja">/ 仕事を知る</span></p>
+            <h2 class="c-ttl__main">仕事を知る</h2>
+          </div>
+          <a class="c-btn c-btn--line p-top-jobs__btn" href="<%= root %>jobs/">職種を見る<%- include('partials/_arrow') %></a>
+        </div>
+        <ul class="p-top-jobs__list">
+          <% jobs.forEach((job) => { %>
+            <li>
+              <a class="p-top-job" href="<%= root %><%= job.href %>">
+                <img class="p-top-job__icon" src="<%= assets %>img/<%= job.icon %>" alt="" width="80" height="79" loading="lazy">
+                <span class="p-top-job__body">
+                  <span class="p-top-job__name"><%= job.name %></span>
+                  <span class="p-top-job__lead"><%= job.lead %></span>
+                </span>
+                <span class="c-circle-arrow p-top-job__arrow"><%- include('partials/_arrow') %></span>
+              </a>
+            </li>
+          <% }) %>
+        </ul>
+      </div>
+    </section>
+  </div>
+
+  <%# ===== PEOPLE ===== %>
+  <section class="p-top-people">
+    <div class="p-top-people__head">
+      <div class="c-ttl">
+        <p class="c-ttl__label"><span class="c-ttl__en">PEOPLE</span><span class="c-ttl__ja">/ 人を知る</span></p>
+        <h2 class="c-ttl__main">社員インタビュー</h2>
+      </div>
+      <a class="c-btn c-btn--wide p-top-people__btn p-top-people__btn--pc" href="<%= root %>interview/">すべてのインタビューを見る<%- include('partials/_arrow') %></a>
+    </div>
+    <%# ループ用に同じ並びを3回出力。
+        2・3回目は複製なので、キーボード・読み上げの対象外にする（tabindex="-1" + aria-hidden）。
+        inert はマウスのホバー・クリックまで無効になるため使わない %>
+    <div class="swiper p-top-people__swiper" data-people-swiper data-total="<%= people.length %>">
+      <ul class="swiper-wrapper p-top-people__list">
+        <% for (let set = 0; set < 3; set++) { %>
+          <% people.forEach((p) => { %>
+            <li class="swiper-slide p-top-people__item"<%- set ? ' aria-hidden="true"' : '' %>>
+              <a class="p-top-person" href="<%= root %>interview/"<%- set ? ' tabindex="-1"' : '' %>>
+                <span class="p-top-person__photo">
+                  <img src="<%= assets %>img/<%= p.src %>" alt="" width="436" height="550" loading="lazy">
+                  <img class="p-top-person__hvr" src="<%= assets %>img/<%= p.src.replace('.webp', 'hvr.webp') %>" alt="" width="436" height="550" loading="lazy">
+                  <span class="p-top-person__job"><%= p.job %></span>
+                </span>
+                <span class="p-top-person__copy"><%= p.copy %></span>
+                <span class="p-top-person__meta"><%= p.meta %></span>
+              </a>
+            </li>
+          <% }) %>
+        <% } %>
+      </ul>
+    </div>
+    <div class="p-top-people__pager" aria-hidden="true">
+      <span class="p-top-people__bar"><span class="p-top-people__bar-current" data-people-bar></span></span>
+      <span class="p-top-people__count" data-people-count>01 / <%= String(people.length).padStart(2, '0') %></span>
+    </div>
+    <div class="p-top-people__foot">
+      <a class="c-btn c-btn--wide p-top-people__btn" href="<%= root %>interview/">すべてのインタビューを見る<%- include('partials/_arrow') %></a>
+    </div>
+  </section>
+
+  <%# ===== COMPANY ===== %>
+  <section class="p-top-company">
+    <div class="p-top-company__box">
+      <div class="p-top-company__body">
+        <div class="c-ttl">
+          <p class="c-ttl__label"><span class="c-ttl__en">COMPANY</span><span class="c-ttl__ja">/ 会社を知る</span></p>
+          <h2 class="c-ttl__main">数字と制度で、<br>近畿通関を知る。</h2>
+        </div>
+        <p class="p-top-company__txt">創業からの歩み、事業を支える制度、これからのキャリア。働く環境を具体的に伝えます。</p>
+        <a class="c-btn p-top-company__btn" href="<%= root %>company/">会社を知る<%- include('partials/_arrow') %></a>
+      </div>
+      <ul class="p-top-company__links">
+        <% companyLinks.forEach((link) => { %>
+          <li><a class="p-top-company__link" href="<%= root %><%= link.href %>"><%= link.label %><%- include('partials/_arrow') %></a></li>
+        <% }) %>
+      </ul>
+    </div>
+  </section>
+
+  <%# ===== SPECIAL CONTENT ===== %>
+  <section class="p-top-special">
+    <div class="p-top-special__box">
+      <img class="p-top-special__img" src="<%= assets %>img/top/special.webp" alt="" width="1416" height="412" loading="lazy">
+      <div class="p-top-special__body">
+        <div class="c-ttl c-ttl--white c-ttl--center">
+          <p class="c-ttl__label"><span class="c-ttl__en">SPECIAL CONTENT</span></p>
+          <h2 class="c-ttl__main p-top-special__ttl">港湾倉庫作業員<br class="p-top-special__br">という仕事</h2>
+        </div>
+        <p class="p-top-special__txt">一日の流れ・現場・必要資格・フォークリフト取得支援・港湾労働の魅力・社員インタビュー・FAQ。<br>特設サイトとして詳しく紹介。</p>
+        <a class="c-btn c-btn--white p-top-special__btn" href="<%= root %>jobs/special/">特設ページを見る<%- include('partials/_arrow') %></a>
+      </div>
+    </div>
+  </section>
+
+  <%# ===== REQUIREMENTS ===== %>
+  <section class="p-top-req">
+    <div class="p-top-req__inner">
+      <div class="p-top-req__head">
+        <div class="c-ttl">
+          <p class="c-ttl__label"><span class="c-ttl__en">REQUIREMENTS</span><span class="c-ttl__ja">/ 募集要項</span></p>
+          <h2 class="c-ttl__main">募集要項</h2>
+        </div>
+        <a class="c-btn p-top-req__btn" href="<%= root %>requirements/">募集要項を見る<%- include('partials/_arrow') %></a>
+      </div>
+      <ul class="p-top-req__list">
+        <% reqs.forEach((r) => { %>
+          <li>
+            <a class="p-top-req__card" href="<%= root %>requirements/">
+              <%# 仕事を知るの白アイコンを流用。mask で文字色（通常は紺・ホバーで白）に塗る。
+                  CSS 変数経由だと相対パスが CSS ファイル基準になるため、mask-image は style 属性に直接書く %>
+              <% const iconUrl = `url('${assets}img/${r.icon}')`; %>
+              <span class="p-top-req__icon" style="-webkit-mask-image: <%= iconUrl %>; mask-image: <%= iconUrl %>;" aria-hidden="true"></span>
+              <span class="p-top-req__name"><%= r.name %><%- include('partials/_arrow') %></span>
+            </a>
+          </li>
+        <% }) %>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<%- include('partials/_footer', { page }) %>

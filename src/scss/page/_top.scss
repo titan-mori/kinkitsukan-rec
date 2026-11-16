@@ -1,0 +1,1335 @@
+@use "../foundation" as *;
+
+// 画像が未配置の間も枠が分かるよう、写真系の img に下地色を敷く
+%img-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: $color-placeholder;
+}
+
+// ================================================================
+// MV
+// ================================================================
+.p-top-mv {
+  position: relative;
+  height: svw(640);
+  color: #fff;
+  background: $color-mv-bg;
+
+  // PC：画像（1536×800）の比率で表示。中の文字・位置も vw() で画面幅に比例させる
+  @include mq(pc) {
+    height: auto;
+    aspect-ratio: 1536 / 800;
+  }
+
+  // SP：mvsp（375×640 用）/ PC：mv を <picture> で出し分け
+  &__img {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+
+    img {
+      @extend %img-cover;
+    }
+  }
+
+  &__body {
+    position: relative;
+    padding: svw(104) svw(20) 0;
+
+    @include mq(pc) {
+      padding: vw(156) 0 0 vw(139);
+    }
+  }
+
+  &__ttl {
+    margin-left: svw(-5);
+    font-size: sfont(89);
+    font-weight: 700;
+    line-height: 1.07;
+    text-shadow: 0 2px 16px rgb(0 40 100 / 25%);
+    white-space: nowrap;
+
+    @include mq(pc) {
+      margin-left: 0;
+      font-size: vw(150);
+      text-shadow: none;
+    }
+  }
+
+  &__lead {
+    margin-top: svw(21);
+    font-size: sfont(16);
+    font-weight: 700;
+    line-height: 1.75;
+    text-shadow: 0 1px 8px rgb(0 40 100 / 35%);
+
+    @include mq(pc) {
+      margin-top: vw(34);
+      margin-left: vw(12);
+      font-size: max(#{rem(16)}, #{vw(22)}); // 狭い幅でも 16px 未満にしない
+      line-height: 1.64;
+      text-shadow: 0 0 10px rgb(0 0 0 / 25%);
+    }
+  }
+
+  &__br {
+    @include mq(pc) {
+      display: none;
+    }
+  }
+
+  // ---- SCROLL（縦書き文字＋線を下る点）
+  &__scroll {
+    position: absolute;
+    top: svw(522);
+    left: svw(7);
+    z-index: 1;
+
+    @include mq(pc) {
+      top: vw(691);
+      left: vw(42);
+    }
+  }
+
+  &__scroll-txt {
+    display: block;
+    width: svw(35);
+    font-family: $font-scroll;
+    font-size: sfont(12);
+    font-weight: 700;
+    line-height: svw(34);
+    letter-spacing: 0.05em;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+
+    @include mq(pc) {
+      font-size: rem(14);
+    }
+  }
+
+  &__scroll-line {
+    position: absolute;
+    top: 0;
+    left: svw(27);
+    width: 1px;
+    height: svw(150);
+    background: currentColor;
+
+    @include mq(pc) {
+      left: 33px;
+    }
+
+    &::before {
+      position: absolute;
+      top: svw(5);
+      left: svw(-3);
+      width: svw(6);
+      height: svw(6);
+      content: "";
+      background: currentColor;
+      border-radius: 50%;
+      animation: p-top-scroll 2.4s ease-in-out infinite;
+    }
+  }
+}
+
+@keyframes p-top-scroll {
+  0% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  80% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(svw(139));
+  }
+}
+
+// ================================================================
+// MOVIE
+// ================================================================
+.p-top-movie {
+  position: relative;
+  padding-top: svw(60);
+  overflow: hidden;
+
+  @include mq(pc) {
+    padding-top: fluid(120);
+  }
+
+  &__marquee {
+    display: none;
+
+    @include mq(pc) {
+      position: absolute;
+      top: 277px;
+      left: 0;
+      display: block;
+      width: 100%;
+      font-family: $font-en;
+      font-size: fluid(100, 60);
+      font-weight: 700;
+      line-height: 1.58;
+      color: rgb(200 215 235 / 80%);
+
+      span {
+        padding-right: 80px;
+      }
+    }
+  }
+
+  &__frame {
+    position: relative;
+    width: min(#{$inner-width}, calc(100% - #{svw(40)}));
+    aspect-ratio: 335 / 200;
+    margin: 0 auto;
+    overflow: hidden;
+    border-radius: svw(12);
+
+    @include mq(pc) {
+      aspect-ratio: 1100 / 472;
+      border-radius: 30px;
+    }
+
+    // ホバー・キーボードフォーカス時：写真だけを中心からズーム
+    // （Figma 54:8418 バリアント2。オーバーレイ・再生ボタンは変化なし）
+    @include hover {
+      .p-top-movie__img {
+        transform: scale(1.066);
+      }
+    }
+
+    &:has(.p-top-movie__play:focus-visible) .p-top-movie__img {
+      transform: scale(1.066);
+    }
+  }
+
+  &__img {
+    @extend %img-cover;
+
+    transition: transform 0.6s ease;
+  }
+
+  &__play {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    gap: svw(8);
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    color: #fff;
+    background: rgb(40 90 170 / 18%);
+    border: 0;
+
+    @include mq(pc) {
+      gap: 21px;
+      background: rgb(0 94 184 / 30%);
+    }
+  }
+
+  &__play-icon {
+    position: relative;
+    width: svw(56);
+    height: svw(56);
+    background: #fff;
+    border-radius: 50%;
+    transition: transform 0.3s;
+
+    @include mq(pc) {
+      width: 100px;
+      height: 100px;
+    }
+
+    // 再生の三角（Figma: Polygon 1 を90°回転）
+    &::before {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: svw(14);
+      height: svw(16);
+      content: "";
+      background: $color-accent;
+      clip-path: polygon(0 0, 100% 50%, 0 100%);
+      transform: translate(-40%, -50%);
+
+      @include mq(pc) {
+        width: 20px;
+        height: 22px;
+      }
+    }
+  }
+
+  &__play-txt {
+    font-family: $font-en;
+    font-size: sfont(11);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.12em;
+
+    @include mq(pc) {
+      font-size: rem(21);
+      font-weight: 600;
+      letter-spacing: 0;
+    }
+  }
+}
+
+// ================================================================
+// ABOUT US
+// ================================================================
+.p-top-about {
+  padding: svw(38) 0 svw(95);
+  overflow: hidden;
+
+  @include mq(pc) {
+    padding: fluid(120) 0;
+  }
+
+  &__inner {
+    max-width: calc(#{$inner-width} + #{svw(40)});
+    padding: 0 svw(20);
+    margin: 0 auto;
+
+    @include mq(pc) {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 452px);
+      gap: 40px;
+    }
+  }
+
+  &__txt {
+    display: grid;
+    gap: svw(24);
+    margin-top: svw(11);
+    font-size: sfont(15);
+    line-height: 1.6;
+
+    @include mq(pc) {
+      gap: 30px;
+      margin-top: 43px;
+      font-size: rem(16);
+      line-height: 1.875;
+    }
+  }
+
+  &__br {
+    display: none;
+
+    @include mq(pc) {
+      display: inline;
+    }
+  }
+}
+
+// 写真ギャラリー（横に流れる）
+.p-top-gallery {
+  margin-top: svw(46);
+
+  @include mq(pc) {
+    margin-top: fluid(90);
+  }
+
+  &__list {
+    gap: svw(10);
+    align-items: flex-start;
+    height: svw(146);
+    padding-right: svw(10);
+
+    @include mq(pc) {
+      gap: 22px;
+      height: 386px;
+      padding-right: 22px;
+    }
+  }
+
+  &__item {
+    flex-shrink: 0;
+    width: svw(132);
+    overflow: hidden;
+    border-radius: svw(6);
+
+    @include mq(pc) {
+      width: 336px;
+      border-radius: 10px;
+    }
+
+    img {
+      @extend %img-cover;
+    }
+
+    // SP: 132×128 / 132×104 / 132×116 / 104×120（上ずらし 18 / 0 / 24 / 4）
+    // PC: 336×298 / 336×326 / 336×266 / 336×298（上ずらし 0 / 60 / 0 / 60）
+    &:nth-child(1) {
+      height: svw(128);
+      margin-top: svw(18);
+
+      @include mq(pc) {
+        height: 298px;
+        margin-top: 0;
+      }
+    }
+
+    &:nth-child(2) {
+      height: svw(104);
+
+      @include mq(pc) {
+        height: 326px;
+        margin-top: 60px;
+      }
+    }
+
+    &:nth-child(3) {
+      height: svw(116);
+      margin-top: svw(24);
+
+      @include mq(pc) {
+        height: 266px;
+        margin-top: 0;
+      }
+    }
+
+    &:nth-child(4) {
+      width: svw(104);
+      height: svw(120);
+      margin-top: svw(4);
+
+      @include mq(pc) {
+        width: 336px;
+        height: 298px;
+        margin-top: 60px;
+      }
+    }
+  }
+}
+
+// ================================================================
+// LOGISTICS / JOBS（青背景）
+// ================================================================
+.p-top-blue {
+  position: relative;
+  overflow: hidden;
+  color: #fff;
+  background: linear-gradient(108deg, $color-grad-blue-1 23.1%, $color-grad-blue-2 49.37%, $color-grad-blue-3 136.12%);
+
+  @include mq(pc) {
+    background: linear-gradient(154deg, $color-grad-blue-1 12.39%, $color-grad-blue-2 61.42%, $color-grad-blue-3 124.39%);
+  }
+}
+
+.p-top-logistics {
+  position: relative;
+  padding-top: svw(55);
+
+  @include mq(pc) {
+    padding-top: fluid(161);
+  }
+
+  &__earth {
+    position: absolute;
+    top: svw(404);
+    left: svw(-133);
+    width: svw(518);
+    max-width: none;
+    opacity: 0.6;
+
+    @include mq(pc) {
+      top: 319px;
+      left: calc(50% - 995px);
+      width: 1374px;
+    }
+  }
+
+  &__inner {
+    position: relative;
+    max-width: calc(#{svw(1000)} + #{svw(40)});
+    padding: 0 svw(20);
+    margin: 0 auto;
+
+    @include mq(pc) {
+      display: grid;
+      grid-template-columns: minmax(0, 548px) minmax(280px, 410px);
+      gap: 32px;
+      align-items: start;
+      justify-content: space-between;
+    }
+  }
+
+  // SP：見出し → 丸図 → 本文 → ボタン の順に並べる
+  &__body {
+    display: contents;
+
+    @include mq(pc) {
+      display: block;
+    }
+  }
+
+  &__txt {
+    order: 3;
+    margin-top: svw(20);
+    font-size: sfont(15);
+    line-height: 1.6;
+
+    @include mq(pc) {
+      margin-top: 20px;
+      font-size: rem(16);
+      line-height: 1.875;
+    }
+  }
+
+  &__btn {
+    order: 4;
+    width: svw(300);
+    margin: svw(20) auto 0;
+
+    @include mq(pc) {
+      display: flex;
+      width: 220px;
+      margin: 62px 0 0 4px;
+    }
+  }
+
+  @media (max-width: ($bp-pc - 1px)) {
+    &__inner {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}
+
+// 港湾・貿易・通関の丸図（座標は PC 410×442 を基準にした % 指定。SP は縮小）
+.p-top-diagram {
+  position: relative;
+  order: 2;
+  width: svw(275);
+  aspect-ratio: 410 / 442;
+  margin: 0 auto 0 svw(16);
+  font-size: sfont(19);
+  line-height: 1;
+  color: $color-main;
+
+  @include mq(pc) {
+    width: 100%;
+    margin: -19px 0 0;
+  }
+
+  &__item {
+    position: absolute;
+    aspect-ratio: 1;
+    // 円のグラデーション＋ノイズは CSS で再現しきれないため画像（3つの円で共通）
+    background: img("top/bg_diagram.webp") center / cover no-repeat;
+    border-radius: 50%;
+    box-shadow: 0 0 30px rgb(9 74 136 / 15%);
+
+    &--port {
+      top: 29.64%;
+      left: 0;
+      width: 53.66%;
+    }
+
+    &--trade {
+      top: 0;
+      left: 41.46%;
+      width: 57.32%;
+    }
+
+    &--customs {
+      top: 49.32%;
+      left: 45.37%;
+      width: 54.63%;
+    }
+  }
+
+  &__icon {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+
+    .p-top-diagram__item--port & {
+      top: 26%;
+      width: 50%;
+    }
+
+    .p-top-diagram__item--trade & {
+      top: 24%;
+      width: 45%;
+    }
+
+    .p-top-diagram__item--customs & {
+      top: 24%;
+      width: 40%;
+    }
+  }
+
+  &__label {
+    position: absolute;
+    bottom: 18%; // アイコンとの間隔を確保
+    left: 0;
+    width: 100%;
+    text-align: center;
+  }
+}
+
+.p-top-jobs {
+  padding: svw(44) 0 svw(72);
+
+  @include mq(pc) {
+    padding: fluid(155) 0 fluid(144);
+  }
+
+  &__inner {
+    display: grid;
+    max-width: calc(#{$inner-wide} + #{svw(40)});
+    padding: 0 svw(20);
+    margin: 0 auto;
+
+    @include mq(pc) {
+      grid-template-columns: 293px 1fr;
+    }
+  }
+
+  // SP：ボタンは一覧の下へ
+  &__head {
+    display: contents;
+
+    @include mq(pc) {
+      display: block;
+    }
+  }
+
+  &__btn {
+    order: 3;
+    width: svw(300);
+    margin: svw(24) auto 0;
+
+    @include mq(pc) {
+      display: flex;
+      width: 220px;
+      margin: 29px 0 0;
+    }
+  }
+
+  &__list {
+    display: grid;
+    gap: svw(10);
+    margin-top: svw(14);
+
+    @include mq(pc) {
+      gap: 30px 33px;
+      margin-top: 0;
+    }
+
+    // 2列は幅に余裕がある 1440px 以上（それ未満は1列）
+    @include mq(lg) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+}
+
+.p-top-job {
+  display: flex;
+  align-items: center;
+  height: svw(84);
+  padding: 0 svw(17);
+  background: $color-card;
+  transition: background-color 0.3s;
+
+  @include mq(pc) {
+    height: 168px;
+    padding: 0 29px 0 60px;
+    border-radius: 3px;
+  }
+
+  // ホバー：背景が青 → チャコール、丸の中の矢印だけ右へ（Figma 76:68。PC で 5px）
+  @include hover {
+    background: rgb(44 43 40 / 80%);
+
+    .p-top-job__arrow .c-arrow {
+      transform: translateX(28%);
+    }
+  }
+
+  &__icon {
+    flex-shrink: 0;
+    width: svw(40);
+
+    @include mq(pc) {
+      width: 80px;
+    }
+  }
+
+  &__body {
+    display: grid;
+    gap: svw(4);
+    margin: 0 auto 0 svw(14);
+
+    @include mq(pc) {
+      gap: 6px;
+      margin-left: 60px;
+    }
+  }
+
+  &__name {
+    font-size: sfont(15);
+    font-weight: 700;
+    line-height: 1.3;
+
+    @include mq(pc) {
+      font-size: rem(22);
+      font-weight: 500;
+      line-height: 1.59;
+    }
+  }
+
+  &__lead {
+    font-size: sfont(12);
+    line-height: 1.33;
+
+    @include mq(pc) {
+      font-size: rem(16);
+      line-height: 1.25;
+    }
+  }
+
+  &__arrow {
+    width: svw(28);
+    border-color: rgb(255 255 255 / 80%);
+
+    .c-arrow {
+      transition: transform 0.3s;
+    }
+
+    @include mq(pc) {
+      width: 53px;
+      border-color: #fff;
+    }
+  }
+}
+
+// ================================================================
+// PEOPLE
+// ================================================================
+.p-top-people {
+  padding: svw(62) 0 svw(65);
+  overflow: hidden;
+
+  @include mq(pc) {
+    padding: fluid(120) 0;
+  }
+
+  &__head {
+    max-width: calc(#{svw(1256)} + #{svw(40)});
+    padding: 0 svw(20);
+    margin: 0 auto;
+
+    @include mq(pc) {
+      display: flex;
+      gap: 140px;
+      align-items: flex-end;
+    }
+  }
+
+  &__btn {
+    @include mq(pc) {
+      width: 288px;
+    }
+
+    &--pc {
+      display: none;
+
+      @include mq(pc) {
+        display: inline-flex;
+      }
+    }
+  }
+
+  // ---- Swiper
+  // SP：current は左端（x=20）。カードは同サイズ
+  // PC：current は Figma どおり左から3枚目（1536px 幅で x=979）。
+  //     左側の2枚と見切れの1枚は overflow: visible で見せ、セクション側で切る
+  &__swiper {
+    margin: svw(14) 0 0 svw(20);
+
+    @include mq(pc) {
+      margin: 76px 0 0 min(calc(50% + 211px), calc(100% - 476px));
+      overflow: visible;
+    }
+  }
+
+  &__list {
+    align-items: flex-end; // 写真の下端をそろえる（current だけ背が高い）
+
+    // Swiper の grabCursor（つかむ / つかんでいる）を、写真以外（コピー・メタ・余白）で出す。
+    // 写真の上はリンクらしく指カーソルのまま
+    .p-top-person {
+      cursor: inherit;
+    }
+
+    .p-top-person__photo {
+      cursor: pointer;
+    }
+
+    // スライドのたびに高さが上下しないよう、拡大した current カードの高さで固定する。
+    // （切り替え中は旧 current の縮小と新 current の拡大が同時に進み、
+    //   最も高いカードが一時的に低くなるため、何もしないとブロック全体が上下に動く）
+    // 写真 550 ＋ コピー上余白 20 ＋ コピー2行 ＋ メタ上余白 8 ＋ メタ1行
+    @include mq(pc) {
+      min-height: calc(550px + 20px + #{rem(20)} * 1.5 * 2 + 8px + #{rem(14)} * 2.14);
+    }
+  }
+
+  &__item {
+    width: svw(220);
+    height: auto;
+
+    @include mq(pc) {
+      width: 340px;
+    }
+  }
+
+  // current の拡大：340×428 → 436×550。
+  // Swiper の計算幅は 340 のまま変えず、カードだけ右へはみ出させ、
+  // 後ろのスライドを差分（96px）だけ右へずらす（幅を変えるとスライド位置の計算がずれるため）
+  @include mq(pc) {
+    &__item {
+      transition: transform 0.6s ease;
+    }
+
+    .p-top-people__item.swiper-slide-active ~ .p-top-people__item {
+      transform: translateX(96px);
+    }
+
+    .swiper-slide-active .p-top-person {
+      width: 436px;
+    }
+
+    .swiper-slide-active .p-top-person__photo {
+      height: 550px;
+    }
+  }
+
+  &__pager {
+    display: flex;
+    gap: svw(14);
+    align-items: center;
+    padding: 0 svw(20);
+    margin-top: svw(28);
+
+    @include mq(pc) {
+      display: none;
+    }
+  }
+
+  &__bar {
+    position: relative;
+    flex: 1;
+    max-width: svw(280);
+    height: 2px;
+    background: $color-track;
+  }
+
+  &__bar-current {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 25%;
+    height: 100%;
+    background: $color-main;
+    transition: transform 0.3s;
+  }
+
+  &__count {
+    font-family: $font-en;
+    font-size: sfont(12);
+    font-weight: 600;
+    line-height: 1;
+    color: $color-main;
+  }
+
+  &__foot {
+    margin-top: svw(34);
+    text-align: center;
+
+    @include mq(pc) {
+      display: none;
+    }
+  }
+}
+
+.p-top-person {
+  display: block;
+
+  @include mq(pc) {
+    width: 340px;
+    transition: width 0.6s ease;
+  }
+
+  // ホバー：写真を拡大しつつ、people_xxhvr にふわっと切り替え
+  @include hover {
+    .p-top-person__photo img {
+      transform: scale(1.05);
+    }
+
+    .p-top-person__hvr {
+      opacity: 1;
+    }
+  }
+
+  &__photo {
+    position: relative;
+    display: block;
+    height: svw(264);
+    overflow: hidden;
+    border-radius: svw(3);
+
+    @include mq(pc) {
+      height: 428px;
+      transition: height 0.6s ease;
+    }
+
+    img {
+      @extend %img-cover;
+
+      transition: transform 0.5s, opacity 0.5s;
+    }
+  }
+
+  // ホバー用の写真（通常写真の上に重ね、普段は透明）
+  &__hvr {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+  }
+
+  &__job {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display: grid;
+    place-items: center;
+    min-width: svw(74);
+    height: svw(26);
+    padding: 0 svw(10);
+    font-size: sfont(14);
+    line-height: 1;
+    color: #fff;
+    background: $color-accent;
+    border-radius: 0 svw(10) 0 svw(3);
+
+    @include mq(pc) {
+      min-width: 100px;
+      height: 38px;
+      padding: 0 14px;
+    }
+  }
+
+  &__copy {
+    display: -webkit-box;
+    margin-top: svw(14);
+    overflow: hidden;
+    font-size: sfont(15);
+    line-height: 1.59;
+    letter-spacing: 0.04em;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+
+    @include mq(pc) {
+      min-height: 3em; // 1行のコピーでもカードの高さを2行分で固定（line-height 1.5 × 2行）
+      margin-top: 20px;
+      font-size: rem(20);
+      line-height: 1.5;
+      letter-spacing: 0;
+    }
+  }
+
+  &__meta {
+    display: block;
+    margin-top: svw(8);
+    font-size: sfont(11);
+    line-height: 1.4;
+    color: $color-gray;
+
+    @include mq(pc) {
+      font-size: rem(14);
+      line-height: 2.14;
+    }
+  }
+}
+
+// ================================================================
+// COMPANY
+// ================================================================
+.p-top-company {
+  padding: 0 svw(20) svw(71);
+
+  @include mq(pc) {
+    padding-bottom: fluid(120);
+  }
+
+  &__box {
+    max-width: svw(1256);
+    min-height: svw(624);
+    padding: svw(31) svw(21) svw(45);
+    margin: 0 auto;
+    background: radial-gradient(ellipse 120% 90% at 15% 110%, $color-glow 0%, $color-bg-soft 98%);
+    border: 1px solid $color-border;
+    border-radius: svw(5);
+
+    @include mq(pc) {
+      display: grid;
+      grid-template-columns: minmax(320px, 1fr) minmax(0, 545px);
+      gap: 40px;
+      padding: 77px clamp(40px, 5.2vw, 79px) 107px;
+    }
+  }
+
+  &__body {
+    display: contents;
+
+    @include mq(pc) {
+      display: block;
+    }
+  }
+
+  &__txt {
+    margin-top: svw(11);
+    font-size: sfont(15);
+    line-height: 1.6;
+
+    @include mq(pc) {
+      max-width: 434px;
+      margin-top: 14px;
+      font-size: rem(16);
+      line-height: 1.875;
+    }
+  }
+
+  &__btn {
+    display: flex;
+    margin: svw(30) auto 0;
+
+    @include mq(pc) {
+      margin: 60px 0 0;
+    }
+  }
+
+  &__links {
+    display: grid;
+    gap: svw(8);
+    margin-top: svw(30);
+
+    @include mq(pc) {
+      gap: 12px;
+      margin-top: 44px;
+    }
+  }
+
+  &__link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: svw(54);
+    padding: 0 svw(18) 0 svw(22);
+    font-size: sfont(15);
+    color: $color-main;
+    letter-spacing: 0.04em;
+    background: #fff;
+    box-shadow: 0 2px 4px rgb(13 74 145 / 6%);
+    transition: background-color 0.3s, color 0.3s;
+
+    @include mq(pc) {
+      height: 90px;
+      padding: 0 31px;
+      font-size: rem(18);
+      letter-spacing: 0;
+      background: rgb(255 255 255 / 80%);
+      border-radius: 3px;
+      box-shadow: 0 0 10px rgb(0 94 184 / 10%);
+    }
+
+    @include hover {
+      color: #fff;
+      background: $color-main;
+
+      .c-arrow {
+        transform: translateX(svw(5));
+      }
+    }
+
+    .c-arrow {
+      width: svw(12);
+      transition: transform 0.3s;
+
+      @include mq(pc) {
+        width: 19px;
+      }
+    }
+  }
+}
+
+// SP では ボタンを一番下に
+@media (max-width: ($bp-pc - 1px)) {
+  .p-top-company__box {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .p-top-company__btn {
+    order: 2;
+  }
+}
+
+// ================================================================
+// SPECIAL CONTENT
+// ================================================================
+.p-top-special {
+  padding: 0 svw(20) svw(62);
+
+  @include mq(pc) {
+    padding-bottom: fluid(120);
+  }
+
+  &__box {
+    position: relative;
+    isolation: isolate; // 写真の z-index: -1 をこの箱の中だけで効かせる（親の背景の裏に回らないように）
+    max-width: $inner-wide;
+    margin: 0 auto;
+    overflow: hidden;
+    color: #fff;
+    border-radius: svw(12);
+
+    @include mq(pc) {
+      border-radius: 20px;
+    }
+
+    &::before {
+      position: absolute;
+      inset: 0;
+      content: "";
+      background: rgb(0 71 143 / 60%);
+    }
+  }
+
+  &__img {
+    position: absolute;
+    inset: 0;
+    z-index: -1; // 青いオーバーレイ（::before）の下に敷く
+    transition: transform 0.6s ease;
+
+    @extend %img-cover;
+  }
+
+  // 「特設ページを見る」ボタンのホバー・フォーカス時だけ写真を拡大
+  @media (any-hover: hover) {
+    &__box:has(.p-top-special__btn:hover) .p-top-special__img {
+      transform: scale(1.05);
+    }
+  }
+
+  &__box:has(.p-top-special__btn:focus-visible) .p-top-special__img {
+    transform: scale(1.05);
+  }
+
+  &__body {
+    position: relative;
+    padding: svw(34) svw(16) svw(37);
+    text-align: center;
+
+    @include mq(pc) {
+      padding: fluid(95) 20px fluid(81);
+    }
+  }
+
+  &__ttl {
+    @include mq(pc) {
+      margin-top: 0;
+      line-height: 1.4;
+    }
+  }
+
+  // 見出し横の菱形を白に（写真＋青オーバーレイの上なので赤だと沈むため。このセクションだけ）
+  .c-ttl__en::before {
+    background: #fff;
+  }
+
+  &__br {
+    @include mq(pc) {
+      display: none;
+    }
+  }
+
+  &__txt {
+    max-width: svw(302);
+    margin: svw(12) auto 0;
+    font-size: sfont(15);
+    line-height: 1.6;
+
+    @include mq(pc) {
+      max-width: none;
+      margin-top: 18px;
+      font-size: rem(14);
+      font-weight: 700;
+      line-height: 1.9;
+    }
+  }
+
+  &__btn {
+    height: svw(60);
+    margin-top: svw(30);
+
+    @include mq(pc) {
+      width: 312px;
+      margin-top: 19px;
+    }
+  }
+}
+
+// ================================================================
+// REQUIREMENTS
+// ================================================================
+.p-top-req {
+  padding: 0 0 svw(80);
+
+  @include mq(pc) {
+    padding-bottom: fluid(120);
+  }
+
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    max-width: calc(#{$inner-width} + #{svw(40)});
+    padding: 0 svw(20);
+    margin: 0 auto;
+  }
+
+  &__head {
+    display: contents;
+
+    @include mq(pc) {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+  }
+
+  &__btn {
+    order: 3;
+    margin: svw(24) auto 0;
+
+    @include mq(pc) {
+      margin: 0 6px 8px 0;
+    }
+  }
+
+  &__list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: svw(10) svw(11);
+    margin-top: svw(18);
+
+    @include mq(pc) {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 19px;
+      margin-top: 20px;
+    }
+  }
+
+  &__card {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    flex-direction: column;
+    gap: svw(16);
+    align-items: center;
+    height: svw(128);
+    padding-top: svw(30);
+    color: $color-main;
+    background: radial-gradient(ellipse 110% 90% at 20% 110%, $color-glow 0%, $color-bg-soft-light 98%);
+    border: 1px solid $color-pale;
+    border-radius: svw(5);
+    transition: color 0.3s;
+
+    @include mq(pc) {
+      gap: 16px;
+      height: 197px;
+      padding-top: 47px;
+      border-width: 2px;
+    }
+
+    // ホバー用の青グラデーション（グラデーションは直接アニメーションできないので、重ねて opacity で切り替える）
+    &::before {
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      content: "";
+      background: radial-gradient(ellipse 110% 90% at 20% 110%, $color-accent 0%, $color-blue-light 98%);
+      border-radius: svw(3);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    // ホバー：背景が青グラデーション、文字・矢印・アイコンが白（Figma 77:391。枠線は変化なし）
+    @include hover {
+      color: #fff;
+
+      &::before {
+        opacity: 1;
+      }
+
+      .c-arrow {
+        transform: translateX(svw(4));
+      }
+    }
+  }
+
+  // アイコン：HTML の style で指定した mask-image（SVG）の形で切り抜き、文字色（currentColor）で塗る
+  &__icon {
+    display: block;
+    flex-shrink: 0;
+    width: svw(40);
+    aspect-ratio: 80 / 79;
+    background: currentColor;
+    mask-position: center;
+    mask-repeat: no-repeat;
+    mask-size: contain;
+
+    @include mq(pc) {
+      width: 58px;
+    }
+  }
+
+  &__name {
+    display: flex;
+    gap: svw(6);
+    align-items: center;
+    font-size: sfont(14);
+    font-weight: 700;
+    line-height: 1;
+
+    @include mq(pc) {
+      gap: 10px;
+      font-size: rem(18);
+      line-height: 1.94;
+    }
+
+    .c-arrow {
+      width: svw(12);
+      transition: transform 0.3s;
+
+      @include mq(pc) {
+        width: 19px;
+      }
+    }
+  }
+}

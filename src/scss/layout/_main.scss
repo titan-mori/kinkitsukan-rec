@@ -1,0 +1,16 @@
+@use "../foundation" as *;
+
+// ヘッダーが fixed のため、下層ページはヘッダー分あける（TOP は MV がヘッダーの下に入る）
+.l-main {
+  min-height: 60vh;
+  padding-top: $header-height-sp;
+
+  @include mq(nav) {
+    padding-top: $header-height;
+  }
+
+  // 下層の共通ヒーロー（.l-page-hero）を使うページは layout/_page.scss 側で 0 にしている
+  .page-top & {
+    padding-top: 0;
+  }
+}

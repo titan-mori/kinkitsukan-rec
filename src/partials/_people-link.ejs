@@ -1,0 +1,26 @@
+<%#
+  社員インタビューへの導線（スタイル：scss/component/_people-link.scss）
+  左に見出し・リード・ボタン、右に写真（斜めに並べた写真を1枚に書き出したもの）
+    include('partials/_people-link', { img: 'special/interviewbtn.webp', lead: '…' })
+  引数
+    img  … 右の写真（650×393。書き出しは 2 倍の 1300×786）。assets/img/ からのパス
+    lead … リード文。省略可
+    href … ボタンのリンク先。省略時は interview/
+%>
+<%
+  const plLead = typeof lead !== 'undefined' ? lead : '働く人の、本当の声を聞いてみました。';
+  const plHref = typeof href !== 'undefined' ? href : root + 'interview/';
+%>
+<section class="c-people-link">
+  <div class="c-people-link__body">
+    <div class="c-ttl">
+      <p class="c-ttl__label"><span class="c-ttl__en">PEOPLE</span><span class="c-ttl__ja">/ 人を知る</span></p>
+      <h2 class="c-ttl__main c-people-link__ttl">社員インタビュー</h2>
+    </div>
+    <p class="c-people-link__lead"><%- plLead %></p>
+    <a class="c-btn c-btn--wide c-people-link__btn" href="<%= plHref %>">すべてのインタビューを見る<%- include('partials/_arrow') %></a>
+  </div>
+  <div class="c-people-link__photos">
+    <img src="<%= assets %>img/<%= img %>" alt="" width="650" height="393" loading="lazy">
+  </div>
+</section>

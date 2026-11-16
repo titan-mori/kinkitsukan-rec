@@ -1,0 +1,91 @@
+@use "sass:map";
+@use "sass:math";
+@use "variables" as *;
+
+// モバイルファースト： @include mq(tb) { ... } → 768px以上
+$breakpoints: (
+  sp: $bp-sp,
+  tb: $bp-tb,
+  pc: $bp-pc,
+  nav: $bp-nav,
+  lg: $bp-lg,
+);
+
+@mixin mq($key) {
+  @media (min-width: map.get($breakpoints, $key)) {
+    @content;
+  }
+}
+
+// px → rem
+@function rem($px, $base: 16) {
+  @return math.div($px, $base) * 1rem;
+}
+
+// px → vw（PC デザイン幅 1536px 基準。画面幅に比例させたい箇所で使う）
+@function vw($px, $base: 1536) {
+  @return math.div($px, $base) * 100vw;
+}
+
+// ================================================================
+// SP の全体比例：svw() / sfont()
+// SP デザイン（375px）の px をそのまま渡すと、画面幅に比例した値になる。
+//   - 1 デザインpx = var(--sp-unit)（_base.scss で定義）
+//   - 375px で等倍、$sp-scale-max（540px）より広い画面では拡大を止める
+//   - PC（897px 以上）では --sp-unit が 1px になるので、書いた px のまま
+//     （mq(pc) で上書きしていない値が PC でも変わらない）
+// 例）padding: svw(40) svw(20);  margin-top: calc(100% - #{svw(40)});
+// ================================================================
+@function svw($px) {
+  @if $px == 0 {
+    @return 0;
+  }
+
+  @return calc(#{$px} * var(--sp-unit));
+}
+
+// SP の文字サイズ。小さい端末で $min px 未満にならないようにする
+// 例）font-size: sfont(15);
+@function sfont($px, $min: 12) {
+  @return max(#{math.min($px, $min)}px, #{svw($px)});
+}
+
+// ================================================================
+// PC の部分的な伸縮：fluid()
+// 897px で $min px → 1536px で $max px までなめらかに変化（それ以上は $max で固定）。
+// $min を省略すると $max の 60%。セクションの余白・大見出しなど効果の大きい箇所だけに使う
+// 例）padding-top: fluid(120);  font-size: fluid(40, 30);
+// ================================================================
+@function fluid($max, $min: null) {
+  @if $min == null {
+    $min: math.round($max * 0.6);
+  }
+
+  $from: math.div($bp-pc, 1px);
+  $to: math.div($bp-design, 1px);
+  $slope: math.div($max - $min, $to - $from);
+  $base: $min - $slope * $from;
+
+  // 1536px でちょうど $max になるよう、傾きは切り上げ（上限は clamp が止める）
+  @return clamp(#{$min}px, #{math.div(math.round($base * 10000), 10000)}px + #{math.div(math.ceil($slope * 1000000), 10000)}vw, #{$max}px);
+}
+
+@mixin hover {
+  @media (any-hover: hover) {
+    &:hover {
+      @content;
+    }
+  }
+}
+
+// 見出し横の菱形マーク（Figma: Rectangle 30 を 45°回転）。::before で使う
+@mixin diamond-mark {
+  flex-shrink: 0;
+  width: svw(12);
+  height: svw(12);
+  margin: 0 2px;
+  content: "";
+  background: $color-mark;
+  clip-path: polygon(21.1% 21.1%, 100% 0, 78.9% 78.9%, 0 100%);
+  transform: rotate(45deg);
+}

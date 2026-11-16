@@ -1,0 +1,111 @@
+@use "../foundation" as *;
+
+// ================================================================
+// よくある質問のアコーディオン（partials/_faq.ejs）
+//  幅は使う側で指定。上下に区切り線、右端に＋／−
+//  Figma：港湾倉庫作業員という仕事 162:5392
+// ================================================================
+.c-faq {
+  border-top: 1px solid $color-border;
+
+  &__item {
+    border-bottom: 1px solid $color-border;
+  }
+
+  &__q {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: svw(10);
+    align-items: center;
+    padding: svw(18) 0;
+    cursor: pointer;
+    list-style: none;
+
+    @include mq(pc) {
+      gap: 10px;
+      min-height: 69px;
+      padding: 20px 0;
+    }
+
+    // Safari の既定の三角を消す
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    @include hover {
+      .c-faq__q-txt {
+        color: $color-main;
+      }
+    }
+  }
+
+  &__mark {
+    align-self: start;
+    font-family: $font-en;
+    font-size: sfont(19);
+    line-height: 1.2;
+    color: $color-main;
+
+    @include mq(pc) {
+      font-size: rem(21);
+      line-height: 1.15;
+    }
+  }
+
+  &__q-txt {
+    font-size: sfont(15);
+    line-height: 1.6;
+    transition: color 0.3s;
+
+    @include mq(pc) {
+      font-size: rem(16);
+      line-height: 1.5;
+    }
+  }
+
+  // ＋（開いたら縦棒を消して −）
+  &__icon {
+    position: relative;
+    width: svw(16);
+    aspect-ratio: 1;
+    margin-right: svw(8);
+    color: $color-main;
+
+    @include mq(pc) {
+      width: 15px;
+      margin-right: 24px;
+    }
+
+    &::before,
+    &::after {
+      position: absolute;
+      inset: 50% 0 auto;
+      height: 1px;
+      content: "";
+      background: currentColor;
+      transition: transform 0.3s;
+    }
+
+    &::after {
+      transform: rotate(90deg);
+    }
+  }
+
+  &__item[open] &__icon::after {
+    transform: rotate(0);
+  }
+
+  &__a {
+    padding: 0 svw(8) svw(20) svw(31);
+    font-size: sfont(14);
+    font-weight: 400;
+    line-height: 1.75;
+
+    @include mq(pc) {
+      max-width: calc(437px + 31px);
+      padding: 0 0 27px 31px;
+      margin-top: -8px;
+      line-height: 24px;
+    }
+  }
+}

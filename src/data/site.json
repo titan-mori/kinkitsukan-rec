@@ -1,0 +1,54 @@
+{
+  "name": "近畿通関 採用サイト",
+  "description": "近畿通関株式会社の採用サイトです。",
+  "corporateUrl": "#",
+  "nav": [
+    { "key": "logistics", "label": "物流を知る", "href": "logistics/", "children": [] },
+    {
+      "key": "jobs",
+      "label": "仕事を知る",
+      "href": "jobs/",
+      "children": [
+        { "label": "港湾倉庫作業員", "href": "jobs/#job01" },
+        { "label": "通関士", "href": "jobs/#job02" },
+        { "label": "貿易事務", "href": "jobs/#job03" },
+        { "label": "営業", "href": "jobs/#job04" }
+      ]
+    },
+    {
+      "key": "interview",
+      "label": "人を知る",
+      "href": "interview/",
+      "children": [
+        { "label": "社員インタビュー", "href": "interview/" },
+        { "label": "港湾倉庫作業員", "href": "interview/" },
+        { "label": "貿易事務", "href": "interview/" },
+        { "label": "営業職", "href": "interview/" },
+        { "label": "通関士", "href": "interview/" }
+      ]
+    },
+    {
+      "key": "company",
+      "label": "会社を知る",
+      "href": "company/",
+      "children": [
+        { "label": "近畿通関とは", "href": "company/#message" },
+        { "label": "数字で見る近畿通関", "href": "company/#numbers" },
+        { "label": "働く環境・制度", "href": "company/#support" },
+        { "label": "社員の挑戦", "href": "company/#challenge" }
+      ]
+    },
+    {
+      "key": "requirements",
+      "label": "募集要項",
+      "href": "requirements/",
+      "children": [
+        { "label": "港湾倉庫作業員", "href": "requirements/" },
+        { "label": "通関士", "href": "requirements/" },
+        { "label": "貿易事務", "href": "requirements/" },
+        { "label": "営業", "href": "requirements/" }
+      ]
+    }
+  ],
+  "entry": { "form": "#", "casual": "#" }
+}

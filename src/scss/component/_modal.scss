@@ -1,0 +1,68 @@
+@use "../foundation" as *;
+
+// <dialog> を使ったモーダル（動画）
+.c-modal {
+  width: min(#{svw(960)}, calc(100% - #{svw(40)}));
+  max-width: none;
+  padding: 0;
+  overflow: visible;
+  background: transparent;
+  border: 0;
+
+  &::backdrop {
+    background: rgb(0 0 0 / 80%);
+  }
+
+  &__inner {
+    position: relative;
+  }
+
+  &__close {
+    position: absolute;
+    top: svw(-48);
+    right: 0;
+    width: svw(40);
+    height: svw(40);
+    padding: 0;
+    color: #fff;
+    background: none;
+    border: 0;
+
+    &::before,
+    &::after {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: svw(28);
+      height: 2px;
+      margin: -1px 0 0 svw(-14);
+      content: "";
+      background: currentColor;
+    }
+
+    &::before {
+      transform: rotate(45deg);
+    }
+
+    &::after {
+      transform: rotate(-45deg);
+    }
+  }
+
+  &__video {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 16 / 9;
+    background: #000;
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+  }
+
+  &__empty {
+    color: #fff;
+  }
+}

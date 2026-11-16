@@ -1,0 +1,996 @@
+@use "../foundation" as *;
+
+// ================================================================
+// 港湾倉庫作業員という仕事（Figma PC 161:3244。SP デザインなし＝仮）
+// ================================================================
+
+// 画像が未配置の間も枠が分かるよう、写真系の img に下地色を敷く
+%img-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: $color-placeholder;
+}
+
+.p-special {
+  &__inner {
+    max-width: calc(#{$inner-width} + #{svw(40)});
+    padding: 0 svw(20);
+    margin: 0 auto;
+  }
+
+  // 見出し横の和文サブ（このページは小さめ・灰色）
+  &__ttl-ja {
+    font-size: sfont(11, 10);
+    color: $color-meta;
+  }
+}
+
+// アンケートの「8人」などの数字（数字＋小さい「人」）
+.p-special-num {
+  font-size: sfont(30);
+  font-weight: 700;
+  line-height: 1;
+  color: $color-chart;
+  white-space: nowrap;
+
+  @include mq(pc) {
+    font-size: rem(30);
+  }
+
+  small {
+    margin-left: 0.06em;
+    font-size: 0.55em; // 数字に対する比率（Figma 36px：18px）
+  }
+}
+
+// ================================================================
+// WORK GUIDE / 仕事図鑑
+// ================================================================
+.p-special-guide {
+  padding: svw(38) 0 svw(72);
+
+  @include mq(pc) {
+    padding: fluid(128) 0 fluid(100);
+  }
+}
+
+// ---- 仕事の流れ（PC：左に写真 500×330、右に本文）
+.p-special-steps {
+  display: grid;
+  gap: svw(40);
+  margin-top: svw(40);
+
+  @include mq(pc) {
+    gap: 50px;
+    margin-top: fluid(60);
+  }
+}
+
+.p-special-step {
+  @include mq(pc) {
+    display: grid;
+    grid-template-columns: minmax(0, 500px) minmax(0, 1fr);
+    gap: fluid(100, 40);
+    align-items: center;
+  }
+
+  &__img {
+    aspect-ratio: 500 / 330;
+
+    img {
+      @extend %img-cover;
+    }
+  }
+
+  &__body {
+    margin-top: svw(20);
+
+    @include mq(pc) {
+      margin-top: 0;
+    }
+  }
+
+  // 番号＋短い線
+  &__num {
+    display: flex;
+    gap: svw(6);
+    align-items: center;
+    font-family: $font-en;
+    font-size: sfont(13);
+    font-weight: 600;
+    line-height: 30px;
+    color: $color-main;
+
+    @include mq(pc) {
+      gap: 6px;
+      font-size: rem(14);
+    }
+
+    &::after {
+      width: svw(30);
+      height: 1px;
+      content: "";
+      background: currentColor;
+
+      @include mq(pc) {
+        width: 30px;
+      }
+    }
+  }
+
+  &__ttl {
+    margin-top: svw(2);
+    font-size: sfont(21);
+    font-weight: 700;
+    line-height: 1.55;
+
+    @include mq(pc) {
+      margin-top: 4px;
+      font-size: rem(26);
+      line-height: 40px;
+    }
+  }
+
+  &__txt {
+    margin-top: svw(8);
+    font-size: sfont(14);
+    font-weight: 400;
+    line-height: 1.9;
+
+    @include mq(pc) {
+      margin-top: 12px;
+      font-size: rem(16);
+      line-height: 30px;
+    }
+  }
+
+  &__point-ttl {
+    width: fit-content;
+    margin-top: svw(16);
+    font-size: sfont(14);
+    font-weight: 700;
+    line-height: 1.6;
+    color: $color-main;
+    text-decoration: underline;
+    text-decoration-thickness: 10%;
+    text-underline-offset: 0.25em;
+
+    @include mq(pc) {
+      margin-top: 30px;
+      font-size: rem(16);
+    }
+  }
+
+  &__point {
+    margin-top: svw(4);
+    font-size: sfont(13);
+    font-weight: 400;
+    line-height: 1.65;
+
+    @include mq(pc) {
+      margin-top: 6px;
+      font-size: rem(15);
+    }
+  }
+}
+
+// ---- 現場で使う道具（PC：260×260 の正方形カードを4枚）
+.p-special-tools {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: svw(10);
+  margin-top: svw(48);
+
+  @include mq(pc) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 19px;
+    margin-top: 43px;
+  }
+}
+
+.p-special-tool {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: svw(20) svw(8) svw(18);
+  text-align: center;
+  background: #fff;
+  border: 2px solid $color-frame;
+
+  @include mq(pc) {
+    aspect-ratio: 1;
+    padding: 38px 10px 0;
+  }
+
+  &__icon {
+    width: svw(80);
+    height: auto;
+
+    @include mq(pc) {
+      width: 110px;
+    }
+  }
+
+  &__name {
+    margin-top: svw(12);
+    font-size: sfont(14);
+    font-weight: 700;
+    line-height: 1.4;
+
+    @include mq(pc) {
+      margin-top: 18px;
+      font-size: rem(18);
+    }
+  }
+
+  &__txt {
+    margin-top: svw(6);
+    font-size: sfont(12);
+    font-weight: 400;
+    line-height: 1.6;
+
+    @include mq(pc) {
+      margin-top: 8px;
+      font-size: rem(16);
+      line-height: 26px;
+    }
+
+    // SP は幅が狭いので改行位置を任せる
+    br {
+      display: none;
+
+      @include mq(pc) {
+        display: inline;
+      }
+    }
+  }
+}
+
+// ================================================================
+// TEAM SURVEY / 10人に聞きました（青グラデーション）
+// ================================================================
+.p-special-survey {
+  padding: svw(56) 0 svw(64);
+  color: #fff;
+  background: linear-gradient(149.86deg, $color-grad-blue-1 12.96%, $color-grad-blue-2 69.36%, $color-grad-blue-3 152.83%);
+
+  @include mq(pc) {
+    padding: fluid(93) 0 fluid(129);
+  }
+
+  &__cards {
+    display: grid;
+    gap: svw(12);
+    margin-top: svw(32);
+    color: $color-txt;
+
+    @include mq(pc) {
+      gap: 30px;
+      margin-top: fluid(57, 40);
+    }
+  }
+
+  &__row {
+    display: grid;
+    gap: svw(12);
+
+    @include mq(pc) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 24px;
+    }
+
+    &--half {
+      @include mq(pc) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 22px;
+      }
+    }
+  }
+}
+
+// ---- 白いカード（見出しの頭に小さな丸）
+.p-special-card {
+  position: relative;
+  padding: svw(20) svw(20) svw(24);
+  overflow: hidden;
+  background: #fff;
+  border-radius: svw(5);
+
+  @include mq(pc) {
+    padding: 23px 30px 30px;
+    border-radius: 5px;
+  }
+
+  &__ttl {
+    position: relative;
+    padding-left: svw(15);
+    font-size: sfont(15);
+    font-weight: 700;
+    line-height: 1.6;
+
+    @include mq(pc) {
+      padding-left: 15px;
+      font-size: rem(16);
+      line-height: 24px;
+    }
+
+    &::before {
+      position: absolute;
+      top: 0.8em;
+      left: 0;
+      width: svw(6);
+      aspect-ratio: 1;
+      content: "";
+      background: $color-main;
+      border-radius: 50%;
+      transform: translateY(-50%);
+
+      @include mq(pc) {
+        width: 6px;
+      }
+    }
+
+    small {
+      font-size: 0.875em; // 見出しに対する比率（Figma 16px：14px）
+    }
+  }
+}
+
+// ---- 人数カード（0人 / 10人中 ＋ 右下にイラスト）
+.p-special-count {
+  @include mq(pc) {
+    min-height: 204px;
+    padding-bottom: 20px;
+  }
+
+  &__num {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: baseline;
+    margin-top: svw(8);
+    font-weight: 700;
+    color: $color-main;
+
+    @include mq(pc) {
+      margin-top: 12px;
+    }
+  }
+
+  &__big {
+    font-size: sfont(72);
+    line-height: 1;
+
+    @include mq(pc) {
+      font-size: rem(100);
+    }
+  }
+
+  &__unit {
+    margin-left: svw(8);
+    font-size: sfont(32);
+    line-height: 1;
+
+    @include mq(pc) {
+      margin-left: 12px;
+      font-size: rem(44);
+    }
+  }
+
+  &__total {
+    margin-left: svw(10);
+    font-size: sfont(16);
+    line-height: 1;
+    color: $color-txt;
+
+    @include mq(pc) {
+      margin-left: 12px;
+      font-size: rem(20);
+    }
+  }
+
+  &__icon {
+    position: absolute;
+    right: svw(20);
+    bottom: svw(18);
+    width: svw(80);
+    height: auto;
+
+    @include mq(pc) {
+      right: 20px;
+      bottom: 22px;
+      width: 96px;
+    }
+
+    &--2 {
+      @include mq(pc) {
+        width: 112px;
+      }
+    }
+    &--3 {
+      @include mq(pc) {
+        width: 117px;
+      }
+    }
+  }
+}
+
+// ---- よく担当する仕事（横棒グラフ。10人中の人数を --num で渡す）
+.p-special-bars {
+  margin-top: svw(16);
+
+  @include mq(pc) {
+    margin-top: 21px;
+  }
+
+  &__item {
+    position: relative;
+    display: block;
+
+    & + & {
+      margin-top: svw(12);
+
+      @include mq(pc) {
+        margin-top: 20px;
+      }
+    }
+  }
+
+  &__label {
+    display: block;
+    font-size: sfont(13);
+    line-height: 20px;
+
+    @include mq(pc) {
+      font-size: rem(14);
+    }
+  }
+
+  &__track {
+    display: block;
+    width: 100%;
+    max-width: 280px;
+    height: svw(14);
+    margin-top: 4px;
+    background: $color-bg-gray;
+
+    @include mq(pc) {
+      height: 16px;
+    }
+  }
+
+  &__fill {
+    display: block;
+    width: calc(var(--num) * 10%);
+    height: 100%;
+    background: $color-chart;
+  }
+
+  // 棒の先端の 9px 右に数字（下端を棒にそろえ、上はラベル側へはみ出す）
+  &__val {
+    position: absolute;
+    bottom: -2px;
+    left: calc(min(100%, 280px) * var(--num) / 10 + 9px);
+  }
+
+  &__item:nth-child(-n + 2) &__val {
+    font-size: sfont(34);
+
+    @include mq(pc) {
+      font-size: rem(36);
+    }
+  }
+}
+
+// ---- 仕事の進め方（円グラフ。割合は未確定のため円のみ）
+.p-special-pie {
+  position: relative;
+  width: 100%;
+  max-width: 290px;
+  aspect-ratio: 290 / 330;
+  margin: svw(8) auto 0;
+
+  @include mq(pc) {
+    margin-top: 10px;
+  }
+
+  &__chart {
+    position: absolute;
+    top: 22.4%;
+    left: 10.7%;
+    width: 78.3%;
+    aspect-ratio: 1;
+    background: $color-inactive;
+    border-radius: 50%;
+  }
+
+  &__label {
+    position: absolute;
+    font-size: sfont(13);
+    line-height: 20px;
+
+    @include mq(pc) {
+      font-size: rem(14);
+    }
+
+    span {
+      font-size: 1.21em; // ラベルに対する比率（Figma 14px：17px）
+    }
+
+    &--both {
+      top: 9%;
+      right: 0;
+    }
+
+    &--solo {
+      top: 27.5%;
+      left: -4%;
+    }
+
+    &--team {
+      right: 0;
+      bottom: 0;
+    }
+  }
+}
+
+// ---- 好きなところ / 大変なところ（1〜3位はリボン、点線のリーダーで人数へ）
+.p-special-rank {
+  display: grid;
+  gap: svw(12);
+  margin-top: svw(18);
+
+  @include mq(pc) {
+    gap: 16px;
+    margin-top: 32px;
+  }
+
+  &__item {
+    display: grid;
+    grid-template-columns: auto auto minmax(#{svw(16)}, 1fr) auto;
+    align-items: center;
+
+    // 点線のリーダー
+    &::after {
+      grid-row: 1;
+      grid-column: 3;
+      height: 0;
+      margin: 0 svw(8);
+      content: "";
+      border-top: 1px dashed $color-main;
+
+      @include mq(pc) {
+        margin: 0 10px;
+      }
+    }
+  }
+
+  &__no {
+    display: grid;
+    place-items: center;
+    width: svw(26);
+    height: svw(31);
+    font-family: $font-en;
+    font-size: sfont(16);
+    font-weight: 600;
+    line-height: 1;
+    color: $color-chart;
+
+    @include mq(pc) {
+      width: 28px;
+      height: 33px;
+      font-size: rem(18);
+    }
+  }
+
+  // 1〜3位：リボン（下が V 字に欠けた四角）に白抜き数字
+  &__item--1 &__no,
+  &__item--2 &__no,
+  &__item--3 &__no {
+    padding-bottom: 12%;
+    font-weight: 700;
+    color: #fff;
+    background: $color-main;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 80%, 0 100%);
+  }
+
+  &__item--2 &__no {
+    background: $color-rank-2;
+  }
+
+  &__item--3 &__no {
+    background: $color-rank-3;
+  }
+
+  &__label {
+    margin-left: svw(12);
+    font-size: sfont(14);
+    line-height: 1.5;
+
+    @include mq(pc) {
+      margin-left: 15px;
+      font-size: rem(16);
+    }
+  }
+
+  &__item:nth-child(n + 4) &__label {
+    font-weight: 400;
+  }
+
+  &__val {
+    grid-column: 4;
+  }
+
+  &__item:nth-child(-n + 2) &__val {
+    font-size: sfont(34);
+
+    @include mq(pc) {
+      font-size: rem(36);
+    }
+  }
+
+  &__item:nth-child(n + 4) &__val {
+    font-size: sfont(24);
+
+    @include mq(pc) {
+      font-size: rem(26);
+    }
+  }
+}
+
+// ---- 向いている人（タグ）
+.p-special-fits {
+  @include mq(pc) {
+    min-height: 214px;
+  }
+
+  &__list {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: svw(8);
+    margin-top: svw(16);
+
+    @include mq(pc) {
+      gap: 18px 16px;
+      max-width: 740px;
+      margin-top: 22px;
+    }
+
+    li {
+      padding: svw(6) svw(14) svw(8);
+      font-size: sfont(13);
+      line-height: 1.4;
+      color: $color-main;
+      background: $color-bg-gray;
+      border: 1px solid $color-line;
+      border-radius: 999px;
+
+      @include mq(pc) {
+        padding: 7px 16px 9px;
+        font-size: rem(14);
+      }
+    }
+  }
+
+  &__icon {
+    display: none;
+
+    @include mq(pc) {
+      position: absolute;
+      top: 52px;
+      right: 90px;
+      display: block;
+      width: 126px;
+      height: auto;
+    }
+  }
+}
+
+// ================================================================
+// 社員の声（引用カード → 入社前〜現在 → 募集要項 → 社員インタビュー）
+// ================================================================
+.p-special-voice {
+  padding: svw(64) 0 svw(72);
+
+  @include mq(pc) {
+    padding: fluid(100) 0 fluid(112);
+  }
+
+  &__list {
+    display: grid;
+    gap: svw(12);
+
+    @include mq(pc) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 24px;
+    }
+  }
+}
+
+// ---- 引用カード（右下に人物写真）
+.p-special-quote {
+  position: relative;
+  min-height: svw(150);
+  padding: svw(40) svw(110) svw(20) svw(24);
+  border: 4px solid $color-line;
+  border-radius: svw(10);
+
+  @include mq(pc) {
+    min-height: 185px;
+    padding: 36px 90px 20px 44px;
+    border-radius: 10px;
+  }
+
+  // 左上の引用符
+  &::before {
+    position: absolute;
+    top: svw(16);
+    left: svw(18);
+    font-size: sfont(36);
+    font-weight: 700;
+    line-height: 1;
+    color: $color-accent;
+    content: "“";
+
+    @include mq(pc) {
+      top: 20px;
+      left: 19px;
+      font-size: rem(40);
+    }
+  }
+
+  &__txt {
+    font-size: sfont(15);
+    font-weight: 400;
+    line-height: 1.7;
+
+    @include mq(pc) {
+      font-size: rem(16);
+      line-height: 26px;
+    }
+  }
+
+  &__meta {
+    margin-top: svw(10);
+    font-size: sfont(13);
+    font-weight: 400;
+    color: $color-meta;
+
+    @include mq(pc) {
+      margin-top: 12px;
+      font-size: rem(14);
+    }
+  }
+
+  &__img {
+    position: absolute;
+    right: svw(16);
+    bottom: 0;
+    width: svw(90);
+    height: auto;
+    aspect-ratio: 96 / 97;
+    object-fit: cover;
+
+    @include mq(pc) {
+      right: 20px;
+      width: 96px;
+    }
+  }
+}
+
+// ---- 入社前 → 最初の仕事 → 現在（タイムライン）
+.p-special-career {
+  position: relative;
+  padding: svw(40) svw(20) svw(24);
+  background: $color-bg-gray;
+
+  @include mq(pc) {
+    padding: 48px 45px 25px;
+  }
+
+  &__list {
+    display: grid;
+    gap: svw(32);
+    margin-top: svw(48);
+
+    @include mq(pc) {
+      grid-template-columns: repeat(2, minmax(0, 520px));
+      gap: 62px;
+      justify-content: space-between;
+      margin-top: 81px;
+    }
+  }
+
+  // 上辺に重なるラベル
+  &__meta {
+    position: absolute;
+    top: svw(-11);
+    left: 50%;
+    padding: 0 svw(13);
+    font-size: sfont(13);
+    font-weight: 700;
+    line-height: svw(30);
+    color: #fff;
+    white-space: nowrap;
+    background: $color-main;
+    transform: translateX(-50%);
+
+    @include mq(pc) {
+      top: -11px;
+      padding: 0 13px;
+      font-size: rem(14);
+      line-height: 30px;
+    }
+  }
+
+  &__steps {
+    position: relative;
+
+    // 縦線
+    &::before {
+      position: absolute;
+      top: svw(6);
+      bottom: svw(6);
+      left: svw(5);
+      width: 2px;
+      content: "";
+      background: $color-line;
+
+      @include mq(pc) {
+        top: 6px;
+        bottom: 12px;
+        left: 5px;
+      }
+    }
+
+    > div {
+      position: relative;
+      padding-left: svw(28);
+
+      @include mq(pc) {
+        padding-left: 30px;
+      }
+
+      // 丸
+      &::before {
+        position: absolute;
+        top: svw(6);
+        left: 0;
+        width: svw(12);
+        aspect-ratio: 1;
+        content: "";
+        background: $color-main;
+        border-radius: 50%;
+
+        @include mq(pc) {
+          top: 6px;
+          width: 12px;
+        }
+      }
+    }
+
+    > div + div {
+      margin-top: svw(18);
+
+      @include mq(pc) {
+        margin-top: 20px;
+      }
+    }
+
+    dt {
+      font-size: sfont(13);
+      font-weight: 700;
+      line-height: 1.6;
+      color: $color-main;
+
+      @include mq(pc) {
+        font-size: rem(14);
+        line-height: 22px;
+      }
+    }
+
+    dd {
+      margin-top: svw(2);
+      font-size: sfont(14);
+      font-weight: 400;
+      line-height: 1.6;
+
+      @include mq(pc) {
+        margin-top: 2px;
+        font-size: rem(16);
+        line-height: 22px;
+      }
+    }
+  }
+
+  &__growth {
+    padding: svw(16) svw(18);
+    margin-top: svw(20);
+    font-size: sfont(14);
+    font-weight: 400;
+    line-height: 1.7;
+    background: #fff;
+
+    @include mq(pc) {
+      padding: 24px 23px;
+      margin-top: 24px;
+      font-size: rem(16);
+      line-height: 26px;
+    }
+  }
+}
+
+// ---- 条件は募集要項へ
+.p-special-conditions {
+  margin-top: svw(40);
+
+  @include mq(pc) {
+    display: flex;
+    gap: 36px;
+    align-items: center;
+    justify-content: center;
+    margin-top: 52px;
+  }
+
+  &__txt {
+    font-size: sfont(14);
+    line-height: 1.7;
+    text-align: center;
+
+    @include mq(pc) {
+      font-size: rem(18);
+      line-height: 30px;
+    }
+  }
+
+  &__btn {
+    margin-top: svw(16);
+
+    @include mq(pc) {
+      flex-shrink: 0;
+      width: 350px;
+      margin-top: 0;
+    }
+  }
+}
+
+// ---- 社員インタビュー（共通部品 c-people-link）
+.p-special-people {
+  margin-top: svw(64);
+
+  @include mq(pc) {
+    margin-top: fluid(126);
+  }
+}
+
+// ================================================================
+// FAQ（薄い灰色の帯。PC：左に見出し、右に質問 579px）
+// ================================================================
+.p-special-faq {
+  padding: svw(56) 0;
+  background: $color-bg-gray;
+
+  @include mq(pc) {
+    padding: fluid(86) 0 fluid(94);
+  }
+
+  &__inner {
+    @include mq(pc) {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 579px);
+      gap: 40px;
+      padding-right: calc(#{svw(20)} + 72px);
+    }
+  }
+
+  .c-faq {
+    margin-top: svw(28);
+
+    @include mq(pc) {
+      margin-top: 7px;
+    }
+  }
+}

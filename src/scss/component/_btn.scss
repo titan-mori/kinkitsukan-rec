@@ -1,0 +1,68 @@
+@use "../foundation" as *;
+
+// 角丸ボタン（テキスト＋矢印）
+.c-btn {
+  display: inline-flex;
+  gap: svw(18);
+  align-items: center;
+  justify-content: center;
+  width: svw(240);
+  height: svw(56);
+  font-size: sfont(14);
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+  background: $color-main;
+  border: 1px solid transparent;
+  border-radius: svw(30);
+  transition: opacity 0.3s, background-color 0.3s, color 0.3s;
+
+  @include mq(pc) {
+    width: 220px;
+    height: 60px;
+  }
+
+  .c-arrow {
+    transition: transform 0.3s;
+  }
+
+  // ホバー：矢印が右へ 7px（全ボタン共通。Figma 421:686 / 421:722）
+  @include hover {
+    .c-arrow {
+      transform: translateX(svw(7));
+    }
+  }
+
+  // 紺ベタ：背景が紺 → 黒（Figma 421:722）
+  &:not(&--line, &--white) {
+    @include hover {
+      background: $color-dark;
+    }
+  }
+
+  // 白線（青背景の上）：背景が透明 → 紺で塗りつぶし、白線はそのまま（Figma 421:686）
+  &--line {
+    background: transparent;
+    border-color: #fff;
+
+    @include hover {
+      background: $color-main;
+    }
+  }
+
+  // 白地（写真の上）：ホバーは紺ベタと同じく黒背景に（文字は白）
+  &--white {
+    color: $color-main;
+    background: #fff;
+    box-shadow: 0 5px 10px rgb(0 0 0 / 25%);
+
+    @include hover {
+      color: #fff;
+      background: $color-dark;
+    }
+  }
+
+  &--wide {
+    width: svw(300);
+  }
+}

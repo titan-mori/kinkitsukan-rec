@@ -1,0 +1,139 @@
+@use "../foundation" as *;
+
+// ================================================================
+// 社員インタビューのカード（partials/_interview-card.ejs）
+//  右寄せの写真（350×440）に、左下から番号・帯付きキャッチ・職種・入社年を重ねる
+//  - 幅は親（グリッド）で決める。PC の基準幅は 513px（写真 350 + 左の重なり 163）
+//  - 色：既定＝紺 / --red＝赤
+//  - 本文は写真の下端に揃えて下から積む（キャッチが3行になっても上へ伸びるだけ）
+//  Figma：人を知る 229:1371 ほか（SP デザインなし＝仮）
+// ================================================================
+.c-interview-card {
+  --card-color: #{$color-main};
+
+  position: relative;
+  display: block;
+
+  &--red {
+    --card-color: #{$color-mark};
+  }
+
+  // ホバー：写真を拡大しつつ、ホバー用の写真にふわっと切り替え（TOP の社員インタビューと同じ）
+  @include hover {
+    .c-interview-card__img img {
+      transform: scale(1.05);
+    }
+
+    .c-interview-card__hvr {
+      opacity: 1;
+    }
+  }
+
+  &__img {
+    position: relative;
+    width: svw(255);
+    margin-left: auto;
+    overflow: hidden;
+    aspect-ratio: 350 / 440;
+    border-radius: svw(3);
+
+    @include mq(pc) {
+      width: calc(350 / 513 * 100%);
+      border-radius: 3px;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      background: $color-placeholder;
+      transition: transform 0.5s, opacity 0.5s;
+    }
+  }
+
+  // ホバー用の写真（通常写真の上に重ね、普段は透明）
+  &__hvr {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+  }
+
+  &__body {
+    position: absolute;
+    bottom: svw(4);
+    left: 0;
+
+    @include mq(pc) {
+      bottom: 4px;
+    }
+  }
+
+  &__num {
+    padding-left: 1px;
+    font-family: $font-en;
+    font-size: sfont(24);
+    font-weight: 600;
+    line-height: 1;
+    color: var(--card-color);
+
+    @include mq(pc) {
+      font-size: rem(30);
+    }
+  }
+
+  &__catch {
+    margin-top: svw(10);
+
+    @include mq(pc) {
+      margin-top: 12px;
+    }
+  }
+
+  // 1行ずつ帯を敷く（行の長さに合わせて帯も伸び縮み）
+  &__catch-line {
+    display: block;
+    width: fit-content;
+    padding: svw(1) 0 svw(1) svw(10);
+    font-size: sfont(19);
+    font-weight: 700;
+    line-height: 1.5;
+    color: #fff;
+    background: var(--card-color);
+
+    @include mq(pc) {
+      padding: 1px 0 1px 12px;
+      font-size: rem(26);
+      line-height: 38px;
+    }
+  }
+
+  &__job,
+  &__meta {
+    padding-left: svw(6);
+    font-size: sfont(14);
+
+    @include mq(pc) {
+      padding-left: 7px;
+      font-size: rem(16);
+    }
+  }
+
+  &__job {
+    margin-top: svw(24);
+    line-height: 1.25;
+    color: var(--card-color);
+
+    @include mq(pc) {
+      margin-top: 40px;
+    }
+  }
+
+  &__meta {
+    margin-top: svw(6);
+    line-height: 1.875;
+
+    @include mq(pc) {
+      margin-top: 10px;
+    }
+  }
+}

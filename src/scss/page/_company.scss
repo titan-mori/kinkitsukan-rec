@@ -1,0 +1,658 @@
+@use "../foundation" as *;
+
+// ================================================================
+// 会社を知る（Figma PC 247:2538。SP デザインなし＝仮）
+// ================================================================
+
+// 画像が未配置の間も枠が分かるよう、写真系の img に下地色を敷く
+%img-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: $color-placeholder;
+}
+
+.p-company {
+  &__inner {
+    max-width: calc(#{$inner-width} + #{svw(40)});
+    padding: 0 svw(20);
+    margin: 0 auto;
+
+    // 働く環境・制度（PC 958px）
+    &--narrow {
+      @include mq(pc) {
+        max-width: calc(958px + 40px);
+      }
+    }
+  }
+
+  &__br-sp {
+    @include mq(pc) {
+      display: none;
+    }
+  }
+
+  &__br-pc {
+    display: none;
+
+    @include mq(pc) {
+      display: inline;
+    }
+  }
+}
+
+// ================================================================
+// ONE TEAM / トップメッセージ
+// ================================================================
+.p-company-message {
+  padding: svw(38) 0 svw(56);
+
+  @include mq(pc) {
+    padding: fluid(128) 0 fluid(95);
+  }
+
+  &__inner {
+    @include mq(pc) {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 450px;
+      gap: 40px;
+      align-items: start;
+    }
+  }
+
+  &__txt {
+    margin-top: svw(20);
+    font-size: sfont(14);
+    font-weight: 400;
+    line-height: 2;
+    letter-spacing: 0.04em;
+
+    @include mq(pc) {
+      max-width: 526px;
+      margin-top: 20px;
+      font-size: rem(16);
+      font-weight: 500;
+      line-height: 1.875;
+      letter-spacing: 0;
+    }
+  }
+
+  &__fig {
+    width: svw(260);
+    margin: svw(32) auto 0;
+
+    @include mq(pc) {
+      width: auto;
+      margin: 7px 0 0;
+    }
+  }
+
+  &__img {
+    aspect-ratio: 450 / 530;
+
+    img {
+      @extend %img-cover;
+    }
+  }
+
+  &__name {
+    margin-top: svw(12);
+    font-size: sfont(14);
+    font-weight: 700;
+    text-align: center;
+
+    @include mq(pc) {
+      padding-left: 5px;
+      margin-top: 14px;
+      font-size: rem(16);
+      text-align: left;
+    }
+
+    span {
+      margin-left: 1em; // 役職と氏名の間（全角スペース相当）
+      font-size: sfont(18);
+
+      @include mq(pc) {
+        font-size: rem(20);
+      }
+    }
+  }
+}
+
+// ================================================================
+// KINKI TSUKAN IN NUMBERS / 数字で見る近畿通関
+//  PC：12列グリッド。1行目は4枚（3列ずつ）、2行目以降は3枚（4列ずつ）。男女比は2行ぶち抜き
+//  SP（仮）：2列。1行目の4枚は2×2、それ以外は1枚ずつ全幅
+// ================================================================
+.p-company-numbers {
+  padding: svw(48) 0 svw(56);
+  color: #fff;
+  background: linear-gradient(157.5deg, $color-grad-blue-1 13.06%, $color-grad-blue-2 64.95%, $color-grad-blue-3 144.06%);
+
+  @include mq(pc) {
+    padding: fluid(93) 0 fluid(109);
+  }
+
+  &__list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: svw(10);
+    margin-top: svw(32);
+
+    @include mq(pc) {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 30px 22px;
+      margin-top: 59px;
+    }
+  }
+}
+
+.p-company-num {
+  position: relative;
+  grid-column: 1 / -1;
+  padding: svw(20) svw(20) svw(22);
+  overflow: hidden;
+  color: $color-txt;
+  background: #fff;
+  border-radius: svw(5);
+
+  @include mq(pc) {
+    grid-column: span 4;
+    min-height: 181px;
+    padding: 26px 32px;
+    border-radius: 5px;
+  }
+
+  // 1行目の4枚
+  &--sm {
+    grid-column: span 1;
+    padding: svw(16) svw(14) svw(18);
+
+    @include mq(pc) {
+      grid-column: span 3;
+      min-height: 204px;
+      padding: 21px;
+    }
+  }
+
+  // 新卒・中途比率（項目名が長いので右の余白を詰める）
+  &--ratio {
+    @include mq(pc) {
+      padding-right: 10px;
+    }
+  }
+
+  // 男女比（PC は左列で2行ぶち抜き）
+  &--gender {
+    @include mq(pc) {
+      grid-row: 2 / span 2;
+      grid-column: 1 / span 4;
+    }
+  }
+
+  // 右下の装飾アイコン。大きさ・位置は style の --w / --r / --b（PC の px。SP は 0.6 倍で比例）
+  &__icon {
+    position: absolute;
+    right: calc(var(--r) * var(--sp-unit) * 0.6);
+    bottom: calc(var(--b) * var(--sp-unit) * 0.6);
+    width: calc(var(--w) * var(--sp-unit) * 0.6);
+    height: auto;
+
+    @include mq(pc) {
+      right: calc(var(--r) * 1px);
+      bottom: calc(var(--b) * 1px);
+      width: calc(var(--w) * 1px);
+    }
+  }
+
+  // ---- 項目名（先頭に紺の丸）
+  &__label {
+    position: relative;
+    display: flex;
+    gap: svw(8);
+    align-items: center;
+    font-size: sfont(14);
+    font-weight: 700;
+    line-height: 1.6;
+
+    @include mq(pc) {
+      gap: 9px;
+      font-size: rem(16);
+      line-height: 30px;
+    }
+
+    &::before {
+      flex-shrink: 0;
+      width: svw(6);
+      height: svw(6);
+      content: "";
+      background: $color-main;
+      border-radius: 50%;
+
+      @include mq(pc) {
+        width: 6px;
+        height: 6px;
+      }
+    }
+  }
+
+  // ---- 数字＋単位（ベースライン揃え）
+  &__value {
+    position: relative;
+    display: flex;
+    gap: svw(4);
+    align-items: baseline;
+    padding-left: svw(12);
+    margin-top: svw(10);
+    font-weight: 700;
+    line-height: 1;
+    color: $color-main;
+
+    @include mq(pc) {
+      gap: 6px;
+      padding-left: 15px;
+      margin-top: 17px;
+    }
+  }
+
+  &--sm &__value {
+    padding-left: svw(4);
+    margin-top: svw(6);
+
+    @include mq(pc) {
+      padding-left: 6px;
+      margin-top: 0;
+    }
+  }
+
+  &__digit {
+    font-size: sfont(48);
+
+    @include mq(pc) {
+      font-size: rem(70);
+    }
+
+    // 「全額」
+    &--word {
+      font-size: sfont(40);
+
+      @include mq(pc) {
+        font-size: rem(54);
+      }
+    }
+  }
+
+  &__unit {
+    font-size: sfont(20);
+
+    @include mq(pc) {
+      font-size: rem(30);
+    }
+
+    // 「支給」
+    &--word {
+      font-size: sfont(28);
+
+      @include mq(pc) {
+        font-size: rem(40);
+      }
+    }
+  }
+
+  // 「新卒」「中途」
+  &__sub {
+    font-size: sfont(14);
+    color: $color-txt;
+
+    @include mq(pc) {
+      font-size: rem(16);
+    }
+  }
+
+  &__note {
+    position: relative;
+    padding-left: svw(6);
+    margin-top: svw(10);
+    font-size: sfont(12);
+    line-height: 1.6;
+
+    @include mq(pc) {
+      padding-left: 10px;
+      margin-top: 14px;
+      font-size: rem(14);
+      line-height: 22px;
+    }
+  }
+
+  // ---- 新卒・中途比率
+  &__pair {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 svw(16);
+
+    @include mq(pc) {
+      flex-wrap: nowrap;
+      gap: 0 17px;
+    }
+  }
+
+  &__pair &__value {
+    padding-left: 0;
+
+    @include mq(pc) {
+      padding-left: 3px;
+    }
+  }
+
+  // ---- 男女比
+  &__value--ratio {
+    justify-content: center;
+    padding-left: 0;
+  }
+
+  &__colon {
+    margin: 0 svw(-6);
+
+    @include mq(pc) {
+      margin: 0 -2px;
+    }
+  }
+
+  &__figures {
+    display: flex;
+    gap: svw(30);
+    align-items: flex-end;
+    justify-content: center;
+    margin-top: svw(12);
+
+    @include mq(pc) {
+      gap: 42px;
+      margin-top: 7px;
+    }
+  }
+
+  // 人型を下から --fill ぶん濃い青で塗る（SVG はマスクとして使う）
+  &__figure {
+    display: block;
+    background: linear-gradient(to top, $color-chart var(--fill), $color-line var(--fill));
+    mask-position: center;
+    mask-repeat: no-repeat;
+    mask-size: contain;
+
+    &--male {
+      width: svw(41);
+      aspect-ratio: 61.92 / 184.25;
+
+      @include mq(pc) {
+        width: 62px;
+      }
+    }
+
+    &--female {
+      width: svw(45);
+      aspect-ratio: 67.18 / 180.06;
+
+      @include mq(pc) {
+        width: 67px;
+      }
+    }
+  }
+}
+
+// ================================================================
+// WORK SUPPORT / 働く環境・制度
+// ================================================================
+.p-company-support {
+  padding: svw(56) 0;
+
+  @include mq(pc) {
+    padding: fluid(100) 0;
+  }
+
+  &__lead {
+    margin-top: svw(16);
+    font-size: sfont(14);
+    font-weight: 400;
+    line-height: 2;
+    letter-spacing: 0.04em;
+
+    @include mq(pc) {
+      margin-top: 13px;
+      font-size: rem(16);
+      font-weight: 500;
+      line-height: 1.875;
+      letter-spacing: 0;
+    }
+  }
+
+  &__list {
+    display: grid;
+    gap: svw(16);
+    margin-top: svw(28);
+
+    @include mq(pc) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 32px;
+      margin-top: 38px;
+    }
+  }
+
+  &__card {
+    padding: svw(24) svw(20) svw(24);
+    background: $color-bg-soft-light;
+    border: 2px solid $color-pale;
+    border-radius: svw(10);
+
+    @include mq(pc) {
+      padding: 38px 35px 30px;
+      border-radius: 10px;
+    }
+  }
+
+  &__ttl {
+    display: flex;
+    gap: svw(14);
+    align-items: center;
+    justify-content: center;
+    font-size: sfont(18);
+    font-weight: 700;
+    line-height: 1.6;
+    color: $color-main;
+
+    @include mq(pc) {
+      gap: 20px;
+      font-size: rem(20);
+      line-height: 40px;
+    }
+
+    img {
+      flex-shrink: 0;
+      width: auto;
+      height: svw(32);
+
+      @include mq(pc) {
+        height: 38px;
+      }
+    }
+  }
+
+  &__txt {
+    margin-top: svw(16);
+    font-size: sfont(14);
+    line-height: 1.7;
+
+    @include mq(pc) {
+      max-width: 391px;
+      margin-top: 32px;
+      font-size: rem(16);
+      line-height: 1.5;
+    }
+  }
+
+  &__chips {
+    margin-top: svw(14);
+
+    @include mq(pc) {
+      margin-top: 17px;
+    }
+  }
+}
+
+// ================================================================
+// CHALLENGE / 社員の挑戦（PC はグレーの箱 1258px、中身 955px）
+// ================================================================
+.p-company-challenge {
+  padding-bottom: svw(56);
+
+  @include mq(pc) {
+    padding: 0 20px fluid(100);
+  }
+
+  &__box {
+    max-width: 1258px;
+    padding: svw(48) svw(20);
+    margin: 0 auto;
+    background: $color-bg-gray;
+
+    @include mq(pc) {
+      padding: fluid(83) 20px fluid(85);
+    }
+  }
+
+  &__head,
+  &__detail {
+    @include mq(pc) {
+      display: grid;
+      align-items: start;
+      justify-content: space-between;
+      max-width: 955px;
+      margin: 0 auto;
+    }
+  }
+
+  &__head {
+    @include mq(pc) {
+      grid-template-columns: minmax(0, 440px) minmax(0, 439px);
+      gap: 40px;
+    }
+  }
+
+  &__ttl {
+    @include mq(pc) {
+      font-size: rem(26);
+      line-height: 40px;
+    }
+  }
+
+  &__txt {
+    margin-top: svw(16);
+    font-size: sfont(14);
+    line-height: 2;
+
+    @include mq(pc) {
+      margin-top: 20px;
+      font-size: rem(16);
+      line-height: 1.875;
+    }
+  }
+
+  &__tag {
+    display: inline-block;
+    padding: 0 svw(8);
+    margin-top: svw(16);
+    font-size: sfont(14);
+    line-height: svw(28);
+    color: #fff;
+    background: $color-dark;
+
+    @include mq(pc) {
+      padding: 0 9px;
+      margin-top: 20px;
+      font-size: rem(16);
+      line-height: 30px;
+    }
+  }
+
+  &__person {
+    margin-top: svw(4);
+    font-size: sfont(14);
+    line-height: svw(30);
+
+    @include mq(pc) {
+      margin-top: 4px;
+      font-size: rem(16);
+      line-height: 30px;
+    }
+
+    span {
+      font-size: sfont(20);
+      font-weight: 700;
+
+      @include mq(pc) {
+        font-size: rem(24);
+      }
+    }
+  }
+
+  &__img {
+    aspect-ratio: 313 / 216;
+
+    img {
+      @extend %img-cover;
+    }
+
+    &--main {
+      margin-top: svw(24);
+      aspect-ratio: 439 / 310;
+
+      @include mq(pc) {
+        margin-top: 7px;
+      }
+    }
+  }
+
+  // ---- 白い箱：キャッチ＋項目（左）、写真2枚（右）
+  &__detail {
+    padding: svw(28) svw(20);
+    margin-top: svw(28);
+    background: #fff;
+
+    @include mq(pc) {
+      grid-template-columns: minmax(0, 414px) minmax(0, 313px);
+      gap: 40px;
+      padding: 61px 51px 62px 61px;
+      margin-top: 51px;
+    }
+  }
+
+  &__catch {
+    font-size: sfont(17);
+    font-weight: 700;
+    line-height: 1.7;
+    color: $color-main;
+
+    @include mq(pc) {
+      font-size: rem(20);
+      line-height: 32px;
+    }
+  }
+
+  &__points {
+    margin-top: svw(20);
+
+    @include mq(pc) {
+      margin-top: 30px;
+    }
+  }
+
+  &__imgs {
+    display: grid;
+    gap: svw(12);
+    margin-top: svw(24);
+
+    @include mq(pc) {
+      gap: 33px;
+      margin-top: 0;
+    }
+  }
+}

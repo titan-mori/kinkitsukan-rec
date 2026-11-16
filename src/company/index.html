@@ -1,0 +1,216 @@
+<% const page = { name: 'company', title: '会社を知る', bodyClass: 'page-company', heroHeader: true }; %>
+<%- include('partials/_head', { page }) %>
+<%- include('partials/_header', { page }) %>
+<%
+  // 数字で見る近畿通関
+  //   size … 'sm'＝1行目の4枚（PC は4列）。省略時は3列幅
+  //   icon … 右下の装飾アイコン { src, w, h, r, b }（PC の px。r / b は右・下からの位置）
+  const numbers = [
+    { label: '設立', value: '1957', unit: '年', note: '通関を主力に、長年貿易と<br class="p-company__br-pc">物流を支えてきた。', size: 'sm' },
+    { label: '従業員数', value: '108', unit: '名', note: 'グループ会社を含む。', size: 'sm',
+      icon: { src: 'company/icon_employees.svg', w: 137, h: 71, r: 17, b: 18 } },
+    { label: '拠点数', value: '5', unit: '拠点', size: 'sm',
+      icon: { src: 'company/icon_base.svg', w: 81, h: 95, r: 21, b: 19 } },
+    { label: '平均勤続年数', value: '17.5', unit: '年', size: 'sm',
+      icon: { src: 'company/icon_years.svg', w: 87, h: 83, r: 26, b: 19 } },
+    { label: '直近2年以内の採用者の平均年齢', value: '35', unit: '歳',
+      icon: { src: 'company/icon_age.svg', w: 114, h: 89, r: 15, b: 24 } },
+    { label: '資格保有者数', value: '18', unit: '人',
+      icon: { src: 'company/icon_license.svg', w: 95, h: 110, r: 37, b: 23 } },
+  ];
+
+  // 働く環境・制度
+  const supports = [
+    { ttl: '働き方を支える', icon: 'company/support_work.svg', w: 57, h: 38,
+      txt: '休みを取りやすく、予定に合わせて働き方を調整できる環境を整えています。',
+      items: ['半日有給休暇制度', '夏季・年末年始休暇', '住宅手当', '服装自由化（港湾倉庫作業員は作業服支給）'] },
+    { ttl: '健康を支える', icon: 'company/support_health.svg', w: 43, h: 38,
+      txt: '現場でもオフィスでも、健康に働き続けられるよう会社として取り組んでいます。',
+      items: ['団体三大疾病補償保険', 'インフルエンザ予防接種補助', '健康経営への取り組み', '給茶器設置'] },
+    { ttl: '成長を支える', icon: 'company/support_growth.svg', w: 35, h: 38,
+      txt: '先輩と一緒に仕事を覚え、必要な資格への挑戦も後押しします。',
+      items: ['OJTによる業務習得', '資格取得支援制度', '書籍購入制度'] },
+    { ttl: '将来とつながりを支える', icon: 'company/support_future.svg', w: 52, h: 38,
+      txt: '長く働き続けた先も、社員同士のつながりも大切にしています。',
+      items: ['退職金制度', '65歳までの再雇用制度', '従業員懇親会支援制度', '課外活動支援制度'] },
+  ];
+
+  // 社員の挑戦
+  const challengePoints = [
+    ['始めたきっかけ', 'ボウリングを始めたきっかけを、本人の言葉で紹介します。'],
+    ['両立の方法', '勤務と練習・大会を、どう組み合わせているかを紹介します。'],
+    ['会社のサポート', '休暇の調整など、会社が行っている後押しを紹介します。'],
+    ['主な実績・目標', 'これまでの主な実績と、今後の目標を紹介します。'],
+  ];
+
+  const iconStyle = (icon) => `--w: ${icon.w}; --r: ${icon.r}; --b: ${icon.b}`;
+%>
+
+<main class="l-main p-company">
+  <%- include('partials/_page-hero', { page, en: 'COMPANY', img: 'company/mv.webp' }) %>
+
+  <div class="l-page-body">
+    <%# ===== ONE TEAM / トップメッセージ ===== %>
+    <section class="p-company-message" id="message">
+      <div class="p-company__inner p-company-message__inner">
+        <div class="p-company-message__body">
+          <div class="c-ttl">
+            <p class="c-ttl__label"><span class="c-ttl__en">ONE TEAM</span><span class="c-ttl__ja">／ 仕事のつながり</span></p>
+            <h2 class="c-ttl__main">物流を支える会社は、<br>人を支える会社でありたい。</h2>
+          </div>
+          <div class="p-company-message__txt">
+            <p>近畿通関は1957年の設立以来、通関を中心に、港湾運送、倉庫、陸上輸送、航空貨物へと事業を広げてきました。陸・海・空をつなぎ、輸出入に必要な業務を一貫して支えられることが私たちの強みです。</p>
+            <p>物流は、社会や暮らしが動き続けるかぎり止められない仕事です。その責任を担えているのは、港の現場で貨物を動かす社員、手続きを正確に進める社員、お客様と向き合う社員が、それぞれの役割を果たしているからです。</p>
+            <p>だからこそ会社は、働く人を支える存在でなければならないと考えています。安心して働き続けられる環境を整え、新しい知識や資格への挑戦を後押しし、一人ひとりが目指すものに向き合えるようにしていきます。</p>
+            <p>経験がなくても構いません。仲間と力を合わせ、社会を支える仕事に挑戦したいという方を、私たちは歓迎します。</p>
+          </div>
+        </div>
+        <figure class="p-company-message__fig">
+          <div class="p-company-message__img">
+            <img src="<%= assets %>img/company/message.webp" alt="代表取締役社長 米澤 隆弘" width="450" height="530" loading="lazy">
+          </div>
+          <figcaption class="p-company-message__name">代表取締役社長<span>米澤 隆弘</span></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <%# ===== KINKI TSUKAN IN NUMBERS / 数字で見る近畿通関 ===== %>
+    <section class="p-company-numbers" id="numbers">
+      <div class="p-company__inner">
+        <div class="c-intro">
+          <div class="c-ttl c-ttl--white">
+            <p class="c-ttl__label"><span class="c-ttl__en">KINKI TSUKAN IN NUMBERS</span><span class="c-ttl__ja">／ 数字で見る近畿通関</span></p>
+            <h2 class="c-ttl__main">数字から見える、<br>近畿通関という会社。</h2>
+          </div>
+          <div class="c-intro__txt">
+            <p>会社の歴史、働く人、働き方を、数字で分かりやすく紹介します。</p>
+          </div>
+        </div>
+
+        <ul class="p-company-numbers__list">
+          <% numbers.forEach((item) => { %>
+            <li class="p-company-num<%= item.size ? ` p-company-num--${item.size}` : '' %>">
+              <% if (item.icon) { %>
+                <img class="p-company-num__icon" src="<%= assets %>img/<%= item.icon.src %>" alt="" width="<%= item.icon.w %>" height="<%= item.icon.h %>" style="<%= iconStyle(item.icon) %>" loading="lazy">
+              <% } %>
+              <h3 class="p-company-num__label"><%= item.label %></h3>
+              <p class="p-company-num__value"><span class="p-company-num__digit"><%= item.value %></span><span class="p-company-num__unit"><%= item.unit %></span></p>
+              <% if (item.note) { %><p class="p-company-num__note"><%- item.note %></p><% } %>
+            </li>
+          <% }) %>
+
+          <%# 男女比（人型を下から比率ぶん塗る。塗る高さは Figma の見た目に合わせた値） %>
+          <li class="p-company-num p-company-num--gender">
+            <h3 class="p-company-num__label">男女比</h3>
+            <p class="p-company-num__value p-company-num__value--ratio" aria-label="男性7、女性3"><span class="p-company-num__digit">7</span><span class="p-company-num__digit p-company-num__colon">：</span><span class="p-company-num__digit">3</span></p>
+            <div class="p-company-num__figures" aria-hidden="true">
+              <span class="p-company-num__figure p-company-num__figure--male" style="--fill: 81%; -webkit-mask-image: url('<%= assets %>img/company/figure_male.svg'); mask-image: url('<%= assets %>img/company/figure_male.svg')"></span>
+              <span class="p-company-num__figure p-company-num__figure--female" style="--fill: 32%; -webkit-mask-image: url('<%= assets %>img/company/figure_female.svg'); mask-image: url('<%= assets %>img/company/figure_female.svg')"></span>
+            </div>
+          </li>
+
+          <li class="p-company-num p-company-num--ratio">
+            <h3 class="p-company-num__label">直近2年以内の採用者の新卒・中途比率</h3>
+            <div class="p-company-num__pair">
+              <p class="p-company-num__value"><span class="p-company-num__sub">新卒</span><span class="p-company-num__digit">10</span><span class="p-company-num__unit">%</span></p>
+              <p class="p-company-num__value"><span class="p-company-num__sub">中途</span><span class="p-company-num__digit">90</span><span class="p-company-num__unit">%</span></p>
+            </div>
+          </li>
+
+          <li class="p-company-num">
+            <img class="p-company-num__icon" src="<%= assets %>img/company/icon_overtime.svg" alt="" width="110" height="110" style="<%= iconStyle({ w: 110, r: 37, b: 25 }) %>" loading="lazy">
+            <h3 class="p-company-num__label">残業代</h3>
+            <p class="p-company-num__value"><span class="p-company-num__digit p-company-num__digit--word">全額</span><span class="p-company-num__unit p-company-num__unit--word">支給</span></p>
+          </li>
+
+          <li class="p-company-num">
+            <img class="p-company-num__icon" src="<%= assets %>img/company/icon_holiday.svg" alt="" width="109" height="100" style="<%= iconStyle({ w: 109, r: 32, b: 28 }) %>" loading="lazy">
+            <h3 class="p-company-num__label">有給休暇取得率</h3>
+            <p class="p-company-num__value"><span class="p-company-num__digit">00</span><span class="p-company-num__unit">%</span></p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <%# ===== WORK SUPPORT / 働く環境・制度 ===== %>
+    <section class="p-company-support" id="support">
+      <div class="p-company__inner p-company__inner--narrow">
+        <div class="c-ttl">
+          <p class="c-ttl__label"><span class="c-ttl__en">WORK SUPPORT</span><span class="c-ttl__ja">／ 働く環境・制度</span></p>
+          <h2 class="c-ttl__main">働く毎日と、これからを支える。</h2>
+        </div>
+        <p class="p-company-support__lead">安心して仕事を続け、新しい知識や資格にも挑戦できるよう、働き方、健康、成長、将来を支える制度を整えています。</p>
+
+        <ul class="p-company-support__list">
+          <% supports.forEach((item) => { %>
+            <li class="p-company-support__card">
+              <h3 class="p-company-support__ttl">
+                <img src="<%= assets %>img/<%= item.icon %>" alt="" width="<%= item.w %>" height="<%= item.h %>" loading="lazy">
+                <%= item.ttl %>
+              </h3>
+              <p class="p-company-support__txt"><%= item.txt %></p>
+              <ul class="c-chip-list p-company-support__chips">
+                <% item.items.forEach((chip) => { %><li class="c-chip"><%= chip %></li><% }) %>
+              </ul>
+            </li>
+          <% }) %>
+        </ul>
+      </div>
+    </section>
+
+    <%# ===== CHALLENGE / 社員の挑戦 ===== %>
+    <section class="p-company-challenge" id="challenge">
+      <div class="p-company-challenge__box">
+        <div class="p-company-challenge__head">
+          <div class="p-company-challenge__intro">
+            <div class="c-ttl">
+              <p class="c-ttl__label"><span class="c-ttl__en">CHALLENGE</span><span class="c-ttl__ja">／ 社員の挑戦</span></p>
+              <h2 class="c-ttl__main p-company-challenge__ttl">仕事も、自分の夢も、<br>あきらめない。</h2>
+            </div>
+            <p class="p-company-challenge__txt">近畿通関には、仕事と競技ボウリングの活動を両立している社員がいます。一人ひとりが大切にしている目標に向き合えるよう、会社もその挑戦を応援しています。</p>
+            <p class="p-company-challenge__tag">競技ボウリング</p>
+            <p class="p-company-challenge__person">2022年入社 / <span>A. K</span></p>
+          </div>
+          <div class="p-company-challenge__img p-company-challenge__img--main">
+            <img src="<%= assets %>img/company/challenge_01.webp" alt="" width="439" height="310" loading="lazy">
+          </div>
+        </div>
+
+        <div class="p-company-challenge__detail">
+          <div class="p-company-challenge__detail-body">
+            <p class="p-company-challenge__catch">仕事にも競技にも真剣に向き合えることが、<br>次の挑戦への力になっています。</p>
+            <dl class="c-def-list p-company-challenge__points">
+              <% challengePoints.forEach(([dt, dd]) => { %>
+                <div>
+                  <dt><%= dt %></dt>
+                  <dd><%= dd %></dd>
+                </div>
+              <% }) %>
+            </dl>
+          </div>
+          <div class="p-company-challenge__imgs">
+            <div class="p-company-challenge__img">
+              <img src="<%= assets %>img/company/challenge_02.webp" alt="" width="313" height="216" loading="lazy">
+            </div>
+            <div class="p-company-challenge__img">
+              <img src="<%= assets %>img/company/challenge_03.webp" alt="" width="313" height="216" loading="lazy">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <%- include('partials/_page-closing', {
+      img: 'common/closing.webp',
+      ttl: '会社を知ったら、<br class="p-company__br-sp">働く人と仕事を見てみよう。',
+      txt: '近畿通関には、物流を動かすさまざまな仕事と、それぞれの場所で力を発揮する社員がいます。<br class="p-company__br-pc">気になる仕事や人の声から、働くイメージをもう少し具体的にしてみませんか。',
+      btns: [
+        { label: '仕事を知る', href: root + 'jobs/' },
+        { label: '人を知る', href: root + 'interview/' },
+        { label: '募集要項を見る', href: root + 'requirements/', variant: 'white' },
+      ],
+    }) %>
+  </div>
+</main>
+
+<%- include('partials/_footer', { page }) %>

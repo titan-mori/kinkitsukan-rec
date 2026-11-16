@@ -1,0 +1,41 @@
+@use "../foundation" as *;
+
+// ================================================================
+// 下線付きの項目名＋説明のリスト
+//   <dl class="c-def-list"><div><dt>始めたきっかけ</dt><dd>...</dd></div>...</dl>
+//  Figma：会社を知る 社員の挑戦 297:1868 / 仕事を知る 仕事選びのポイント
+//  外側の余白・字下げは使う側で指定する
+// ================================================================
+.c-def-list {
+  div + div {
+    margin-top: svw(16);
+
+    @include mq(pc) {
+      margin-top: 20px;
+    }
+  }
+
+  dt {
+    font-size: sfont(14);
+    line-height: 1.5;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+
+    @include mq(pc) {
+      font-size: rem(16);
+    }
+  }
+
+  dd {
+    margin-top: svw(6);
+    font-size: sfont(14);
+    font-weight: 400;
+    line-height: 1.7;
+
+    @include mq(pc) {
+      margin-top: 10px;
+      font-size: rem(16);
+      line-height: 1.5;
+    }
+  }
+}

@@ -1,0 +1,56 @@
+<% const page = { name: 'interview', title: '人を知る', bodyClass: 'page-interview', heroHeader: true }; %>
+<%- include('partials/_head', { page }) %>
+<%- include('partials/_header', { page }) %>
+<%
+  // 社員インタビュー（WP 化時はカスタム投稿のループに置き換える）
+  //   href は詳細ページ（root からのパス。未作成のものは省略 → '#'）
+  //   職種でカードの色を決める（紺：港湾倉庫作業員・通関士 / 赤：貿易事務・営業）
+  const jobColors = { '貿易事務': 'red', '営業': 'red' };
+  const interviews = [
+    { catchCopy: '港の仕事は、<br>一人では動かせない。', job: '港湾倉庫作業員', meta: '2022年入社 / A. K', img: 'top/people_03.webp', href: 'interview/intrviewpage/' },
+    { catchCopy: '未経験から、<br>任される範囲が広がった。', job: '通関士', meta: '2022年入社 / A. K', img: 'top/people_01.webp' },
+    { catchCopy: '正確な段取りが、<br>物流を前へ進める。', job: '貿易事務', meta: '2022年入社 / A. K', img: 'top/people_02.webp' },
+    { catchCopy: '学び続けるほど、<br>仕事の幅が広がる。', job: '貿易事務', meta: '2022年入社 / A. K', img: 'top/people_04.webp' },
+  ];
+%>
+
+<main class="l-main p-interview">
+  <%- include('partials/_page-hero', { page, en: 'PEOPLE', img: 'interview/mv.webp' }) %>
+
+  <div class="l-page-body">
+    <%# ===== INTERVIEWS / 社員インタビュー ===== %>
+    <section class="p-interview-list" id="interviews">
+      <div class="p-interview__inner">
+        <div class="c-intro">
+          <div class="c-ttl">
+            <p class="c-ttl__label"><span class="c-ttl__en">INTERVIEWS</span><span class="c-ttl__ja">／ 社員インタビュー</span></p>
+            <h2 class="c-ttl__main">それぞれの場所から、<br>ひとつの物流を支える。</h2>
+          </div>
+          <div class="c-intro__txt">
+            <p>現在の仕事、入社した理由、仕事の面白さと難しさ。4人それぞれの経験から、近畿通関で働く姿を紹介します。</p>
+          </div>
+        </div>
+
+        <ul class="p-interview-list__items">
+          <% interviews.forEach((item, i) => { %>
+            <li class="p-interview-list__item">
+              <%- include('partials/_interview-card', { ...item, imgHvr: item.img.replace('.webp', 'hvr.webp'), num: i + 1, href: item.href ? root + item.href : '#', color: jobColors[item.job] || '' }) %>
+            </li>
+          <% }) %>
+        </ul>
+      </div>
+    </section>
+
+    <%- include('partials/_page-closing', {
+      img: 'common/closing.webp',
+      ttl: '人を知ったら、仕事をもっと知る。',
+      txt: 'それぞれの社員が担う仕事や、必要な力、入社後の成長について、職種ごとに紹介しています。',
+      btns: [
+        { label: '仕事を知る', href: root + 'jobs/' },
+        { label: '募集要項を見る', href: root + 'requirements/', variant: 'white' },
+      ],
+    }) %>
+  </div>
+</main>
+
+<%- include('partials/_footer', { page }) %>

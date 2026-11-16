@@ -1,0 +1,37 @@
+@use "../foundation" as *;
+
+// ================================================================
+// 下層ページの導入：左に見出し（c-ttl）、右にリード文（PC は 452px 幅）
+//   <div class="c-intro">
+//     <div class="c-ttl">...</div>
+//     <div class="c-intro__txt"><p>...</p></div>
+//   </div>
+// 外側の幅・左右余白は使う側（各ページの __inner）で指定する
+// ================================================================
+.c-intro {
+  @include mq(pc) {
+    display: grid;
+    grid-template-columns: 1fr 452px;
+    gap: 40px;
+  }
+
+  &__txt {
+    margin-top: svw(19);
+    font-size: sfont(14);
+    font-weight: 400;
+    line-height: 2;
+    letter-spacing: 0.04em;
+
+    @include mq(pc) {
+      margin-top: 43px;
+      font-size: rem(16);
+      font-weight: 500;
+      line-height: 1.875;
+      letter-spacing: 0;
+    }
+
+    p + p {
+      margin-top: 1lh;
+    }
+  }
+}

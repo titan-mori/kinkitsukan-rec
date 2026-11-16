@@ -1,0 +1,343 @@
+@use "../foundation" as *;
+
+// ================================================================
+// 仕事を知る（Figma PC 160:2334。SP デザインなし＝仮）
+// ================================================================
+
+// 画像が未配置の間も枠が分かるよう、写真系の img に下地色を敷く
+%img-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: $color-placeholder;
+}
+
+// 職種見出し・ナビを固定する位置（ヘッダーの下）
+$jobs-sticky-top: $header-height + 60px;
+
+.p-jobs {
+  &__inner {
+    max-width: calc(#{$inner-width} + #{svw(40)});
+    padding: 0 svw(20);
+    margin: 0 auto;
+  }
+
+  &__br-sp {
+    @include mq(pc) {
+      display: none;
+    }
+  }
+
+  &__br-pc {
+    display: none;
+
+    @include mq(pc) {
+      display: inline;
+    }
+  }
+}
+
+// ================================================================
+// ONE TEAM / 仕事のつながり
+// ================================================================
+.p-jobs-team {
+  padding-top: svw(38);
+
+  @include mq(pc) {
+    padding-top: fluid(128);
+  }
+}
+
+// ---- 図（画像1枚。PC / SP で picture 切り替え）
+.p-jobs-map {
+  display: block;
+  margin-top: svw(32);
+
+  @include mq(pc) {
+    margin-top: fluid(120, 72);
+  }
+
+  img {
+    width: 100%;
+    height: auto; // 透過画像なので下地色は敷かない
+  }
+}
+
+// ================================================================
+// 職種ごとの紹介
+//  PC：[職種ナビ][職種見出し][本文] の3列（1416px 内で 231 : 376 : 810）
+//      職種ナビは .p-jobs-list 全体、職種見出しは各セクション内でスクロールに追従（sticky）
+//  SP（仮）：ナビなし。見出し→本文の縦積み
+// ================================================================
+.p-jobs-list {
+  position: relative;
+  margin-top: svw(56);
+
+  @include mq(pc) {
+    margin-top: 0;
+  }
+}
+
+.p-jobs-nav {
+  display: none;
+
+  @include mq(pc) {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: block;
+    pointer-events: none;
+  }
+
+  &__inner {
+    height: 100%;
+    max-width: calc(#{$inner-wide} + 40px);
+    padding: fluid(120) 20px;
+    margin: 0 auto;
+  }
+
+  &__list {
+    position: sticky;
+    top: $jobs-sticky-top;
+    width: fit-content;
+    pointer-events: auto;
+
+    li + li {
+      margin-top: 22px;
+    }
+  }
+
+  &__link {
+    display: flex;
+    align-items: center;
+    font-size: rem(16);
+    line-height: 20px;
+    color: $color-inactive;
+    transition: color 0.3s;
+
+    // 現在地の丸
+    &::before {
+      flex-shrink: 0;
+      width: 0;
+      height: 8px;
+      content: "";
+      background: $color-main;
+      border-radius: 50%;
+      transition: width 0.3s, margin 0.3s;
+    }
+
+    &[aria-current="true"] {
+      color: $color-txt;
+
+      &::before {
+        width: 8px;
+        margin-right: 8px;
+      }
+    }
+
+    @include hover {
+      color: $color-txt;
+    }
+  }
+}
+
+.p-jobs-job {
+  padding: svw(48) 0 svw(56);
+
+  @include mq(pc) {
+    padding: fluid(120) 0;
+  }
+
+  // 偶数番目はグレー背景（中の白枠と入れ替え）
+  &:nth-of-type(even) {
+    background: $color-bg-gray;
+  }
+
+  &__inner {
+    @include mq(pc) {
+      display: grid;
+      grid-template-columns: 231fr 376fr 810fr;
+      align-items: start;
+      max-width: calc(#{$inner-wide} + 40px);
+    }
+  }
+
+  // ---- 見出し（JOBS 01 / 職種名＋アイコン / リード）
+  &__head {
+    @include mq(pc) {
+      position: sticky;
+      top: $jobs-sticky-top;
+      grid-column: 2;
+      padding-right: 20px;
+    }
+  }
+
+  &__name {
+    display: flex;
+    gap: svw(12);
+    align-items: center;
+    margin-top: svw(4);
+    font-size: sfont(26);
+    font-weight: 700;
+    line-height: 1.33;
+
+    @include mq(pc) {
+      gap: 15px;
+      margin-top: 10px;
+      font-size: fluid(36, 26);
+    }
+  }
+
+  &__icon {
+    width: svw(32); // 色は見出しの文字色（$color-txt）を currentColor で継承
+
+    @include mq(pc) {
+      width: 42px;
+    }
+  }
+
+  &__lead {
+    margin-top: svw(8);
+    font-size: sfont(14);
+    line-height: 1.7;
+
+    @include mq(pc) {
+      margin-top: 20px;
+      font-size: rem(16);
+    }
+  }
+
+  // ---- 本文
+  &__body {
+    margin-top: svw(28);
+
+    @include mq(pc) {
+      grid-column: 3;
+      min-width: 0;
+      margin-top: 0;
+    }
+  }
+
+  &__catch {
+    font-size: sfont(20);
+    font-weight: 700;
+    line-height: 1.6;
+
+    @include mq(pc) {
+      font-size: fluid(36, 24);
+      line-height: 1.445;
+    }
+  }
+
+  &__txt {
+    margin-top: svw(14);
+    font-size: sfont(14);
+    line-height: 1.9;
+
+    @include mq(pc) {
+      margin-top: 30px;
+      font-size: rem(16);
+      line-height: 1.6875;
+    }
+  }
+
+  &__img {
+    margin-top: svw(24);
+    aspect-ratio: 810 / 300;
+
+    @include mq(pc) {
+      margin-top: 50px;
+    }
+
+    img {
+      @extend %img-cover;
+    }
+  }
+
+  // ---- 主な仕事 / 仕事選びのポイント
+  &__box {
+    padding: svw(24) svw(18) svw(28);
+    margin-top: svw(16);
+    background: $color-bg-gray;
+
+    @include mq(pc) {
+      padding: 53px 47px;
+      margin-top: 30px;
+    }
+  }
+
+  &:nth-of-type(even) &__box {
+    background: $color-bg;
+  }
+
+  &__works {
+    display: grid;
+    gap: svw(6);
+    padding-left: svw(4);
+    margin-top: svw(10);
+
+    @include mq(pc) {
+      // 縦に2件ずつ並べる（Figma：左列に1・2件目、右列に3・4件目）
+      grid-template-rows: repeat(2, auto);
+      grid-template-columns: repeat(2, minmax(0, 320px));
+      grid-auto-flow: column;
+      gap: 10px 0;
+      padding-left: 27px;
+      margin-top: 16px;
+    }
+
+    li {
+      position: relative;
+      padding-left: svw(15);
+      font-size: sfont(14);
+      font-weight: 400;
+      line-height: 1.5;
+
+      @include mq(pc) {
+        padding-left: 15px;
+        font-size: rem(16);
+      }
+
+      &::before {
+        position: absolute;
+        top: calc(0.5lh - #{svw(3)}); // 1行目の中央
+        left: 0;
+        width: svw(6);
+        height: svw(6);
+        content: "";
+        background: $color-main;
+        border-radius: 50%;
+      }
+    }
+  }
+
+  &__points-ttl {
+    margin-top: svw(28);
+
+    @include mq(pc) {
+      margin-top: 40px;
+    }
+  }
+
+  // 項目名・説明の形は c-def-list。ここでは位置だけ
+  &__points {
+    margin-top: svw(10);
+
+    @include mq(pc) {
+      padding-left: 25px;
+      margin-top: 16px;
+    }
+  }
+
+  &__btns {
+    display: grid;
+    gap: svw(12);
+    margin-top: svw(28);
+
+    @include mq(pc) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 30px;
+      margin-top: 50px;
+    }
+  }
+}

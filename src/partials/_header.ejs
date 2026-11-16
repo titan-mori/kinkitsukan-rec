@@ -1,0 +1,33 @@
+<%# TOP と page.heroHeader のページは、ヒーロー（data-mv）の上では透明・過ぎたら白（main.js initHeader） %>
+<header class="l-header<%= page.name === 'top' ? '' : ' l-header--sub' %><%= page.name === 'top' || page.heroHeader ? '' : ' is-solid' %>" data-header>
+  <div class="l-header__inner">
+    <a class="l-header__logo" href="<%= root %>">
+      <%# 通常：白ロゴ（logo_wh.svg）/ .is-scrolled・.is-solid：カラーロゴ（logo.png → webp） %>
+      <img class="l-header__logo-img l-header__logo-img--w" src="<%= assets %>img/common/logo_wh.svg" alt="近畿通関" width="169" height="26">
+      <img class="l-header__logo-img l-header__logo-img--c" src="<%= assets %>img/common/logo.webp" alt="近畿通関" width="169" height="26">
+      <span class="l-header__site">RECRUIT SITE</span>
+    </a>
+
+    <%# data-lenis-prevent：SP ドロワー内の縦スクロールを Lenis に奪われないように %>
+    <nav class="l-header__nav" id="global-nav" aria-label="グローバルナビゲーション" data-lenis-prevent>
+      <ul class="l-header__list">
+        <% site.nav.forEach((item) => { %>
+          <li class="l-header__item">
+            <a class="l-header__link" href="<%= root %><%= item.href %>"<%- page.name === item.key ? ' aria-current="page"' : '' %>><%= item.label %></a>
+          </li>
+        <% }) %>
+      </ul>
+    </nav>
+
+    <div class="l-header__actions">
+      <a class="l-header__entry" href="<%= site.entry.form %>">
+        <span>ENTRY</span>
+        <%- include('_arrow') %>
+      </a>
+      <button class="l-header__menu" type="button" aria-controls="global-nav" aria-expanded="false" data-menu-btn>
+        <span class="l-header__menu-line" aria-hidden="true"></span>
+        <span class="u-visually-hidden" data-menu-label>メニューを開く</span>
+      </button>
+    </div>
+  </div>
+</header>

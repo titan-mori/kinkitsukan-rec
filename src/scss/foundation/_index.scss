@@ -1,0 +1,3 @@
+// 各パーツの先頭で @use "../foundation" as *; と書くと変数・mixin が使える
+@forward "variables";
+@forward "mixin";

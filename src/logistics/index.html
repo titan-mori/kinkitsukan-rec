@@ -1,0 +1,155 @@
+<% const page = { name: 'logistics', title: '物流を知る', bodyClass: 'page-logistics', heroHeader: true }; %>
+<%- include('partials/_head', { page }) %>
+<%- include('partials/_header', { page }) %>
+<%
+  // 輸出・輸入のフロー。other: true は他社が担当する工程（番号なし・枠線のみ）
+  const flows = [
+    {
+      key: 'export',
+      label: '輸出',
+      desc: '日本から海外へ送り出す',
+      lead: '荷主から預かった貨物を、<br class="p-logistics__br-sp">コンテナに積んで送り出すまで',
+      steps: [
+        { ttl: '貨物の受け入れ・検品', txt: '荷主から届いた貨物を受け入れ、個数と外装の状態を確認します。', tags: ['港湾倉庫作業員'], img: 'flow_export_01' },
+        { ttl: '保管', txt: '出荷の日まで、倉庫の決められた場所で保管します。', tags: ['港湾倉庫作業員'], img: 'flow_export_02' },
+        { ttl: 'ピッキング・荷造り', txt: '指示された貨物を取り出し、届け先に合わせて荷造りします。', tags: ['港湾倉庫作業員'], img: 'flow_export_03' },
+        { ttl: '輸出通関手続き', txt: '書類を作成し、税関へ輸出申告して許可を受けます。', tags: ['通関士', '貿易事務'], img: 'flow_export_04' },
+        { ttl: 'コンテナに積む', txt: '許可を受けた貨物を、コンテナへ積み込みます（バンニング）。', tags: ['港湾倉庫作業員'], img: 'flow_export_05' },
+        { other: true, ttl: '本船への積み込み', txt: '港湾倉庫作業員が担当する<br class="p-logistics__br-sp">工程です。' },
+      ],
+    },
+    {
+      key: 'import',
+      label: '輸入',
+      desc: '海外から日本へ受け入れる',
+      lead: '港に着いたコンテナを開け、<br class="p-logistics__br-sp">国内の届け先へ送り出すまで',
+      steps: [
+        { other: true, ttl: '本船からの荷揚げ', txt: '港湾倉庫作業員が担当する<br class="p-logistics__br-sp">工程です。' },
+        { ttl: 'コンテナから取り出す', txt: '保税倉庫でコンテナを開け、貨物を取り出します（デバンニング）。', tags: ['港湾倉庫作業員'], img: 'flow_import_01' },
+        // 仮の文言（Figma では STEP3 と同じ文言が入っていたため差し替え。要確認）
+        { ttl: '検品・仕分け', txt: '貨物の個数と状態を確認し、届け先ごとに仕分けます。', tags: ['港湾倉庫作業員'], img: 'flow_import_02' },
+        { ttl: '輸入通関手続き', txt: '税関へ輸入申告し、納税して許可を受けます。', tags: ['通関士', '貿易事務'], img: 'flow_import_03' },
+        { ttl: '保管', txt: '出荷の指示があるまで、倉庫で保管します。', tags: ['港湾倉庫作業員'], img: 'flow_import_04' },
+        { ttl: 'ピッキング・荷造り', txt: '指示された貨物を取り出し、届け先に合わせて荷造りします。', tags: ['港湾倉庫作業員'], img: 'flow_import_05' },
+        { ttl: '発送', txt: '国内の届け先へ向けて、貨物を送り出します。', tags: ['貿易事務', '営業'], img: 'flow_import_06' },
+      ],
+    },
+  ];
+
+  const behinds = [
+    { ttl: 'フォワーディング業務', txt: '船会社や航空会社の輸送スペースを手配し、貨物の行き先と日程に合った輸送方法を組み立てる。', tags: ['営業', '貿易事務'] },
+    { ttl: 'トラック手配・国内輸送', txt: '港と倉庫、倉庫と届け先をつなぐ車両を手配し、納品のスケジュールを調整する。', tags: ['営業', '貿易事務'] },
+    { ttl: '書類・貨物情報の管理', txt: '輸出入に必要な書類を整え、貨物の現在地と予定をお客様や関係会社へ共有する。', tags: ['貿易事務'] },
+  ];
+%>
+
+<main class="l-main p-logistics">
+  <%- include('partials/_page-hero', { page, en: 'LOGISTICS', img: 'logistics/mv.webp', imgSp: 'logistics/mvsp.webp' }) %>
+
+  <div class="l-page-body">
+    <%# ===== ABOUT US / 物流の流れ ===== %>
+    <section class="p-logistics-intro">
+      <div class="p-logistics__inner p-logistics-intro__inner">
+        <div class="c-ttl p-logistics__ttl">
+          <p class="c-ttl__label"><span class="c-ttl__en">ABOUT US</span><span class="c-ttl__ja">／ 物流の流れ</span></p>
+          <h2 class="c-ttl__main">貨物は、海を越えて<br>出ていき、入ってくる。</h2>
+        </div>
+        <div class="p-logistics-intro__txt">
+          <p>物流は運ぶだけの仕事ではありません。積み下ろす、保管する、手続きを行う、情報を管理する。多くの仕事がつながって、ひとつの商品が届きます。</p>
+          <p>近畿通関が担うのは、輸出と輸入の両方。それぞれで貨物の流れも、私たちの仕事も変わります。</p>
+        </div>
+      </div>
+
+      <%# ---- 輸出 / 輸入 タブ ---- %>
+      <div class="p-logistics__inner p-logistics-flow" data-tabs>
+        <div class="p-logistics-flow__tabs" role="tablist" aria-label="貨物の流れ">
+          <% flows.forEach((flow, i) => { %>
+            <button class="p-logistics-flow__tab p-logistics-flow__tab--<%= flow.key %>" type="button" role="tab" id="flow-tab-<%= flow.key %>" aria-controls="flow-panel-<%= flow.key %>" aria-selected="<%= i === 0 %>"<%- i === 0 ? '' : ' tabindex="-1"' %> data-tab>
+              <span class="p-logistics-flow__tab-icon" aria-hidden="true"></span>
+              <span class="p-logistics-flow__tab-txt">
+                <span class="p-logistics-flow__tab-ttl"><%= flow.label %></span>
+                <span class="p-logistics-flow__tab-desc"><%= flow.desc %></span>
+              </span>
+              <span class="c-circle-arrow p-logistics-flow__tab-arrow" aria-hidden="true"><%- include('partials/_arrow') %></span>
+            </button>
+          <% }) %>
+        </div>
+
+        <% flows.forEach((flow, i) => { %>
+          <div class="p-logistics-flow__panel" role="tabpanel" id="flow-panel-<%= flow.key %>" aria-labelledby="flow-tab-<%= flow.key %>" tabindex="0"<%- i === 0 ? '' : ' hidden' %> data-tab-panel>
+            <h3 class="p-logistics-flow__lead"><%- flow.lead %></h3>
+            <ol class="p-logistics-flow__list">
+              <% let no = 0; flow.steps.forEach((step) => { %>
+                <% if (step.other) { %>
+                  <li class="p-logistics-step p-logistics-step--other">
+                    <p class="p-logistics-step__num"><span class="p-logistics-step__other">他社</span></p>
+                    <div class="p-logistics-step__body">
+                      <h4 class="p-logistics-step__ttl"><%= step.ttl %></h4>
+                      <p class="p-logistics-step__txt"><%- step.txt %></p>
+                    </div>
+                  </li>
+                <% } else { no++; %>
+                  <li class="p-logistics-step">
+                    <p class="p-logistics-step__num"><span class="p-logistics-step__num-en">STEP</span><span class="p-logistics-step__num-no"><%= no %></span></p>
+                    <div class="p-logistics-step__body">
+                      <h4 class="p-logistics-step__ttl"><%= step.ttl %></h4>
+                      <p class="p-logistics-step__txt"><%- step.txt %></p>
+                      <ul class="p-logistics-tags">
+                        <% step.tags.forEach((tag) => { %><li class="p-logistics-tags__item"><%= tag %></li><% }) %>
+                      </ul>
+                    </div>
+                    <div class="p-logistics-step__img">
+                      <img src="<%= assets %>img/logistics/<%= step.img %>.webp" alt="" width="420" height="280" loading="lazy">
+                    </div>
+                  </li>
+                <% } %>
+              <% }) %>
+            </ol>
+          </div>
+        <% }) %>
+      </div>
+    </section>
+
+    <%# ===== BEHIND THE FLOW / 流れを支える業務 ===== %>
+    <section class="p-logistics-behind">
+      <div class="p-logistics-behind__img">
+        <img src="<%= assets %>img/logistics/behind.webp" alt="" width="1536" height="737" loading="lazy">
+      </div>
+      <div class="p-logistics__inner p-logistics-behind__inner">
+        <div class="p-logistics-behind__head">
+          <div class="c-ttl c-ttl--white p-logistics__ttl">
+            <p class="c-ttl__label"><span class="c-ttl__en">BEHIND THE FLOW</span><span class="c-ttl__ja">／ 流れを支える業務</span></p>
+            <h2 class="c-ttl__main">工程の外側にも、<br>物流を動かす仕事がある。</h2>
+          </div>
+          <p class="p-logistics-behind__txt">貨物を扱う工程だけでは、物流は動きません。輸送の手段を組み立て、関係する会社をつなぐ業務が、輸出・輸入の流れ全体を支えています。</p>
+        </div>
+        <ul class="p-logistics-behind__list">
+          <% behinds.forEach((item) => { %>
+            <li class="p-logistics-behind__card">
+              <h3 class="p-logistics-behind__card-ttl"><%= item.ttl %></h3>
+              <p class="p-logistics-behind__card-txt"><%= item.txt %></p>
+              <ul class="p-logistics-tags p-logistics-tags--white">
+                <% item.tags.forEach((tag) => { %><li class="p-logistics-tags__item"><%= tag %></li><% }) %>
+              </ul>
+            </li>
+          <% }) %>
+        </ul>
+      </div>
+    </section>
+
+    <%# ===== 締め ===== %>
+    <section class="p-logistics-closing">
+      <div class="p-logistics__inner">
+        <h2 class="p-logistics-closing__ttl">この流れを動かしているのは、<br>一人ひとりの仕事です。</h2>
+        <p class="p-logistics-closing__txt">コンテナを動かす人。貨物を確認する人。通関手続きを行う人。書類やスケジュールを管理する人。<br class="p-logistics__br-pc">役割は違っても、目指すゴールはひとつです。必要なものを、必要な人のもとへ確実に届ける。</p>
+        <p class="p-logistics-closing__ask">物流を支える仕事を、<br class="p-logistics__br-sp">もう少し詳しく見てみませんか。</p>
+        <ul class="p-logistics-closing__btns">
+          <li><%- include('partials/_link-btn', { label: '仕事を知る', href: root + 'jobs/', size: 'lg' }) %></li>
+          <li><%- include('partials/_link-btn', { label: '港湾倉庫作業員という仕事', en: 'SPECIAL CONTENT', href: root + 'jobs/special/', variant: 'red', size: 'lg' }) %></li>
+        </ul>
+      </div>
+    </section>
+  </div>
+</main>
+
+<%- include('partials/_footer', { page }) %>

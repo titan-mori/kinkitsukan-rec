@@ -1,0 +1,205 @@
+<% const page = { name: 'interview', title: '港湾倉庫作業員', bodyClass: 'page-intrviewpage' }; %>
+<%- include('partials/_head', { page }) %>
+<%- include('partials/_header', { page }) %>
+<%
+  // 社員インタビュー詳細（ベース）。WP 化時はカスタム投稿（社員インタビュー）の single テンプレートにする
+  // 画像は img/interviewpage/（元画像 src/images/interviewpage/。dayoff は未支給）
+  const profile = {
+    catchCopy: '港の仕事は、<br>一人では動かせない。',
+    job: '港湾倉庫作業員',
+    year: '2022年入社',
+    name: 'A. K',
+  };
+
+  const summary = [
+    { ttl: '入社のきっかけ', txt: '港や大型機械に関わる仕事への興味' },
+    { ttl: '入社前の経験', txt: '港湾業務は未経験' },
+    { ttl: '現在の担当', txt: '貨物の確認・移動・検査対応' },
+    { ttl: '大切にしていること', txt: '安全確認とチームの声掛け' },
+  ];
+
+  const qa = [
+    {
+      q: 'この仕事を選んだ理由と、<br>入社前の不安を教えてください。',
+      a: ['体を動かす仕事や、港ならではの大きなスケールの仕事に興味を持ったことがきっかけです。一方で、入社前は港の仕事をほとんど知らず、特別な経験や資格がなくてもできるのか不安でした。', '最初は先輩と一緒に動き、道具の扱い方や安全確認を一つずつ覚えていきました。分からないことをそのままにせず、その場で聞けることが安心につながりました。'],
+    },
+    {
+      q: '現在の仕事内容と、<br>その面白さ・難しさは何ですか？',
+      a: ['港に到着したコンテナや貨物を確認し、安全に取り扱って次の工程へつなぐ仕事をしています。周囲の動きを見ながら仲間と声を掛け合い、全員で同じ状況を共有することを大切にしています。', '扱った貨物が次の場所へ動いていくと、物流を支えている実感があります。貨物や周囲の状況によって注意点が変わる難しさもありますが、仲間と無事に作業を終えたときの達成感はこの仕事ならではです。'],
+    },
+    {
+      q: '入社後の成長と、<br>これからの目標を教えてください。',
+      a: ['入社した頃は指示された作業を覚えることで精いっぱいでしたが、今では周囲の状況を見て、次に必要な動きを考えられるようになりました。できる作業が増えるほど、任される役割も広がっています。', '今後は業務に必要な資格や技能を身につけ、後輩にも安全な作業を分かりやすく伝えられる存在になりたいです。'],
+    },
+  ];
+
+  // ある一日の流れ。時刻は Figma で未確定（00:00）のため仮
+  const schedule = [
+    { time: '00:00', ttl: '出社・朝礼・当日の作業確認', txt: 'その日の入港予定と担当を全員で共有する。' },
+    { time: '00:00', ttl: '安全確認・作業準備', txt: '装備と機材を点検し、危険箇所を声に出して確認。' },
+    { time: '00:00', ttl: 'コンテナ・貨物の確認と作業', txt: '番号と状態を照合しながら、決められた場所へ移す。' },
+    { time: '00:00', ttl: '休憩', txt: '交代で休憩を取り、午後の段取りを話す。' },
+    { time: '00:00', ttl: '検査対応・次工程への引き継ぎ', txt: '検査に立ち会い、通関・輸送の担当へ状況を伝える。' },
+    { time: '00:00', ttl: '片付け・翌日の確認・退社', txt: '使った機材を戻し、翌日の作業予定を確認して終業。' },
+  ];
+
+  // ほかの社員（WP 化時は同じ投稿タイプから現在の記事を除いて取得）。詳細ページは仮で '#'
+  const others = [
+    { job: '通関士', txt: '全員が活躍できる場所があり、それぞれの強みがかけ合わさる会社', meta: '2022年入社 / A. K', img: 'top/people_01.webp' },
+    { job: '貿易事務', txt: '全員が活躍できる場所があり、それぞれの強みがかけ合わさる会社', meta: '2022年入社 / A. K', img: 'top/people_02.webp' },
+    { job: '貿易事務', txt: '全員が活躍できる場所があり、それぞれの強みがかけ合わさる会社', meta: '2022年入社 / A. K', img: 'top/people_04.webp' },
+  ];
+
+  const pad = (n) => String(n).padStart(2, '0');
+  const qaBlock = (item, i) => `
+    <div class="p-intrviewpage-qa__item">
+      <h3 class="p-intrviewpage-qa__q"><span class="p-intrviewpage-qa__num">Q${i + 1}</span><span>${item.q}</span></h3>
+      <div class="p-intrviewpage-qa__a">${item.a.map((p) => `<p>${p}</p>`).join('')}</div>
+    </div>`;
+%>
+
+<main class="l-main p-intrviewpage">
+  <%# ===== 導入（キャッチ・プロフィール・写真） ===== %>
+  <div class="p-intrviewpage-hero">
+    <div class="p-intrviewpage__inner p-intrviewpage-hero__inner">
+      <div class="p-intrviewpage-hero__body">
+        <div class="c-ttl">
+          <p class="c-ttl__label"><span class="c-ttl__en">INTERVIEWS</span><span class="c-ttl__ja p-intrviewpage__ttl-ja">／ 社員インタビュー</span></p>
+          <h1 class="c-ttl__main"><%- profile.catchCopy %></h1>
+        </div>
+        <p class="p-intrviewpage-hero__job"><%= profile.job %></p>
+        <p class="p-intrviewpage-hero__meta"><%= profile.year %> / <span class="p-intrviewpage-hero__name"><%= profile.name %></span></p>
+      </div>
+      <div class="p-intrviewpage-hero__img">
+        <img src="<%= assets %>img/interviewpage/main.webp" alt="" width="729" height="500">
+      </div>
+      <nav class="p-intrviewpage-hero__bread" aria-label="パンくずリスト">
+        <ol class="p-intrviewpage-bread">
+          <li><a href="<%= root %>">採用トップ</a></li>
+          <li><a href="<%= root %>interview/">人を知る</a></li>
+          <li aria-current="page"><%= profile.job %></li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+  <%# ===== リード・プロフィール概要 ===== %>
+  <section class="p-intrviewpage-lead">
+    <div class="p-intrviewpage__inner">
+      <h2 class="p-intrviewpage-lead__ttl">目の前の貨物を、仲間と確実に送り出す。</h2>
+      <div class="p-intrviewpage-lead__txt">
+        <p>港湾部で、船から降ろされたコンテナや貨物を確認し、次の工程へつなぐ仕事をしています。入社前は港の仕事をまったく知らず、未経験からのスタートでした。</p>
+        <p>大きなコンテナが並び、人も機械も動き続ける現場です。だからこそ急ぐより、仲間と声を掛け合って確実に進めることを大切にしています。</p>
+      </div>
+      <dl class="p-intrviewpage-summary">
+        <% summary.forEach((item) => { %>
+          <div class="p-intrviewpage-summary__item">
+            <dt class="p-intrviewpage-summary__ttl"><%= item.ttl %></dt>
+            <dd class="p-intrviewpage-summary__txt"><%= item.txt %></dd>
+          </div>
+        <% }) %>
+      </dl>
+    </div>
+  </section>
+
+  <%# ===== Q&A（写真は画面端まで） ===== %>
+  <section class="p-intrviewpage-qa" aria-label="インタビュー">
+    <div class="p-intrviewpage-qa__row">
+      <div class="p-intrviewpage-qa__body">
+        <%- qaBlock(qa[0], 0) %>
+        <%- qaBlock(qa[1], 1) %>
+      </div>
+      <div class="p-intrviewpage-qa__img">
+        <img src="<%= assets %>img/interviewpage/photo_01.webp" alt="" width="713" height="369" loading="lazy">
+      </div>
+    </div>
+    <div class="p-intrviewpage-qa__row p-intrviewpage-qa__row--rev">
+      <div class="p-intrviewpage-qa__body">
+        <%- qaBlock(qa[2], 2) %>
+      </div>
+      <div class="p-intrviewpage-qa__img">
+        <img src="<%= assets %>img/interviewpage/photo_02.webp" alt="" width="722" height="369" loading="lazy">
+      </div>
+    </div>
+  </section>
+
+  <%# ===== ONE DAY / ある一日の流れ ===== %>
+  <section class="p-intrviewpage-oneday">
+    <div class="p-intrviewpage__inner p-intrviewpage__inner--narrow">
+      <div class="p-intrviewpage-oneday__box">
+        <h2 class="c-ttl__label"><span class="c-ttl__en">ONE DAY</span><span class="c-ttl__ja p-intrviewpage__ttl-ja">／ ある一日の流れ</span></h2>
+        <ol class="p-intrviewpage-schedule">
+          <% schedule.forEach((item) => { %>
+            <li class="p-intrviewpage-schedule__item">
+              <span class="p-intrviewpage-schedule__time"><%= item.time %></span>
+              <span class="p-intrviewpage-schedule__ttl"><%= item.ttl %></span>
+              <span class="p-intrviewpage-schedule__txt"><%= item.txt %></span>
+            </li>
+          <% }) %>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <%# ===== DAY OFF / 休日の写真 ===== %>
+  <section class="p-intrviewpage-dayoff">
+    <div class="p-intrviewpage__inner p-intrviewpage__inner--narrow p-intrviewpage-dayoff__inner">
+      <div class="p-intrviewpage-dayoff__body">
+        <div class="c-ttl">
+          <p class="c-ttl__label"><span class="c-ttl__en">DAY OFF</span><span class="c-ttl__ja p-intrviewpage__ttl-ja">／ 休日の写真</span></p>
+          <h2 class="p-intrviewpage__ttl">休日は、好きなことに集中して<br>気持ちを切り替えています。</h2>
+        </div>
+        <p class="p-intrviewpage-dayoff__txt">休日は友人と出かけたり、家でゆっくり過ごしたりしています。仕事とは違う時間を楽しむことで気持ちを切り替え、次の勤務に向けてリフレッシュしています。</p>
+      </div>
+      <%# Figma はグレーの仮枠（「休日お写真支給」） %>
+      <div class="p-intrviewpage-dayoff__img">
+        <img src="<%= assets %>img/interviewpage/dayoff.webp" alt="" width="450" height="285" loading="lazy">
+      </div>
+    </div>
+  </section>
+
+  <%# ===== MESSAGE / 求職者の皆様へ ===== %>
+  <section class="p-intrviewpage-message">
+    <div class="p-intrviewpage-message__img">
+      <img src="<%= assets %>img/interviewpage/message.webp" alt="" width="1536" height="428" loading="lazy">
+    </div>
+    <div class="p-intrviewpage__inner p-intrviewpage-message__inner">
+      <div class="c-ttl">
+        <p class="c-ttl__label"><span class="c-ttl__en">MESSAGE</span><span class="c-ttl__ja p-intrviewpage__ttl-ja">／ 求職者の皆様へ</span></p>
+        <h2 class="p-intrviewpage__ttl">知らない仕事でも、<br>一つずつ覚えていけばいい。</h2>
+      </div>
+    </div>
+  </section>
+
+  <%# ===== 関連リンク ===== %>
+  <div class="p-intrviewpage-links">
+    <ul class="p-intrviewpage__inner p-intrviewpage__inner--btns p-intrviewpage-links__list">
+      <li><%- include('partials/_link-btn', { label: '港湾倉庫作業員という仕事', en: 'SPECIAL CONTENT', href: root + 'jobs/special/', variant: 'red', size: 'lg' }) %></li>
+      <li><%- include('partials/_link-btn', { label: '社員インタビュー', href: root + 'interview/', variant: 'white', size: 'lg' }) %></li>
+      <li><%- include('partials/_link-btn', { label: '募集要項を見る', href: root + 'requirements/', variant: 'white', size: 'lg' }) %></li>
+    </ul>
+  </div>
+
+  <%# ===== ほかの社員 ===== %>
+  <section class="p-intrviewpage-others">
+    <div class="p-intrviewpage__inner p-intrviewpage__inner--btns">
+      <h2 class="p-intrviewpage-others__ttl">ほかの社員をもっと見る</h2>
+      <ul class="p-intrviewpage-others__list">
+        <% others.forEach((item) => { %>
+          <li>
+            <a class="p-intrviewpage-card" href="#">
+              <div class="p-intrviewpage-card__img">
+                <img src="<%= assets %>img/<%= item.img %>" alt="" width="340" height="428" loading="lazy">
+                <span class="p-intrviewpage-card__job"><%= item.job %></span>
+              </div>
+              <p class="p-intrviewpage-card__txt"><%= item.txt %></p>
+              <p class="p-intrviewpage-card__meta"><%= item.meta %></p>
+            </a>
+          </li>
+        <% }) %>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<%- include('partials/_footer', { page }) %>

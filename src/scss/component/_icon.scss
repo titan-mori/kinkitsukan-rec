@@ -1,0 +1,15 @@
+@use "../foundation" as *;
+
+// 単色アイコンを currentColor で塗る（白一色の SVG をマスクに使う）
+//   <span class="c-mask-icon" style="-webkit-mask-image: url('…/job_icon_01.svg'); mask-image: url('…/job_icon_01.svg')" aria-hidden="true"></span>
+// ※ 画像は CSS 変数（--icon: url()）で渡さない。ビルド後に相対パスが CSS ファイル基準で解決され、読み込めなくなるため
+// 大きさは使う側で width を指定（高さは aspect-ratio。既定は職種アイコン 80×79）
+.c-mask-icon {
+  display: inline-block;
+  flex-shrink: 0;
+  aspect-ratio: 80 / 79;
+  background: currentColor;
+  mask-position: center;
+  mask-repeat: no-repeat;
+  mask-size: contain;
+}

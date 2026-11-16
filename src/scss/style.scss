@@ -1,0 +1,36 @@
+@charset "utf-8";
+
+// foundation
+@use "foundation/reset";
+@use "foundation/base";
+
+// layout
+@use "layout/header";
+@use "layout/main";
+@use "layout/page";
+@use "layout/footer";
+
+// component
+@use "component/arrow";
+@use "component/btn";
+@use "component/link-btn";
+@use "component/subttl";
+@use "component/intro";
+@use "component/faq";
+@use "component/chip";
+@use "component/def-list";
+@use "component/people-link";
+@use "component/interview-card";
+@use "component/icon";
+@use "component/ttl";
+@use "component/marquee";
+@use "component/modal";
+
+// page
+@use "page/top";
+@use "page/company";
+@use "page/logistics";
+@use "page/jobs";
+@use "page/special";
+@use "page/interview";
+@use "page/intrviewpage";

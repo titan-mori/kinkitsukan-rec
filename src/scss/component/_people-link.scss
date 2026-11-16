@@ -1,0 +1,81 @@
+@use "../foundation" as *;
+
+// ================================================================
+// 社員インタビューへの導線（partials/_people-link.ejs）
+//  白いカード（PC 1102×393）。右側に写真1枚（斜めに並べた写真を書き出したもの 650×393）
+//  幅は使う側（各ページの __inner）で決める
+//  Figma：港湾倉庫作業員という仕事 309:3326
+// ================================================================
+
+.c-people-link {
+  position: relative;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid $color-tag-border;
+  border-radius: svw(10);
+  box-shadow: 0 0 20px 2px $color-shadow;
+
+  @include mq(pc) {
+    display: flex;
+    align-items: center;
+    min-height: 393px;
+    border-radius: 10px;
+  }
+
+  &__body {
+    position: relative;
+    z-index: 1;
+    padding: svw(32) svw(24) 0;
+
+    @include mq(pc) {
+      padding: 0 0 0 74px;
+    }
+  }
+
+  &__ttl {
+    letter-spacing: 0.06em;
+  }
+
+  &__lead {
+    margin-top: svw(12);
+    font-size: sfont(14);
+    line-height: 1.8;
+
+    @include mq(pc) {
+      margin-top: 17px;
+      font-size: rem(16);
+      line-height: 30px;
+    }
+  }
+
+  &__btn {
+    margin-top: svw(24);
+
+    @include mq(pc) {
+      width: 288px;
+      margin-top: 46px;
+    }
+  }
+
+  // 写真エリア：SP は本文の下に全幅、PC はカード右側（650×393）
+  &__photos {
+    position: relative;
+    aspect-ratio: 1300 / 786;
+    margin-top: svw(8);
+
+    @include mq(pc) {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 650px;
+      margin-top: 0;
+    }
+  }
+
+  // 写真の間は白地を見せるので下地色は敷かない
+  &__photos img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}

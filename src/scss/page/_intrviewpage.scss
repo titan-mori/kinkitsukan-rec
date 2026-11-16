@@ -1,0 +1,766 @@
+@use "../foundation" as *;
+
+// ================================================================
+// 人を知る：社員インタビュー詳細（Figma PC 229:1405。SP デザインなし＝仮）
+// WP 化時はカスタム投稿（社員インタビュー）の single テンプレートを想定
+// 共通ヒーロー（l-page-hero）は使わず、ヘッダーは最初から白（is-solid）
+// ================================================================
+.p-intrviewpage {
+  // 本文幅：1258（導入・リード）/ 954（ONE DAY・DAY OFF）/ 1102（ボタン・ほかの社員）
+  &__inner {
+    max-width: calc(1258px + #{svw(40)});
+    padding: 0 svw(20);
+    margin: 0 auto;
+
+    &--narrow {
+      max-width: calc(954px + #{svw(40)});
+    }
+
+    &--btns {
+      max-width: calc(1102px + #{svw(40)});
+    }
+  }
+
+  // 見出し横の和文サブ（小）
+  &__ttl-ja {
+    font-size: sfont(11, 10);
+    color: $color-meta;
+  }
+
+  // 中見出し（DAY OFF・MESSAGE）
+  &__ttl {
+    margin-top: svw(8);
+    font-size: sfont(20);
+    font-weight: 700;
+    line-height: 1.54;
+
+    @include mq(pc) {
+      margin-top: 12px;
+      font-size: rem(26);
+      line-height: 40px;
+    }
+  }
+}
+
+// ================================================================
+// 導入：キャッチ・職種・入社年／右に写真／左下にパンくず
+// ================================================================
+.p-intrviewpage-hero {
+  padding-top: svw(32);
+
+  @include mq(pc) {
+    padding-top: 68px;
+  }
+
+  &__inner {
+    display: grid;
+    gap: svw(24);
+
+    @include mq(pc) {
+      grid-template-columns: minmax(0, 529fr) minmax(0, 729fr);
+      grid-template-rows: auto 1fr;
+      gap: 0;
+    }
+  }
+
+  &__body {
+    @include mq(pc) {
+      grid-row: 1;
+      grid-column: 1;
+      padding: 54px 20px 0 0;
+    }
+  }
+
+  &__job {
+    width: fit-content;
+    padding: 0 svw(9);
+    margin-top: svw(20);
+    font-size: sfont(14);
+    line-height: svw(26);
+    color: #fff;
+    background: $color-accent;
+
+    @include mq(pc) {
+      padding: 0 9px;
+      margin-top: 30px;
+      font-size: rem(16);
+      line-height: 30px;
+    }
+  }
+
+  &__meta {
+    margin-top: svw(8);
+    font-size: sfont(14);
+    line-height: 1.8;
+
+    @include mq(pc) {
+      margin-top: 10px;
+      font-size: rem(16);
+      line-height: 30px;
+    }
+  }
+
+  &__name {
+    font-size: sfont(20);
+    font-weight: 700;
+
+    @include mq(pc) {
+      font-size: rem(24);
+    }
+  }
+
+  &__img {
+    overflow: hidden;
+    aspect-ratio: 729 / 500;
+    border-radius: svw(3);
+
+    @include mq(pc) {
+      grid-row: 1 / 3;
+      grid-column: 2;
+      border-radius: 3px;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      background: $color-placeholder;
+    }
+  }
+
+  &__bread {
+    @include mq(pc) {
+      grid-row: 2;
+      grid-column: 1;
+      align-self: end;
+      margin-bottom: 77px;
+    }
+  }
+}
+
+// パンくず（共通ヒーローの l-page-hero__bread-list と同じ形。こちらは白背景・本文色）
+.p-intrviewpage-bread {
+  display: flex;
+  flex-wrap: wrap;
+  gap: svw(8);
+  align-items: center;
+  font-size: sfont(11);
+  line-height: 1.8;
+
+  @include mq(pc) {
+    font-size: rem(12);
+    line-height: 30px;
+  }
+
+  li {
+    display: flex;
+    gap: svw(8);
+    align-items: center;
+  }
+
+  // 区切りの「>」
+  li + li::before {
+    width: svw(5);
+    height: svw(5);
+    margin-right: svw(4);
+    content: "";
+    border-top: 1px solid currentColor;
+    border-right: 1px solid currentColor;
+    transform: rotate(45deg);
+  }
+
+  [aria-current] {
+    font-weight: 700;
+  }
+
+  a {
+    transition: opacity 0.3s;
+
+    @include hover {
+      opacity: 0.6;
+    }
+  }
+}
+
+// ================================================================
+// リード＋プロフィール概要（4枚のカード）
+// ================================================================
+.p-intrviewpage-lead {
+  padding-top: svw(48);
+
+  @include mq(pc) {
+    padding-top: fluid(99);
+  }
+
+  &__ttl {
+    font-size: sfont(20);
+    font-weight: 700;
+    line-height: 1.5;
+
+    @include mq(pc) {
+      font-size: rem(30);
+      line-height: 40px;
+    }
+  }
+
+  &__txt {
+    margin-top: svw(16);
+    font-size: sfont(14);
+    line-height: 1.9;
+
+    @include mq(pc) {
+      margin-top: 20px;
+      font-size: rem(16);
+      line-height: 30px;
+    }
+  }
+}
+
+.p-intrviewpage-summary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: svw(10);
+  margin-top: svw(24);
+
+  @include mq(pc) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 27px;
+    margin-top: 30px;
+  }
+
+  &__item {
+    padding: svw(14) svw(12);
+    background: $color-bg-gray;
+    border: 1px solid $color-frame;
+
+    @include mq(pc) {
+      padding: 22px 18px 24px;
+    }
+  }
+
+  &__ttl {
+    display: flex;
+    gap: svw(5);
+    align-items: center;
+    font-size: sfont(13);
+    font-weight: 700;
+    line-height: 1.5;
+    color: $color-main;
+
+    @include mq(pc) {
+      gap: 5px;
+      font-size: rem(16);
+      line-height: 24px;
+    }
+
+    // 青い点
+    &::before {
+      flex-shrink: 0;
+      width: svw(6);
+      height: svw(6);
+      content: "";
+      background: currentColor;
+      border-radius: 50%;
+    }
+  }
+
+  &__txt {
+    margin-top: svw(4);
+    font-size: sfont(13);
+    line-height: 1.5;
+
+    @include mq(pc) {
+      margin-top: 3px;
+      font-size: rem(16);
+      line-height: 24px;
+    }
+  }
+}
+
+// ================================================================
+// Q&A：本文と、画面端まで広がる写真を左右交互に
+//  PC は全幅のグリッドで、左右の余白（--side）を列にして写真だけ端まで伸ばす
+// ================================================================
+.p-intrviewpage-qa {
+  --side: #{svw(20)};
+
+  padding-top: svw(56);
+
+  @include mq(pc) {
+    --side: max(40px, (100% - 1258px) / 2);
+
+    padding-top: fluid(200);
+  }
+
+  &__row {
+    display: grid;
+    grid-template-columns: var(--side) minmax(0, 1fr) var(--side);
+    gap: svw(28) 0;
+
+    @include mq(pc) {
+      grid-template-columns: var(--side) minmax(0, 688fr) minmax(0, 570fr) var(--side);
+      gap: 0;
+    }
+
+    // 2行目：写真が左、本文が右
+    &--rev {
+      margin-top: svw(56);
+
+      @include mq(pc) {
+        grid-template-columns: var(--side) minmax(0, 583fr) minmax(0, 675fr) var(--side);
+        margin-top: fluid(104);
+      }
+    }
+  }
+
+  &__body {
+    grid-row: 1;
+    grid-column: 2;
+
+    @include mq(pc) {
+      padding: 20px 20px 0 fluid(82, 20);
+    }
+  }
+
+  &__row--rev &__body {
+    @include mq(pc) {
+      grid-column: 3;
+      padding: 40px 0 0 fluid(66, 30);
+    }
+  }
+
+  // SP は右端まで（PC も右端まで）
+  &__img {
+    grid-row: 2;
+    grid-column: 2 / -1;
+    overflow: hidden;
+    aspect-ratio: 713 / 369;
+
+    @include mq(pc) {
+      grid-row: 1;
+      grid-column: 3 / -1;
+      align-self: start;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      background: $color-placeholder;
+    }
+  }
+
+  &__row--rev &__img {
+    grid-column: 1 / 3;
+    aspect-ratio: 722 / 369;
+
+    @include mq(pc) {
+      grid-column: 1 / 3;
+    }
+  }
+
+  &__item + &__item {
+    margin-top: svw(40);
+
+    @include mq(pc) {
+      margin-top: 70px;
+    }
+  }
+
+  &__q {
+    display: flex;
+    gap: svw(8);
+    font-size: sfont(19);
+    font-weight: 700;
+    line-height: 1.5;
+
+    @include mq(pc) {
+      gap: 10px;
+      font-size: rem(26);
+      line-height: 40px;
+    }
+  }
+
+  &__num {
+    flex-shrink: 0;
+    width: svw(30);
+    letter-spacing: 0.1em;
+    color: $color-chart;
+
+    @include mq(pc) {
+      width: 37px;
+    }
+  }
+
+  &__a {
+    padding-left: svw(38);
+    margin-top: svw(14);
+    font-size: sfont(14);
+    line-height: 1.9;
+
+    @include mq(pc) {
+      max-width: calc(482px + 47px);
+      padding-left: 47px;
+      margin-top: 20px;
+      font-size: rem(16);
+      line-height: 30px;
+    }
+  }
+}
+
+// ================================================================
+// ONE DAY / ある一日の流れ（灰色の箱にタイムライン）
+// ================================================================
+.p-intrviewpage-oneday {
+  padding-top: svw(64);
+
+  @include mq(pc) {
+    padding-top: fluid(150);
+  }
+
+  &__box {
+    padding: svw(32) svw(20) svw(36);
+    background: $color-bg-gray;
+
+    @include mq(pc) {
+      padding: 49px fluid(100, 40) 58px;
+    }
+  }
+}
+
+.p-intrviewpage-schedule {
+  margin-top: svw(20);
+
+  @include mq(pc) {
+    margin-top: 23px;
+  }
+
+  // 時刻 | ●（縦線）| 見出し | 説明
+  &__item {
+    position: relative;
+    display: grid;
+    grid-template-columns: svw(44) svw(24) minmax(0, 1fr);
+    padding-bottom: svw(24);
+    font-size: sfont(14);
+    line-height: svw(26);
+
+    @include mq(pc) {
+      grid-template-columns: 64px 24px minmax(0, 269px) minmax(0, 1fr);
+      padding-bottom: 45px;
+      font-size: rem(16);
+      line-height: 30px;
+    }
+
+    &:last-child {
+      padding-bottom: 0;
+    }
+
+    // ●
+    &::before {
+      position: absolute;
+      top: calc(#{svw(13)} - 6px);
+      left: calc(#{svw(44)} + #{svw(12)} - 6px);
+      z-index: 1;
+      width: 12px;
+      height: 12px;
+      content: "";
+      background: $color-main;
+      border-radius: 50%;
+
+      @include mq(pc) {
+        top: 9px;
+        left: 70px;
+      }
+    }
+
+    // 次の●までの縦線
+    &:not(:last-child)::after {
+      position: absolute;
+      top: svw(13);
+      bottom: calc(#{svw(13)} * -1);
+      left: calc(#{svw(44)} + #{svw(12)} - 1px);
+      width: 2px;
+      content: "";
+      background: $color-line;
+
+      @include mq(pc) {
+        top: 15px;
+        bottom: -15px;
+        left: 75px;
+      }
+    }
+  }
+
+  &__time {
+    grid-row: 1 / 3;
+    font-weight: 700;
+
+    @include mq(pc) {
+      grid-row: auto;
+      justify-self: end;
+      padding-right: 20px;
+    }
+  }
+
+  &__ttl {
+    grid-column: 3;
+    color: $color-main;
+
+    @include mq(pc) {
+      padding-left: 12px;
+    }
+  }
+
+  &__txt {
+    grid-column: 3;
+    font-weight: 400;
+
+    @include mq(pc) {
+      grid-column: 4;
+      padding-left: 12px;
+    }
+  }
+}
+
+// ================================================================
+// DAY OFF / 休日の写真
+// ================================================================
+.p-intrviewpage-dayoff {
+  padding-top: svw(56);
+
+  @include mq(pc) {
+    padding-top: fluid(137);
+  }
+
+  &__inner {
+    display: grid;
+    gap: svw(24);
+
+    @include mq(pc) {
+      grid-template-columns: minmax(0, 423px) minmax(0, 450px);
+      gap: 40px;
+      justify-content: space-between;
+    }
+  }
+
+  &__body {
+    @include mq(pc) {
+      padding-top: 30px;
+    }
+  }
+
+  &__txt {
+    margin-top: svw(14);
+    font-size: sfont(14);
+    line-height: 1.9;
+
+    @include mq(pc) {
+      margin-top: 20px;
+      font-size: rem(16);
+      line-height: 30px;
+    }
+  }
+
+  // 写真未支給のため仮の灰色
+  &__img {
+    aspect-ratio: 450 / 285;
+    background: $color-inactive;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+}
+
+// ================================================================
+// MESSAGE / 求職者の皆様へ（全幅の写真＋左に白いにじみ）
+// ================================================================
+.p-intrviewpage-message {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: svw(260);
+  margin-top: svw(64);
+
+  @include mq(pc) {
+    height: fluid(428, 340);
+    margin-top: fluid(105);
+  }
+
+  &__img {
+    position: absolute;
+    inset: 0;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      background: $color-placeholder;
+    }
+
+    // 左から白くにじませて文字を読みやすく
+    &::after {
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 100%;
+      content: "";
+      background: linear-gradient(to right, rgb(255 255 255 / 60%), rgb(255 255 255 / 0%));
+
+      @include mq(pc) {
+        width: calc(993 / 1536 * 100%);
+      }
+    }
+  }
+
+  &__inner {
+    position: relative;
+    width: 100%;
+
+    @include mq(pc) {
+      padding-left: calc(#{fluid(240, 40)} + 20px);
+    }
+  }
+
+  .p-intrviewpage__ttl {
+    @include mq(pc) {
+      margin-top: 20px;
+    }
+  }
+}
+
+// ================================================================
+// 関連リンク（3つの四角ボタン）
+// ================================================================
+.p-intrviewpage-links {
+  padding-top: svw(40);
+
+  @include mq(pc) {
+    padding-top: 47px;
+  }
+
+  &__list {
+    display: grid;
+    gap: svw(12);
+
+    @include mq(pc) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 26px;
+    }
+  }
+}
+
+// ================================================================
+// ほかの社員をもっと見る
+// ================================================================
+.p-intrviewpage-others {
+  padding: svw(64) 0 svw(72);
+
+  @include mq(pc) {
+    padding: fluid(97) 0 fluid(90);
+  }
+
+  &__ttl {
+    font-size: sfont(18);
+    font-weight: 700;
+    line-height: 2;
+    color: $color-main;
+    text-align: center;
+
+    @include mq(pc) {
+      font-size: rem(20);
+      line-height: 40px;
+    }
+  }
+
+  &__list {
+    display: grid;
+    gap: svw(40);
+    margin-top: svw(24);
+
+    @include mq(pc) {
+      grid-template-columns: repeat(3, minmax(0, 340px));
+      gap: 41px;
+      justify-content: space-between;
+      margin-top: 30px;
+    }
+  }
+}
+
+// ほかの社員のカード（写真＋左下に職種タグ／一言／入社年）
+.p-intrviewpage-card {
+  display: block;
+
+  @include hover {
+    .p-intrviewpage-card__img img {
+      transform: scale(1.05);
+    }
+  }
+
+  &__img {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 340 / 428;
+    border-radius: svw(3);
+
+    @include mq(pc) {
+      border-radius: 3px;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      background: $color-placeholder;
+      transition: transform 0.5s;
+    }
+  }
+
+  &__job {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display: grid;
+    place-items: center;
+    width: svw(90);
+    height: svw(34);
+    font-size: sfont(13);
+    line-height: 1;
+    color: #fff;
+    background: $color-accent;
+    border-radius: 0 svw(10) 0 svw(3);
+
+    @include mq(pc) {
+      width: 100px;
+      height: 38px;
+      font-size: rem(14);
+      border-radius: 0 10px 0 3px;
+    }
+  }
+
+  &__txt {
+    margin-top: svw(14);
+    font-size: sfont(17);
+    line-height: 1.6;
+
+    @include mq(pc) {
+      margin-top: 20px;
+      font-size: rem(20);
+      line-height: 30px;
+    }
+  }
+
+  &__meta {
+    margin-top: svw(6);
+    font-size: sfont(13);
+    line-height: 1.8;
+    color: $color-gray;
+
+    @include mq(pc) {
+      margin-top: 8px;
+      font-size: rem(14);
+      line-height: 30px;
+    }
+  }
+}

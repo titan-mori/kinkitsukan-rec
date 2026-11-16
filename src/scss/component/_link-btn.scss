@@ -1,0 +1,145 @@
+@use "../foundation" as *;
+
+// ================================================================
+// 四角いリンクボタン（文字＋丸囲み矢印）。partials/_link-btn.ejs
+//  - 幅は親（グリッド・リスト）で決める。高さは SP 76 / PC 90
+//  - 色：既定＝紺 / --red＝赤（SPECIAL CONTENT）/ --white＝白地＋枠線
+//  - --lg：PC の和文を 18px に（ページ末尾の大きいボタン）
+//  Figma：仕事を知る 223:115 / 307:2644、物流を知る 締め
+// ================================================================
+.c-link-btn {
+  display: flex;
+  gap: svw(12);
+  align-items: center;
+  justify-content: space-between;
+  height: svw(76);
+  padding: 0 svw(20);
+  color: #fff;
+  background: $color-main;
+  border: 1px solid transparent;
+  border-radius: svw(4);
+  transition: opacity 0.3s, color 0.3s, background-color 0.3s, border-color 0.3s;
+
+  @include mq(pc) {
+    height: 90px;
+    padding: 0 26px 0 29px;
+    border-radius: 3px;
+  }
+
+  .c-arrow {
+    transition: transform 0.3s;
+  }
+
+  // ホバー：矢印を右へ（紺は少し薄く／--lg は黒塗り、赤は白地に反転、白地は紺塗りに反転）
+  @include hover {
+    .c-arrow {
+      transform: translateX(svw(3));
+    }
+  }
+
+  &:not(&--white, &--red) {
+    @include hover {
+      opacity: 0.8;
+    }
+  }
+
+  // 紺の大きいボタン（--lg）は、薄くせず黒塗りに（c-btn の紺ベタと同じ）
+  &--lg:not(&--red, &--white) {
+    @include hover {
+      background: $color-dark;
+      opacity: 1;
+    }
+  }
+
+  // 赤：白地・赤文字に反転（英字の色はページ側の指定より優先）
+  &--red {
+    background: $color-mark;
+
+    @include hover {
+      color: $color-mark;
+      background: #fff;
+      border-color: $color-mark;
+
+      .c-link-btn__en {
+        color: inherit;
+      }
+
+      .c-link-btn__icon {
+        border-color: $color-mark;
+      }
+    }
+  }
+
+  &--white {
+    color: $color-main;
+    background: #fff;
+    border-color: $color-line;
+
+    @include hover {
+      color: #fff;
+      background: $color-main;
+      border-color: $color-main;
+
+      .c-link-btn__icon {
+        border-color: #fff;
+      }
+    }
+  }
+
+  &__txt {
+    display: flex;
+    flex-direction: column;
+    gap: svw(6);
+
+    @include mq(pc) {
+      gap: 5px;
+    }
+  }
+
+  &__en {
+    font-family: $font-en;
+    font-size: sfont(10);
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.08em;
+
+    @include mq(pc) {
+      font-size: rem(12);
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+  }
+
+  &__ja {
+    font-size: sfont(15);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: 0.06em;
+
+    @include mq(pc) {
+      font-size: rem(16);
+      letter-spacing: 0;
+    }
+  }
+
+  &--lg &__ja {
+    @include mq(pc) {
+      font-size: rem(18);
+    }
+  }
+
+  &__icon {
+    width: svw(36);
+    border-color: rgb(255 255 255 / 80%);
+    transition: border-color 0.3s;
+
+    @include mq(pc) {
+      width: 40px;
+      border-color: #fff;
+    }
+  }
+
+  &--white &__icon {
+    border-color: $color-line;
+  }
+}

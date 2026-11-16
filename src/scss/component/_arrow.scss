@@ -1,0 +1,23 @@
+@use "../foundation" as *;
+
+// 矢印アイコン（partials/_arrow.ejs）。色は currentColor
+.c-arrow {
+  flex-shrink: 0;
+  width: svw(19);
+  height: auto;
+}
+
+// 丸囲み矢印。幅は使う側で指定（高さは aspect-ratio で追従）
+.c-circle-arrow {
+  display: inline-grid;
+  flex-shrink: 0;
+  place-items: center;
+  aspect-ratio: 1;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  transition: background-color 0.3s;
+
+  .c-arrow {
+    width: 34%;
+  }
+}
