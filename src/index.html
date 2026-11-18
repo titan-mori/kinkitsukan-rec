@@ -39,10 +39,25 @@
 
   <%# ===== MV ===== %>
   <section class="p-top-mv" data-mv>
-    <picture class="p-top-mv__img">
-      <source media="(min-width: 897px)" srcset="<%= assets %>img/top/mv.webp" width="1536" height="800">
-      <img src="<%= assets %>img/top/mvsp.webp" alt="" width="375" height="640" fetchpriority="high">
-    </picture>
+    <%# 昼→夕方→夜をフェードでループ＋雲が流れる（main.js initMvScenes）。昼だけ HTML で読み込み、夕方・夜は data-src を JS で先読み %>
+    <div class="p-top-mv__img" data-mv-scenes aria-hidden="true">
+      <% [
+        { name: 'day', sky: 'sky', fg: 'fg' },
+        { name: 'dusk', sky: 'sky-dusk', fg: 'fg-dusk' },
+        { name: 'night', sky: 'sky-night', fg: 'fg-night' },
+      ].forEach((s, i) => { const first = i === 0; const attr = first ? 'src' : 'data-src'; %>
+      <div class="p-top-mv__scene p-top-mv__scene--<%= s.name %><%= first ? ' is-active is-ready' : '' %>" data-scene="<%= s.name %>">
+        <img class="p-top-mv__sky" <%= attr %>="<%= assets %>img/top/mv/<%= s.sky %>.webp" alt="" width="2576" height="1342"<%- first ? ' fetchpriority="high"' : '' %>>
+        <div class="p-top-mv__clouds">
+          <div class="p-top-mv__cloud p-top-mv__cloud--far"></div>
+          <div class="p-top-mv__cloud p-top-mv__cloud--near"></div>
+        </div>
+        <div class="p-top-mv__stage">
+          <img class="p-top-mv__fg" <%= attr %>="<%= assets %>img/top/mv/<%= s.fg %>.webp" alt="" width="2576" height="1342"<%- first ? ' fetchpriority="high"' : '' %>>
+        </div>
+      </div>
+      <% }) %>
+    </div>
     <div class="p-top-mv__body">
       <h1 class="p-top-mv__ttl">世界は、<br>四角い。</h1>
       <p class="p-top-mv__lead">世界中のモノは<br class="p-top-mv__br">コンテナに積まれ、港へ届く。<br>その「世界の入口」で働く。</p>

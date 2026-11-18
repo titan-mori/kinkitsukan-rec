@@ -23,15 +23,151 @@
     aspect-ratio: 1536 / 800;
   }
 
-  // SP：mvsp（375×640 用）/ PC：mv を <picture> で出し分け
+  // ---- 背景アニメーション（昼→夕方→夜のシーンを重ねてフェード＋雲が斜めに流れる）
+  // 素材はすべて 2576×1342。--mv-w ＝ 前景（stage）の表示幅。雲のサイズはこれを基準に決める
   &__img {
+    --mv-fade: 3s; // main.js の MV_FADE と合わせる
+    --mv-w: #{svw(960)};
+
     position: absolute;
     inset: 0;
+    isolation: isolate; // シーンの z-index を枠内に閉じ込め、文字より前に出さない
     overflow: hidden;
+    container-type: inline-size;
 
-    img {
-      @extend %img-cover;
+    @include mq(pc) {
+      --mv-w: 100cqw;
     }
+  }
+
+  &__scene {
+    position: absolute;
+    inset: 0;
+    visibility: hidden;
+    opacity: 0;
+    transition:
+      opacity var(--mv-fade) ease-in-out,
+      visibility 0s linear var(--mv-fade); // 消え終わってから非表示にして描画負荷を下げる
+
+    // 前面に来るシーンを上に重ね、前のシーンは重なり終わるまで下に残す（暗転させない）
+    &.is-active {
+      z-index: 2;
+      visibility: visible;
+      opacity: 1;
+      transition:
+        opacity var(--mv-fade) ease-in-out,
+        visibility 0s linear 0s;
+    }
+
+    &.is-leaving {
+      z-index: 1;
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+
+  // 空：SP は縦長に cover（太陽・月は右端なので見切れてよい）
+  &__sky {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 45% 100%;
+
+    @include mq(pc) {
+      object-position: 50% 50%;
+    }
+  }
+
+  // 前景（コンテナの立方体・港）。SP は旧 mvsp と同じ構図になるよう下寄せ・左にずらして配置
+  &__stage {
+    position: absolute;
+    bottom: 0;
+    left: svw(-318);
+    width: svw(960);
+    height: svw(500);
+
+    @include mq(pc) {
+      inset: 0;
+      width: auto;
+      height: auto;
+    }
+  }
+
+  &__fg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  // 雲を入れる枠。地平線に近づくほど霞ませる
+  &__clouds {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    mask-image: linear-gradient(to bottom, #000 50%, transparent 78%);
+  }
+
+  // 雲レイヤー（タイルを敷き詰め、1ループで横 --nx・縦 --ny タイル分動かす＝この比で角度が決まる）
+  &__cloud {
+    --dx: calc(var(--tw) * var(--nx));
+    --dy: calc(var(--th) * var(--ny));
+
+    position: absolute;
+    top: calc(var(--dy) * -1);
+    left: calc(var(--dx) * -1);
+    width: calc(100% + var(--dx));
+    height: calc(100% + var(--dy));
+    background-repeat: repeat;
+    background-size: var(--tw) var(--th);
+    animation: p-top-mv-drift var(--dur) linear infinite;
+    will-change: transform;
+
+    // 奥：小さく・淡く・ゆっくり
+    &--far {
+      --tw: calc(var(--mv-w) * 0.4835);
+      --th: calc(var(--mv-w) * 0.2516);
+      --nx: 3;
+      --ny: 1;
+      --dur: 550s;
+
+      opacity: var(--far-opacity, 0.7);
+    }
+
+    // 手前：大きく・はっきり・速め
+    &--near {
+      --tw: calc(var(--mv-w) * 0.8059);
+      --th: calc(var(--mv-w) * 0.4193);
+      --nx: 2;
+      --ny: 1;
+      --dur: 300s;
+    }
+
+    // 画面外にある間は止める（main.js が is-paused を付ける）
+    .is-paused & {
+      animation-play-state: paused;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+    }
+  }
+
+  // 雲画像は読み込み準備ができたシーンにだけ適用（is-ready は main.js が付ける。昼は最初から）
+  @each $scene, $suffix in (day: "", dusk: "-dusk", night: "-night") {
+    &__scene--#{$scene}.is-ready &__cloud--near {
+      background-image: img("top/mv/clouds-near#{$suffix}.webp");
+    }
+
+    &__scene--#{$scene}.is-ready &__cloud--far {
+      background-image: img("top/mv/clouds-far#{$suffix}.webp");
+    }
+  }
+
+  &__scene--night {
+    --far-opacity: 0.5;
   }
 
   &__body {
@@ -132,6 +268,17 @@
       border-radius: 50%;
       animation: p-top-scroll 2.4s ease-in-out infinite;
     }
+  }
+}
+
+// 雲：左上 → 右下へ流れる
+@keyframes p-top-mv-drift {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(var(--dx), var(--dy), 0);
   }
 }
 

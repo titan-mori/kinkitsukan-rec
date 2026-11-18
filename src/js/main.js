@@ -221,8 +221,84 @@ function initJobsNav() {
   });
 }
 
+/**
+ * TOP MV：昼 → 夕方 → 夜 をフェードでループ（雲の流れは CSS）
+ *  - 昼は HTML で読み込み済み。次のシーンは表示中に先読みし、読み込み完了を待ってからフェード（白抜け防止）
+ *  - MV が画面外・タブ非表示の間はループと雲を止める
+ *  - 視差効果を減らす設定の場合は昼のまま切り替えない
+ */
+const MV_ORDER = ['day', 'dusk', 'night']; // ループする順番
+const MV_HOLD = 8; // 1つの時間帯を表示しておく秒数
+const MV_FADE = 3; // 切り替えのフェード秒数（_top.scss の --mv-fade と合わせる）
+
+function initMvScenes() {
+  const root = document.querySelector('[data-mv-scenes]');
+  if (!root) return;
+
+  const scenes = Object.fromEntries(
+    [...root.querySelectorAll('[data-scene]')].map((el) => [el.dataset.scene, el]),
+  );
+  const loading = {};
+  let current = root.querySelector('.is-active')?.dataset.scene ?? MV_ORDER[0];
+  let timer = null;
+  let visible = true;
+
+  const nextOf = (name) => MV_ORDER[(MV_ORDER.indexOf(name) + 1) % MV_ORDER.length];
+
+  // シーンの画像を読み込む（2回目以降は同じ Promise を返す）
+  const loadScene = (name) => {
+    if (loading[name]) return loading[name];
+    const el = scenes[name];
+    const imgs = [...el.querySelectorAll('img')];
+    imgs.forEach((img) => {
+      if (img.dataset.src) {
+        img.src = img.dataset.src;
+        img.removeAttribute('data-src');
+      }
+    });
+    el.classList.add('is-ready'); // 雲画像（CSS 背景）もここで読み込み開始
+    loading[name] = Promise.all(imgs.map((img) => img.decode().catch(() => {})));
+    return loading[name];
+  };
+
+  const showScene = async (name) => {
+    await loadScene(name);
+    const prev = scenes[current];
+    prev.classList.remove('is-active');
+    prev.classList.add('is-leaving');
+    setTimeout(() => prev.classList.remove('is-leaving'), MV_FADE * 1000);
+    scenes[name].classList.add('is-active');
+    current = name;
+    loadScene(nextOf(name));
+  };
+
+  const schedule = () => {
+    clearTimeout(timer);
+    if (!visible || document.hidden || reducedMotion.matches) return;
+    timer = setTimeout(async () => {
+      await showScene(nextOf(current));
+      schedule();
+    }, (MV_HOLD + MV_FADE) * 1000);
+  };
+
+  const update = () => {
+    root.classList.toggle('is-paused', !visible || document.hidden);
+    schedule();
+  };
+
+  new IntersectionObserver(([entry]) => {
+    visible = entry.isIntersecting;
+    update();
+  }).observe(root);
+  document.addEventListener('visibilitychange', update);
+  reducedMotion.addEventListener('change', update);
+
+  if (!reducedMotion.matches) loadScene(nextOf(current));
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   document.documentElement.classList.add('is-loaded');
+  initMvScenes();
   initHeader();
   initMenu();
   initModal();
