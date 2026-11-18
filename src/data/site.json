@@ -42,12 +42,7 @@
       "key": "requirements",
       "label": "募集要項",
       "href": "requirements/",
-      "children": [
-        { "label": "港湾倉庫作業員", "href": "requirements/" },
-        { "label": "通関士", "href": "requirements/" },
-        { "label": "貿易事務", "href": "requirements/" },
-        { "label": "営業", "href": "requirements/" }
-      ]
+      "children": []
     }
   ],
   "entry": { "form": "#", "casual": "#" }

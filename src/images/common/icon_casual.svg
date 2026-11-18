@@ -1,9 +1,6 @@
-<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="53" height="53" viewBox="0 0 53 53" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g id="Group 43">
-<circle id="Ellipse 1" cx="26.5" cy="26.5" r="26" stroke="#005EB8"/>
-<g id="&#229;&#164;&#150;&#233;&#131;&#168;&#227;&#130;&#162;&#227;&#130;&#164;&#227;&#130;&#179;&#227;&#131;&#179;">
-<path id="Vector" d="M22 19H34V28.976H22V19Z" stroke-miterlimit="10" stroke="#005EB8"/>
-<path id="Vector_2" d="M32 31.9687H19V20.9951" stroke-miterlimit="10" stroke="#005EB8"/>
-</g>
-</g>
+<svg width="53" height="53" viewBox="0 0 53 53" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="26.5" cy="26.5" r="26" stroke="#005EB8"/>
+<path d="M36 31H26.0098L20.8076 35.4297L21.6699 31H17V19H36V31Z" fill="white" stroke-miterlimit="10" stroke="#005EB8"/>
+<line x1="21" y1="23.5" x2="33" y2="23.5" stroke="#005EB8"/>
+<line x1="21" y1="26.5" x2="29" y2="26.5" stroke="#005EB8"/>
 </svg>

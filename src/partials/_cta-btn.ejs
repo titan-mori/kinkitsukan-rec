@@ -1,0 +1,21 @@
+<%#
+  応募・面談の大きな CTA ボタン（スタイル：scss/component/_cta-btn.scss）
+    include('partials/_cta-btn', { variant: 'entry', href: site.entry.form, label: '応募フォーム', en: 'ENTRY' })
+    include('partials/_cta-btn', { variant: 'casual', href: site.entry.casual, label: 'カジュアル面談' })
+  引数
+    variant … 'entry'（グレー → ホバーで黒＋白線）/ 'casual'（白 → ホバーで紺に反転）
+    href    … リンク先
+    label   … ボタンの文言（和文）
+    en      … 前に添える英字。省略可
+%>
+<% const ctaEn = typeof en !== 'undefined' ? en : ''; %>
+<a class="c-cta-btn c-cta-btn--<%= variant %>" href="<%= href %>">
+  <% if (ctaEn) { %><span class="c-cta-btn__en"><%= ctaEn %></span><% } %>
+  <span class="c-cta-btn__ja"><%= label %></span>
+  <% if (variant === 'casual') { %>
+    <%# 吹き出しアイコン。線は currentColor、塗りは CSS（ホバーで背景色に合わせる） %>
+    <svg class="c-cta-btn__icon" width="53" height="53" viewBox="0 0 53 53" fill="none" aria-hidden="true" focusable="false"><circle cx="26.5" cy="26.5" r="26" stroke="currentColor"/><path class="c-cta-btn__bubble" d="M36 31H26.0098L20.8076 35.4297L21.6699 31H17V19H36V31Z" stroke="currentColor" stroke-miterlimit="10"/><path d="M21 23.5h12M21 26.5h8" stroke="currentColor"/></svg>
+  <% } else { %>
+    <span class="c-circle-arrow c-cta-btn__icon"><%- include('_arrow') %></span>
+  <% } %>
+</a>

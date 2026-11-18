@@ -47,13 +47,13 @@
         { name: 'night', sky: 'sky-night', fg: 'fg-night' },
       ].forEach((s, i) => { const first = i === 0; const attr = first ? 'src' : 'data-src'; %>
       <div class="p-top-mv__scene p-top-mv__scene--<%= s.name %><%= first ? ' is-active is-ready' : '' %>" data-scene="<%= s.name %>">
-        <img class="p-top-mv__sky" <%= attr %>="<%= assets %>img/top/mv/<%= s.sky %>.webp" alt="" width="2576" height="1342"<%- first ? ' fetchpriority="high"' : '' %>>
+        <img class="p-top-mv__sky" <%= attr %>="<%= assets %>img/top/mv/<%= s.sky %>.webp" alt="sky" width="2576" height="1342"<%- first ? ' fetchpriority="high"' : '' %>>
         <div class="p-top-mv__clouds">
           <div class="p-top-mv__cloud p-top-mv__cloud--far"></div>
           <div class="p-top-mv__cloud p-top-mv__cloud--near"></div>
         </div>
         <div class="p-top-mv__stage">
-          <img class="p-top-mv__fg" <%= attr %>="<%= assets %>img/top/mv/<%= s.fg %>.webp" alt="" width="2576" height="1342"<%- first ? ' fetchpriority="high"' : '' %>>
+          <img class="p-top-mv__fg" <%= attr %>="<%= assets %>img/top/mv/<%= s.fg %>.webp" alt="foreground" width="2576" height="1342"<%- first ? ' fetchpriority="high"' : '' %>>
         </div>
       </div>
       <% }) %>
@@ -78,7 +78,7 @@
       </div>
     </div>
     <div class="p-top-movie__frame">
-      <img class="p-top-movie__img" src="<%= assets %>img/top/movie.webp" alt="" width="1100" height="472" loading="lazy">
+      <img class="p-top-movie__img" src="<%= assets %>img/top/movie.webp" alt="movie" width="1100" height="472" loading="lazy">
       <button class="p-top-movie__play" type="button" aria-haspopup="dialog" aria-controls="movie-modal" data-modal-open="movie-modal">
         <span class="p-top-movie__play-icon" aria-hidden="true"></span>
         <span class="p-top-movie__play-txt">MOVIE</span>
@@ -129,7 +129,7 @@
   <%# ===== LOGISTICS / JOBS（青背景） ===== %>
   <div class="p-top-blue">
     <section class="p-top-logistics">
-      <img class="p-top-logistics__earth" src="<%= assets %>img/top/logistics_earth.svg" alt="" width="1374" height="356" loading="lazy">
+      <img class="p-top-logistics__earth" src="<%= assets %>img/top/logistics_earth.svg" alt="earthBg" width="1374" height="356" loading="lazy">
       <div class="p-top-logistics__inner">
         <div class="p-top-logistics__body">
           <div class="c-ttl c-ttl--white">
@@ -141,15 +141,15 @@
         </div>
         <ul class="p-top-diagram" aria-label="物流を構成する3つの仕事">
           <li class="p-top-diagram__item p-top-diagram__item--port">
-            <img class="p-top-diagram__icon" src="<%= assets %>img/top/icon_port.svg" alt="" width="110" height="77" loading="lazy">
+            <img class="p-top-diagram__icon" src="<%= assets %>img/top/icon_port.svg" alt="港湾" width="110" height="77" loading="lazy">
             <span class="p-top-diagram__label">港湾</span>
           </li>
           <li class="p-top-diagram__item p-top-diagram__item--trade">
-            <img class="p-top-diagram__icon" src="<%= assets %>img/top/icon_trade.svg" alt="" width="106" height="102" loading="lazy">
+            <img class="p-top-diagram__icon" src="<%= assets %>img/top/icon_trade.svg" alt="貿易" width="106" height="102" loading="lazy">
             <span class="p-top-diagram__label">貿易</span>
           </li>
           <li class="p-top-diagram__item p-top-diagram__item--customs">
-            <img class="p-top-diagram__icon" src="<%= assets %>img/top/icon_customs.svg" alt="" width="89" height="97" loading="lazy">
+            <img class="p-top-diagram__icon" src="<%= assets %>img/top/icon_customs.svg" alt="通関" width="89" height="97" loading="lazy">
             <span class="p-top-diagram__label">通関</span>
           </li>
         </ul>
@@ -169,7 +169,7 @@
           <% jobs.forEach((job) => { %>
             <li>
               <a class="p-top-job" href="<%= root %><%= job.href %>">
-                <img class="p-top-job__icon" src="<%= assets %>img/<%= job.icon %>" alt="" width="80" height="79" loading="lazy">
+                <img class="p-top-job__icon" src="<%= assets %>img/<%= job.icon %>" alt="<%= job.name %>" width="80" height="79" loading="lazy">
                 <span class="p-top-job__body">
                   <span class="p-top-job__name"><%= job.name %></span>
                   <span class="p-top-job__lead"><%= job.lead %></span>
@@ -202,8 +202,8 @@
             <li class="swiper-slide p-top-people__item"<%- set ? ' aria-hidden="true"' : '' %>>
               <a class="p-top-person" href="<%= root %>interview/"<%- set ? ' tabindex="-1"' : '' %>>
                 <span class="p-top-person__photo">
-                  <img src="<%= assets %>img/<%= p.src %>" alt="" width="436" height="550" loading="lazy">
-                  <img class="p-top-person__hvr" src="<%= assets %>img/<%= p.src.replace('.webp', 'hvr.webp') %>" alt="" width="436" height="550" loading="lazy">
+                  <img src="<%= assets %>img/<%= p.src %>" alt="人物画像" width="436" height="550" loading="lazy">
+                  <img class="p-top-person__hvr" src="<%= assets %>img/<%= p.src.replace('.webp', 'hvr.webp') %>" alt="人物画像" width="436" height="550" loading="lazy">
                   <span class="p-top-person__job"><%= p.job %></span>
                 </span>
                 <span class="p-top-person__copy"><%= p.copy %></span>
@@ -245,7 +245,7 @@
   <%# ===== SPECIAL CONTENT ===== %>
   <section class="p-top-special">
     <div class="p-top-special__box">
-      <img class="p-top-special__img" src="<%= assets %>img/top/special.webp" alt="" width="1416" height="412" loading="lazy">
+      <img class="p-top-special__img" src="<%= assets %>img/top/special.webp" alt="港湾倉庫作業員Bg" width="1416" height="412" loading="lazy">
       <div class="p-top-special__body">
         <div class="c-ttl c-ttl--white c-ttl--center">
           <p class="c-ttl__label"><span class="c-ttl__en">SPECIAL CONTENT</span></p>

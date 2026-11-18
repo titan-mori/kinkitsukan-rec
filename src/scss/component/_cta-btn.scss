@@ -1,0 +1,95 @@
+@use "../foundation" as *;
+
+// 応募・面談の大きな CTA ボタン（partials/_cta-btn.ejs）
+.c-cta-btn {
+  display: flex;
+  align-items: center;
+  height: svw(76);
+  padding: 0 svw(20);
+  border: 1px solid transparent;
+  border-radius: svw(3);
+  transition:
+    color 0.3s,
+    background-color 0.3s,
+    border-color 0.3s;
+
+  @include mq(pc) {
+    height: 130px;
+    padding: 0 52px 0 53px;
+  }
+
+  &__en {
+    margin-right: svw(22);
+    font-family: $font-en;
+    font-size: sfont(20);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0.06em;
+
+    @include mq(pc) {
+      margin-right: 18px;
+      font-size: rem(30);
+      letter-spacing: 0;
+    }
+  }
+
+  &__ja {
+    margin-right: auto;
+    font-size: sfont(15);
+    font-weight: 700;
+
+    @include mq(pc) {
+      font-size: rem(20);
+    }
+  }
+
+  &__icon {
+    flex-shrink: 0;
+    width: svw(36);
+    height: auto;
+
+    @include mq(pc) {
+      width: 53px;
+    }
+  }
+
+  // グレー → ホバーで黒（フッターの黒地と同化しないよう白線を出す）。丸の中の矢印は右へ
+  &--entry {
+    color: #fff;
+    background: $color-dark-sub;
+
+    .c-arrow {
+      transition: transform 0.3s;
+    }
+
+    @include hover {
+      background: $color-dark;
+      border-color: #fff;
+
+      .c-arrow {
+        transform: translateX(28%);
+      }
+    }
+  }
+
+  // 白地に青文字 → ホバーで紺地に白文字へ反転
+  &--casual {
+    color: $color-accent;
+    background: #fff;
+
+    // 吹き出しの塗りはボタンの背景色に合わせる
+    .c-cta-btn__bubble {
+      fill: #fff;
+      transition: fill 0.3s;
+    }
+
+    @include hover {
+      color: #fff;
+      background: $color-main;
+
+      .c-cta-btn__bubble {
+        fill: $color-main;
+      }
+    }
+  }
+}
