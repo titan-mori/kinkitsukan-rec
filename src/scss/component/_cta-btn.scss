@@ -5,7 +5,7 @@
   display: flex;
   align-items: center;
   height: svw(76);
-  padding: 0 svw(20);
+  padding: 0 svw(20) 0 svw(29);
   border: 1px solid transparent;
   border-radius: svw(3);
   transition:
@@ -19,9 +19,9 @@
   }
 
   &__en {
-    margin-right: svw(22);
+    margin-right: svw(18);
     font-family: $font-en;
-    font-size: sfont(20);
+    font-size: sfont(18);
     font-weight: 600;
     line-height: 1;
     letter-spacing: 0.06em;
@@ -72,10 +72,14 @@
     }
   }
 
-  // 白地に青文字 → ホバーで紺地に白文字へ反転
+  // 白地に青文字 → ホバーで紺地に白文字へ反転（文字色は SP：紺 / PC：青）
   &--casual {
-    color: $color-accent;
+    color: $color-main;
     background: #fff;
+
+    @include mq(pc) {
+      color: $color-accent;
+    }
 
     // 吹き出しの塗りはボタンの背景色に合わせる
     .c-cta-btn__bubble {

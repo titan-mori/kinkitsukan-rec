@@ -2,11 +2,13 @@
 
 // ================================================================
 // 社員インタビューのカード（partials/_interview-card.ejs）
-//  右寄せの写真（350×440）に、左下から番号・帯付きキャッチ・職種・入社年を重ねる
-//  - 幅は親（グリッド）で決める。PC の基準幅は 513px（写真 350 + 左の重なり 163）
+//  右寄せの写真に、番号・帯付きキャッチ・職種・入社年を重ねる
+//  - 幅は親（グリッド）で決める
 //  - 色：既定＝紺 / --red＝赤
-//  - 本文は写真の下端に揃えて下から積む（キャッチが3行になっても上へ伸びるだけ）
-//  Figma：人を知る 229:1371 ほか（SP デザインなし＝仮）
+//  - SP：写真（239×300）の下端から 106px 上に本文を重ね、写真の下に職種・入社年＋「詳しく見る」
+//  - PC：写真（350×440）。本文は写真の下端に揃えて下から積む（キャッチが3行になっても上へ伸びるだけ）
+//        カードの基準幅は 513px（写真 350 + 左の重なり 163）。「詳しく見る」はなし
+//  Figma：PC 人を知る 229:1371 ほか / SP 696:8741 ほか
 // ================================================================
 .c-interview-card {
   --card-color: #{$color-main};
@@ -31,7 +33,7 @@
 
   &__img {
     position: relative;
-    width: svw(255);
+    width: calc(239 / 300 * 100%);
     margin-left: auto;
     overflow: hidden;
     aspect-ratio: 350 / 440;
@@ -59,19 +61,21 @@
   }
 
   &__body {
-    position: absolute;
-    bottom: svw(4);
-    left: 0;
+    position: relative;
+    margin-top: svw(-106);
 
     @include mq(pc) {
+      position: absolute;
       bottom: 4px;
+      left: 0;
+      margin-top: 0;
     }
   }
 
   &__num {
     padding-left: 1px;
     font-family: $font-en;
-    font-size: sfont(24);
+    font-size: sfont(22);
     font-weight: 600;
     line-height: 1;
     color: var(--card-color);
@@ -82,7 +86,7 @@
   }
 
   &__catch {
-    margin-top: svw(10);
+    margin-top: svw(6);
 
     @include mq(pc) {
       margin-top: 12px;
@@ -93,8 +97,8 @@
   &__catch-line {
     display: block;
     width: fit-content;
-    padding: svw(1) 0 svw(1) svw(10);
-    font-size: sfont(19);
+    padding: svw(1) 0 svw(1) svw(9);
+    font-size: sfont(20);
     font-weight: 700;
     line-height: 1.5;
     color: #fff;
@@ -109,8 +113,8 @@
 
   &__job,
   &__meta {
-    padding-left: svw(6);
     font-size: sfont(14);
+    line-height: 1;
 
     @include mq(pc) {
       padding-left: 7px;
@@ -119,21 +123,51 @@
   }
 
   &__job {
-    margin-top: svw(24);
-    line-height: 1.25;
+    margin-top: svw(36);
     color: var(--card-color);
 
     @include mq(pc) {
       margin-top: 40px;
+      line-height: 1.25;
+    }
+  }
+
+  // 入社年＋「詳しく見る」（SP は横並び。PC は入社年だけ）
+  &__foot {
+    display: flex;
+    gap: svw(10);
+    align-items: center;
+    justify-content: space-between;
+    margin-top: svw(3);
+
+    @include mq(pc) {
+      display: block;
+      margin-top: 10px;
     }
   }
 
   &__meta {
-    margin-top: svw(6);
-    line-height: 1.875;
+    @include mq(pc) {
+      line-height: 1.875;
+    }
+  }
+
+  &__more {
+    display: flex;
+    gap: svw(10);
+    align-items: center;
+    font-size: sfont(14);
+    font-weight: 700;
+    line-height: 1;
+    color: $color-main;
 
     @include mq(pc) {
-      margin-top: 10px;
+      display: none;
     }
+  }
+
+  &__more-icon {
+    width: svw(27);
+    border-color: $color-line;
   }
 }

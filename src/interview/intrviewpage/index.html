@@ -28,7 +28,7 @@
       a: ['港に到着したコンテナや貨物を確認し、安全に取り扱って次の工程へつなぐ仕事をしています。周囲の動きを見ながら仲間と声を掛け合い、全員で同じ状況を共有することを大切にしています。', '扱った貨物が次の場所へ動いていくと、物流を支えている実感があります。貨物や周囲の状況によって注意点が変わる難しさもありますが、仲間と無事に作業を終えたときの達成感はこの仕事ならではです。'],
     },
     {
-      q: '入社後の成長と、<br>これからの目標を教えてください。',
+      q: '入社後の成長と、<br class="p-intrviewpage__br-pc">これからの目標を教えてください。',
       a: ['入社した頃は指示された作業を覚えることで精いっぱいでしたが、今では周囲の状況を見て、次に必要な動きを考えられるようになりました。できる作業が増えるほど、任される役割も広がっています。', '今後は業務に必要な資格や技能を身につけ、後輩にも安全な作業を分かりやすく伝えられる存在になりたいです。'],
     },
   ];
@@ -43,7 +43,7 @@
     { time: '00:00', ttl: '片付け・翌日の確認・退社', txt: '使った機材を戻し、翌日の作業予定を確認して終業。' },
   ];
 
-  // ほかの社員（WP 化時は同じ投稿タイプから現在の記事を除いて取得）。詳細ページは仮で '#'
+  // ほかの社員（WP 化時は同じ投稿タイプから現在の記事を除いて取得）。詳細ページは仮で '#'。SP は横スクロール
   const others = [
     { job: '通関士', txt: '全員が活躍できる場所があり、それぞれの強みがかけ合わさる会社', meta: '2022年入社 / A. K', img: 'top/people_01.webp' },
     { job: '貿易事務', txt: '全員が活躍できる場所があり、それぞれの強みがかけ合わさる会社', meta: '2022年入社 / A. K', img: 'top/people_02.webp' },
@@ -86,7 +86,7 @@
   <%# ===== リード・プロフィール概要 ===== %>
   <section class="p-intrviewpage-lead">
     <div class="p-intrviewpage__inner">
-      <h2 class="p-intrviewpage-lead__ttl">目の前の貨物を、仲間と確実に送り出す。</h2>
+      <h2 class="p-intrviewpage-lead__ttl">目の前の貨物を、<br class="p-intrviewpage__br-sp">仲間と確実に送り出す。</h2>
       <div class="p-intrviewpage-lead__txt">
         <p>港湾部で、船から降ろされたコンテナや貨物を確認し、次の工程へつなぐ仕事をしています。入社前は港の仕事をまったく知らず、未経験からのスタートでした。</p>
         <p>大きなコンテナが並び、人も機械も動き続ける現場です。だからこそ急ぐより、仲間と声を掛け合って確実に進めることを大切にしています。</p>
@@ -147,7 +147,7 @@
       <div class="p-intrviewpage-dayoff__body">
         <div class="c-ttl">
           <p class="c-ttl__label"><span class="c-ttl__en">DAY OFF</span><span class="c-ttl__ja p-intrviewpage__ttl-ja">／ 休日の写真</span></p>
-          <h2 class="p-intrviewpage__ttl">休日は、好きなことに集中して<br>気持ちを切り替えています。</h2>
+          <h2 class="p-intrviewpage__ttl">休日は、好きなことに集中して<br class="p-intrviewpage__br-pc">気持ちを切り替えています。</h2>
         </div>
         <p class="p-intrviewpage-dayoff__txt">休日は友人と出かけたり、家でゆっくり過ごしたりしています。仕事とは違う時間を楽しむことで気持ちを切り替え、次の勤務に向けてリフレッシュしています。</p>
       </div>
@@ -158,7 +158,7 @@
     </div>
   </section>
 
-  <%# ===== MESSAGE / 求職者の皆様へ ===== %>
+  <%# ===== MESSAGE / 求職者の皆様へ（PC：写真に重ねる / SP：見出しの下に写真、英字ラベルなし） ===== %>
   <section class="p-intrviewpage-message">
     <div class="p-intrviewpage-message__img">
       <img src="<%= assets %>img/interviewpage/message.webp" alt="" width="1536" height="428" loading="lazy">

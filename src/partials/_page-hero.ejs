@@ -5,6 +5,7 @@
     → 続けて <div class="l-page-body"> ... </div>
   引数
     page    … 見出しとパンくずの現在地に page.title を使う
+    ttl     … 見出しを page.title と変えたいとき（改行タグなど HTML 可）。省略可
     en      … 右下の大きな英字（装飾）
     img     … PC 画像（1536×532）。assets/img/ からのパス
     imgSp   … SP 画像（375×300）。省略時は img を使う
@@ -13,6 +14,7 @@
 <%
   const heroParents = typeof parents !== 'undefined' ? parents : [];
   const heroImgSp = typeof imgSp !== 'undefined' ? imgSp : img;
+  const heroTtl = typeof ttl !== 'undefined' ? ttl : page.title;
 %>
 <div class="l-page-hero">
   <picture class="l-page-hero__img">
@@ -20,7 +22,7 @@
     <img src="<%= assets %>img/<%= heroImgSp %>" alt="" width="375" height="300">
   </picture>
   <div class="l-page-hero__body">
-    <h1 class="l-page-hero__ttl"><%= page.title %></h1>
+    <h1 class="l-page-hero__ttl"><%- heroTtl %></h1>
     <nav class="l-page-hero__bread" aria-label="パンくずリスト">
       <ol class="l-page-hero__bread-list">
         <li><a href="<%= root %>">採用トップ</a></li>

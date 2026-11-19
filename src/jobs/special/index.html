@@ -72,7 +72,7 @@
 %>
 
 <main class="l-main p-special">
-  <%- include('partials/_page-hero', { page, en: 'SPECIAL CONTENT', img: 'special/mv.webp', imgSp: 'special/mvsp.webp', parents: [{ label: '仕事を知る', href: 'jobs/' }] }) %>
+  <%- include('partials/_page-hero', { page, en: 'SPECIAL CONTENT', ttl: '港湾倉庫作業員<br class="p-special__br-sp">という仕事', img: 'special/mv.webp', imgSp: 'special/mvsp.webp', parents: [{ label: '仕事を知る', href: 'jobs/' }] }) %>
 
   <div class="l-page-body">
     <%# ===== WORK GUIDE / 仕事図鑑 ===== %>
@@ -168,7 +168,7 @@
             </div>
 
             <%# Figma で中身が未作成 %>
-            <div class="p-special-card">
+            <div class="p-special-card p-special-power">
               <h3 class="p-special-card__ttl">仕事で使う力</h3>
             </div>
           </div>
@@ -191,7 +191,7 @@
           </div>
 
           <div class="p-special-card p-special-fits">
-            <h3 class="p-special-card__ttl">働く人が考える「向いている人」（複数回答）</h3>
+            <h3 class="p-special-card__ttl">働く人が考える「向いている人」<br class="p-special__br-sp">（複数回答）</h3>
             <ul class="p-special-fits__list">
               <% fits.forEach((fit) => { %><li><%= fit %></li><% }) %>
             </ul>
@@ -232,7 +232,7 @@
         </div>
 
         <div class="p-special-conditions">
-          <p class="p-special-conditions__txt">勤務時間、休日、給与などの条件は募集要項をご確認ください</p>
+          <p class="p-special-conditions__txt">勤務時間、休日、給与などの条件は<br class="p-special__br-sp">募集要項をご確認ください</p>
           <div class="p-special-conditions__btn">
             <%- include('partials/_link-btn', { label: '募集要項を見る', href: root + 'requirements/', variant: 'white', size: 'lg' }) %>
           </div>
@@ -241,6 +241,7 @@
         <div class="p-special-people">
           <%- include('partials/_people-link', {
             img: 'special/interviewbtn.webp',
+            imgsSp: ['top/people_01.webp', 'top/people_02.webp', 'top/people_03.webp', 'top/people_04.webp'],
             lead: '港で働く人の、本当の声を聞いてみました。',
           }) %>
         </div>
@@ -260,7 +261,7 @@
 
     <%- include('partials/_page-closing', {
       img: 'common/closing.webp',
-      ttl: '知らない仕事だからこそ、<br>まずは港湾倉庫作業員を知ることから。',
+      ttl: '知らない仕事だからこそ、<br>まずは港湾倉庫作業員を<br class="p-special__br-sp">知ることから。',
       btns: [
         { label: '港湾倉庫作業員という仕事', en: 'SPECIAL CONTENT', href: '#', variant: 'red' },
         { label: '社員インタビューを読む', href: root + 'interview/', variant: 'white' },

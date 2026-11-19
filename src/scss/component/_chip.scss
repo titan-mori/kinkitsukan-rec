@@ -3,21 +3,17 @@
 // ================================================================
 // 白い小さなタグ（制度名など）。並べるときは c-chip-list で折り返す
 //   <ul class="c-chip-list"><li class="c-chip">半日有給休暇制度</li>...</ul>
-//  Figma：会社を知る 働く環境・制度 295:1744
+//  Figma：会社を知る 働く環境・制度 PC 295:1744 / SP 701:11651
 // ================================================================
 .c-chip-list {
   display: flex;
   flex-wrap: wrap;
-  gap: svw(8);
-
-  @include mq(pc) {
-    gap: 10px;
-  }
+  gap: svw(10);
 }
 
 .c-chip {
-  padding: svw(8) svw(12) svw(9);
-  font-size: sfont(13);
+  padding: svw(5) svw(10) svw(6);
+  font-size: sfont(14);
   line-height: 1.45;
   color: $color-main;
   background: #fff;

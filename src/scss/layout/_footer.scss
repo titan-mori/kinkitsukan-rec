@@ -35,14 +35,12 @@
     font-size: sfont(14);
     line-height: 1.72;
     color: $color-footer-lead;
-    letter-spacing: 0.04em;
 
     @include mq(pc) {
       margin-top: 42px;
       font-size: rem(18);
       line-height: 1.89;
       color: #fff;
-      letter-spacing: 0;
     }
   }
 
@@ -54,7 +52,7 @@
 
   // ---- 流れる文字
   &__marquee {
-    margin-top: svw(56);
+    margin-top: svw(28);
     font-size: sfont(64);
     font-weight: 700;
     line-height: 1;
@@ -70,7 +68,7 @@
 
   // ---- ロゴ・サイトマップ
   &__bottom {
-    padding-top: svw(48);
+    padding-top: svw(72);
     padding-bottom: svw(24);
 
     @include mq(pc) {
@@ -78,10 +76,15 @@
     }
   }
 
+  // SP：ナビ → ロゴの順（Figma 624:629）/ PC：ロゴ（左）＋ナビ（右）
   &__head {
+    display: flex;
+    flex-direction: column;
+    gap: svw(48);
+
     // 幅が足りないときはナビをロゴの下へ回す
     @include mq(pc) {
-      display: flex;
+      flex-direction: row;
       flex-wrap: wrap;
       gap: 48px 80px;
       align-items: flex-start;
@@ -90,11 +93,18 @@
 
   &__logo {
     display: flex;
-    gap: svw(14);
+    flex-wrap: wrap;
+    gap: svw(15);
     align-items: center;
+    order: 2;
+
+    @include mq(pc) {
+      gap: 14px;
+      order: 0;
+    }
 
     img {
-      width: svw(151);
+      width: svw(189);
 
       @include mq(pc) {
         width: 255px;
@@ -104,7 +114,7 @@
 
   &__site {
     font-family: $font-en;
-    font-size: sfont(9);
+    font-size: sfont(14);
     font-weight: 700;
     line-height: 1;
 
@@ -114,10 +124,7 @@
   }
 
   &__nav {
-    margin-top: svw(32);
-
     @include mq(pc) {
-      margin-top: 0;
       margin-left: auto;
     }
   }
@@ -192,7 +199,7 @@
     display: grid;
     gap: svw(20);
     padding-top: svw(28);
-    margin-top: svw(60);
+    margin-top: svw(23);
     border-top: 1px solid rgb(255 255 255 / 20%);
 
     @include mq(pc) {
@@ -206,13 +213,14 @@
   &__links {
     display: flex;
     gap: svw(24);
+    line-height: 1;
   }
 
   &__link {
     display: inline-flex;
     gap: svw(4);
     align-items: center;
-    font-size: sfont(11);
+    font-size: sfont(12);
     line-height: 1;
     color: $color-footer-link;
 

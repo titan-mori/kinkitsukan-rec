@@ -10,7 +10,7 @@
       lead: '世界と日本をつなぐ現場の仕事',
       icon: 'top/job_icon_01.svg',
       map: '港の倉庫で貨物を<br>受け入れ、送り出す',
-      catch: '輸出も輸入も、貨物は港の倉庫を通る。',
+      catch: '輸出も輸入も、<br class="p-jobs__br-sp">貨物は港の倉庫を通る。',
       txt: '港の倉庫で輸出入の貨物を受け入れ、次の工程へ送り出す仕事です。<br class="p-jobs__br-pc">フォークリフトの作業と目と手での確認を組み合わせ、チームで動かします。',
       works: ['貨物の受け入れ・検品', 'ピッキング・荷造り', '保管と在庫の管理', 'コンテナへの積み込み・取り出し'],
       points: [
@@ -30,8 +30,8 @@
       lead: '貿易の関門を担う国家資格職',
       icon: 'top/job_icon_02.svg',
       map: '輸出入の申告を行い、<br>許可を受ける',
-      catch: '輸出入の許可を、専門知識で引き出す。',
-      txt: '貨物と書類を確認し、税関へ申告して輸出入の許可を受ける仕事です。<br class="p-jobs__br-pc">許可が下りなければ貨物は動きません。倉庫や事務と連携し、流れを止めずにつなぎます。',
+      catch: '輸出入の許可を、<br class="p-jobs__br-sp">専門知識で引き出す。',
+      txt: '貨物と書類を確認し、税関へ申告して輸出入の許可を受ける仕事です。<br>許可が下りなければ貨物は動きません。倉庫や事務と連携し、流れを止めずにつなぎます。',
       works: ['貨物内容と書類の確認', '税関への申告', '輸出入申告書類の作成', '審査・検査への対応'],
       points: [
         ['入社時の資格・経験', '通関業務には通関士資格が必要ですが、資格がなくても通関業務の補助を担いながら資格取得を目指すことができます。'],
@@ -50,8 +50,8 @@
       lead: '輸出入の手続きを支える',
       icon: 'top/job_icon_03.svg',
       map: '書類と予定を管理し、<br>輸送を手配する',
-      catch: '書類と手配で、物流を予定どおりに進める。',
-      txt: '輸出入の書類と貨物情報を整え、船やトラックの手配を進める仕事です。<br class="p-jobs__br-pc">倉庫、通関、お客様の間で情報をつなぎ、貨物が予定どおり動くよう支えます。',
+      catch: '書類と手配で、<br class="p-jobs__br-sp">物流を予定どおりに進める。',
+      txt: '輸出入の書類と貨物情報を整え、船やトラックの手配を進める仕事です。<br>倉庫、通関、お客様の間で情報をつなぎ、貨物が予定どおり動くよう支えます。',
       works: ['輸出入関連書類の作成・確認', 'トラック手配・国内輸送の調整', '船の予約・スケジュール管理', '貨物情報の共有・関係先への連絡'],
       points: [
         ['入社時の資格・経験', '基本的なPC操作のみで、資格は不要。英語力があれば活かせます。'],
@@ -70,8 +70,8 @@
       lead: '物流の課題を提案で解決する',
       icon: 'top/job_icon_04.svg',
       map: '輸送方法を組み立て、<br>お客様をつなぐ',
-      catch: '世界へ運ぶ道筋を、お客様と一緒に決める。',
-      txt: '貨物や届け先、日程を確認し、輸送手段を組み合わせて提案する仕事です（フォワーディング業務）。<br class="p-jobs__br-pc">倉庫や通関、協力会社と連携し、必要な手配を一つの流れに組み立てます。',
+      catch: '世界へ運ぶ道筋を、<br class="p-jobs__br-sp">お客様と一緒に決める。',
+      txt: '貨物や届け先、日程を確認し、輸送手段を組み合わせて提案する仕事です（フォワーディング業務）。<br>倉庫や通関、協力会社と連携し、必要な手配を一つの流れに組み立てます。',
       works: ['お客様の要望・課題の確認', '見積・輸送スペースの手配', '輸送手段・スケジュールの提案', '社内外の担当者との調整'],
       points: [
         ['入社時の資格・経験', '貿易事務の経験と、輸出入業務の知識が必要です。'],
@@ -108,8 +108,23 @@
         <%# 図（画像1枚。PC 1095×532 / SP は picture で切り替え）。alt は職種データから組み立てる %>
         <picture class="p-jobs-map">
           <source media="(min-width: 897px)" srcset="<%= assets %>img/jobs/jobs-map.webp" width="1095" height="532">
-          <img src="<%= assets %>img/jobs/jobs-mapsp.webp" alt="仕事のつながり図：4つの職種が、中央のゴール「確実に届ける」につながっています。<%= jobs.map((job) => `${job.name}：${job.map.replace(/<br>/g, '')}`).join('。') %>。" width="335" height="560" loading="lazy">
+          <img src="<%= assets %>img/jobs/jobs-mapsp.webp" alt="仕事のつながり図：4つの職種が、中央のゴール「確実に届ける」につながっています。<%= jobs.map((job) => `${job.name}：${job.map.replace(/<br>/g, '')}`).join('。') %>。" width="335" height="510" loading="lazy">
         </picture>
+
+        <%# 職種から探す（SP のみ。PC は左の職種ナビ） %>
+        <nav class="c-anchor-nav p-jobs-anchor" aria-labelledby="jobs-anchor-label">
+          <p class="c-anchor-nav__label" id="jobs-anchor-label">職種から探す</p>
+          <ul class="c-anchor-nav__list">
+            <% jobs.forEach((job, i) => { %>
+              <li>
+                <a class="c-anchor-nav__link" href="#job<%= pad(i + 1) %>">
+                  <%= job.name %>
+                  <span class="c-circle-arrow c-anchor-nav__icon" aria-hidden="true"><%- include('partials/_arrow') %></span>
+                </a>
+              </li>
+            <% }) %>
+          </ul>
+        </nav>
       </div>
     </section>
 
@@ -138,7 +153,7 @@
             </div>
 
             <div class="p-jobs-job__body">
-              <p class="p-jobs-job__catch"><%= job.catch %></p>
+              <p class="p-jobs-job__catch"><%- job.catch %></p>
               <p class="p-jobs-job__txt"><%- job.txt %></p>
               <div class="p-jobs-job__img">
                 <img src="<%= assets %>img/jobs/job_<%= pad(i + 1) %>.webp" alt="" width="810" height="300" loading="lazy">
@@ -174,7 +189,7 @@
     <%- include('partials/_page-closing', {
       img: 'common/closing.webp',
       ttl: '会社を知ったら、<br class="p-jobs__br-sp">働く人と仕事を見てみよう。',
-      txt: '近畿通関には、物流を動かすさまざまな仕事と、それぞれの場所で力を発揮する社員がいます。<br class="p-jobs__br-pc">気になる仕事や人の声から、働くイメージをもう少し具体的にしてみませんか。',
+      txt: '近畿通関には、物流を動かすさまざまな仕事と、<br class="p-jobs__br-sp">それぞれの場所で力を発揮する社員がいます。<br>気になる仕事や人の声から、働くイメージを<br class="p-jobs__br-sp">もう少し具体的にしてみませんか。',
       btns: [
         { label: '仕事を知る', href: root + 'jobs/' },
         { label: '人を知る', href: root + 'interview/' },

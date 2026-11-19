@@ -4,15 +4,16 @@
 // 続く本文を菱形の分だけ字下げしたいときは、本文側で padding-left: $subttl-indent 相当を指定する
 .c-subttl {
   display: flex;
-  gap: svw(6);
+  gap: svw(9);
   align-items: center;
-  font-size: sfont(17);
+  font-size: sfont(16);
   font-weight: 700;
-  line-height: 1.75;
+  line-height: 1.5;
   color: $color-main;
 
   @include mq(pc) {
     font-size: rem(20);
+    line-height: 1.75;
   }
 
   &::before {

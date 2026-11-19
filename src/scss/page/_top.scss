@@ -220,11 +220,12 @@
   &__scroll {
     position: absolute;
     top: svw(522);
-    left: svw(7);
+    right: svw(11); // SP は右端（Figma x=329）
     z-index: 1;
 
     @include mq(pc) {
       top: vw(691);
+      right: auto;
       left: vw(42);
     }
   }
@@ -662,13 +663,14 @@
   width: svw(275);
   aspect-ratio: 410 / 442;
   margin: 0 auto 0 svw(16);
-  font-size: sfont(19);
+  font-size: sfont(16);
   line-height: 1;
   color: $color-main;
 
   @include mq(pc) {
     width: 100%;
     margin: -19px 0 0;
+    font-size: rem(19);
   }
 
   &__item {
@@ -828,9 +830,9 @@
   }
 
   &__name {
-    font-size: sfont(15);
+    font-size: sfont(16);
     font-weight: 700;
-    line-height: 1.3;
+    line-height: 1.25;
 
     @include mq(pc) {
       font-size: rem(22);
@@ -1086,8 +1088,7 @@
     margin-top: svw(14);
     overflow: hidden;
     font-size: sfont(15);
-    line-height: 1.59;
-    letter-spacing: 0.04em;
+    line-height: 1.6;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
 
@@ -1397,10 +1398,10 @@
     isolation: isolate;
     display: flex;
     flex-direction: column;
-    gap: svw(16);
+    gap: svw(13);
     align-items: center;
     height: svw(128);
-    padding-top: svw(30);
+    padding-top: svw(28);
     color: $color-main;
     background: radial-gradient(ellipse 110% 90% at 20% 110%, $color-glow 0%, $color-bg-soft-light 98%);
     border: 1px solid $color-pale;
@@ -1444,8 +1445,8 @@
   &__icon {
     display: block;
     flex-shrink: 0;
-    width: svw(40);
-    aspect-ratio: 80 / 79;
+    width: svw(44);
+    aspect-ratio: 44 / 45;
     background: currentColor;
     mask-position: center;
     mask-repeat: no-repeat;
@@ -1453,6 +1454,7 @@
 
     @include mq(pc) {
       width: 58px;
+      aspect-ratio: 80 / 79;
     }
   }
 

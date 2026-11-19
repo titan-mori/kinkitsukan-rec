@@ -4,24 +4,29 @@
 <%
   // 数字で見る近畿通関
   //   size … 'sm'＝1行目の4枚（PC は4列）。省略時は3列幅
-  //   icon … 右下の装飾アイコン { src, w, h, r, b }（PC の px。r / b は右・下からの位置）
-  const numbers = [
+  //   icon … 右下の装飾アイコン { src, w, h, r, b, sp: [w, r, b] }
+  //          w / r / b は PC の px（幅・右・下からの位置）、sp は SP デザインの px
+  //  並び順は SP の表示順（1行目の4枚 → 男女比 → 平均年齢・資格 → 新卒中途 → 残業・有給）。
+  //  PC は男女比を CSS で左列2行ぶち抜きに置く
+  const numbersTop = [
     { label: '設立', value: '1957', unit: '年', note: '通関を主力に、長年貿易と<br class="p-company__br-pc">物流を支えてきた。', size: 'sm' },
     { label: '従業員数', value: '108', unit: '名', note: 'グループ会社を含む。', size: 'sm',
-      icon: { src: 'company/icon_employees.svg', w: 137, h: 71, r: 17, b: 18 } },
+      icon: { src: 'company/icon_employees.svg', w: 137, h: 71, r: 17, b: 18, sp: [88, 11, 11] } },
     { label: '拠点数', value: '5', unit: '拠点', size: 'sm',
-      icon: { src: 'company/icon_base.svg', w: 81, h: 95, r: 21, b: 19 } },
+      icon: { src: 'company/icon_base.svg', w: 81, h: 95, r: 21, b: 19, sp: [61, 17, 11] } },
     { label: '平均勤続年数', value: '17.5', unit: '年', size: 'sm',
-      icon: { src: 'company/icon_years.svg', w: 87, h: 83, r: 26, b: 19 } },
-    { label: '直近2年以内の採用者の平均年齢', value: '35', unit: '歳',
-      icon: { src: 'company/icon_age.svg', w: 114, h: 89, r: 15, b: 24 } },
+      icon: { src: 'company/icon_years.svg', w: 87, h: 83, r: 26, b: 19, sp: [77, 14, 11] } },
+  ];
+  const numbersMid = [
+    { label: '直近2年以内の採用者<br class="p-company__br-sp">の平均年齢', value: '35', unit: '歳',
+      icon: { src: 'company/icon_age.svg', w: 114, h: 89, r: 15, b: 24, sp: [82, 8, 11] } },
     { label: '資格保有者数', value: '18', unit: '人',
-      icon: { src: 'company/icon_license.svg', w: 95, h: 110, r: 37, b: 23 } },
+      icon: { src: 'company/icon_license.svg', w: 95, h: 110, r: 37, b: 23, sp: [57, 12, 11] } },
   ];
 
   // 働く環境・制度
   const supports = [
-    { ttl: '働き方を支える', icon: 'company/support_work.svg', w: 57, h: 38,
+    { ttl: '働き方を支える', icon: 'company/support_work.svg', w: 57, h: 38, hSp: 33,
       txt: '休みを取りやすく、予定に合わせて働き方を調整できる環境を整えています。',
       items: ['半日有給休暇制度', '夏季・年末年始休暇', '住宅手当', '服装自由化（港湾倉庫作業員は作業服支給）'] },
     { ttl: '健康を支える', icon: 'company/support_health.svg', w: 43, h: 38,
@@ -43,8 +48,19 @@
     ['主な実績・目標', 'これまでの主な実績と、今後の目標を紹介します。'],
   ];
 
-  const iconStyle = (icon) => `--w: ${icon.w}; --r: ${icon.r}; --b: ${icon.b}`;
+  const iconStyle = (icon) => `--w: ${icon.w}; --r: ${icon.r}; --b: ${icon.b}; --w-sp: ${icon.sp[0]}; --r-sp: ${icon.sp[1]}; --b-sp: ${icon.sp[2]}`;
 %>
+<%# 数字カード1枚（男女比・新卒中途比率・残業代・有給以外の共通形） %>
+<% const numCard = (item) => { %>
+  <li class="p-company-num<%= item.size ? ` p-company-num--${item.size}` : '' %>">
+    <% if (item.icon) { %>
+      <img class="p-company-num__icon" src="<%= assets %>img/<%= item.icon.src %>" alt="" width="<%= item.icon.w %>" height="<%= item.icon.h %>" style="<%= iconStyle(item.icon) %>" loading="lazy">
+    <% } %>
+    <h3 class="p-company-num__label"><span><%- item.label %></span></h3>
+    <p class="p-company-num__value"><span class="p-company-num__digit"><%= item.value %></span><span class="p-company-num__unit"><%= item.unit %></span></p>
+    <% if (item.note) { %><p class="p-company-num__note"><%- item.note %></p><% } %>
+  </li>
+<% } %>
 
 <main class="l-main p-company">
   <%- include('partials/_page-hero', { page, en: 'COMPANY', img: 'company/mv.webp' }) %>
@@ -88,16 +104,7 @@
         </div>
 
         <ul class="p-company-numbers__list">
-          <% numbers.forEach((item) => { %>
-            <li class="p-company-num<%= item.size ? ` p-company-num--${item.size}` : '' %>">
-              <% if (item.icon) { %>
-                <img class="p-company-num__icon" src="<%= assets %>img/<%= item.icon.src %>" alt="" width="<%= item.icon.w %>" height="<%= item.icon.h %>" style="<%= iconStyle(item.icon) %>" loading="lazy">
-              <% } %>
-              <h3 class="p-company-num__label"><%= item.label %></h3>
-              <p class="p-company-num__value"><span class="p-company-num__digit"><%= item.value %></span><span class="p-company-num__unit"><%= item.unit %></span></p>
-              <% if (item.note) { %><p class="p-company-num__note"><%- item.note %></p><% } %>
-            </li>
-          <% }) %>
+          <% numbersTop.forEach(numCard) %>
 
           <%# 男女比（人型を下から比率ぶん塗る。塗る高さは Figma の見た目に合わせた値） %>
           <li class="p-company-num p-company-num--gender">
@@ -109,6 +116,8 @@
             </div>
           </li>
 
+          <% numbersMid.forEach(numCard) %>
+
           <li class="p-company-num p-company-num--ratio">
             <h3 class="p-company-num__label">直近2年以内の採用者の新卒・中途比率</h3>
             <div class="p-company-num__pair">
@@ -117,14 +126,14 @@
             </div>
           </li>
 
-          <li class="p-company-num">
-            <img class="p-company-num__icon" src="<%= assets %>img/company/icon_overtime.svg" alt="" width="110" height="110" style="<%= iconStyle({ w: 110, r: 37, b: 25 }) %>" loading="lazy">
+          <li class="p-company-num p-company-num--overtime">
+            <img class="p-company-num__icon" src="<%= assets %>img/company/icon_overtime.svg" alt="" width="110" height="110" style="<%= iconStyle({ w: 110, r: 37, b: 25, sp: [72, 11, 11] }) %>" loading="lazy">
             <h3 class="p-company-num__label">残業代</h3>
             <p class="p-company-num__value"><span class="p-company-num__digit p-company-num__digit--word">全額</span><span class="p-company-num__unit p-company-num__unit--word">支給</span></p>
           </li>
 
           <li class="p-company-num">
-            <img class="p-company-num__icon" src="<%= assets %>img/company/icon_holiday.svg" alt="" width="109" height="100" style="<%= iconStyle({ w: 109, r: 32, b: 28 }) %>" loading="lazy">
+            <img class="p-company-num__icon" src="<%= assets %>img/company/icon_holiday.svg" alt="" width="109" height="100" style="<%= iconStyle({ w: 109, r: 32, b: 28, sp: [72, 18, 11] }) %>" loading="lazy">
             <h3 class="p-company-num__label">有給休暇取得率</h3>
             <p class="p-company-num__value"><span class="p-company-num__digit">00</span><span class="p-company-num__unit">%</span></p>
           </li>
@@ -137,7 +146,7 @@
       <div class="p-company__inner p-company__inner--narrow">
         <div class="c-ttl">
           <p class="c-ttl__label"><span class="c-ttl__en">WORK SUPPORT</span><span class="c-ttl__ja">／ 働く環境・制度</span></p>
-          <h2 class="c-ttl__main">働く毎日と、これからを支える。</h2>
+          <h2 class="c-ttl__main">働く毎日と、<br class="p-company__br-sp">これからを支える。</h2>
         </div>
         <p class="p-company-support__lead">安心して仕事を続け、新しい知識や資格にも挑戦できるよう、働き方、健康、成長、将来を支える制度を整えています。</p>
 
@@ -145,7 +154,7 @@
           <% supports.forEach((item) => { %>
             <li class="p-company-support__card">
               <h3 class="p-company-support__ttl">
-                <img src="<%= assets %>img/<%= item.icon %>" alt="" width="<%= item.w %>" height="<%= item.h %>" loading="lazy">
+                <img src="<%= assets %>img/<%= item.icon %>" alt="" width="<%= item.w %>" height="<%= item.h %>" style="--h-sp: <%= item.hSp || 38 %>" loading="lazy">
                 <%= item.ttl %>
               </h3>
               <p class="p-company-support__txt"><%= item.txt %></p>
@@ -178,7 +187,7 @@
 
         <div class="p-company-challenge__detail">
           <div class="p-company-challenge__detail-body">
-            <p class="p-company-challenge__catch">仕事にも競技にも真剣に向き合えることが、<br>次の挑戦への力になっています。</p>
+            <p class="p-company-challenge__catch">仕事にも競技にも真剣に向き合えることが、<br class="p-company__br-pc">次の挑戦への力になっています。</p>
             <dl class="c-def-list p-company-challenge__points">
               <% challengePoints.forEach(([dt, dd]) => { %>
                 <div>

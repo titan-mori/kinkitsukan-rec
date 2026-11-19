@@ -1,0 +1,79 @@
+@use "../foundation" as *;
+
+// ================================================================
+// ページ内リンクのボタン群（見出し＋下向き矢印のボタン）
+//   <nav class="c-anchor-nav" aria-labelledby="xxx">
+//     <p class="c-anchor-nav__label" id="xxx">職種から探す</p>
+//     <ul class="c-anchor-nav__list"><li><a class="c-anchor-nav__link" href="#job01">…<span class="c-circle-arrow c-anchor-nav__icon">…</span></a></li></ul>
+//   </nav>
+//  SP 2列 / PC 4列。表示する画面幅は使う側で決める
+//  Figma：仕事を知る SP 686:1692（jobnav）
+// ================================================================
+.c-anchor-nav {
+  &__label {
+    font-size: sfont(12);
+    font-weight: 700;
+    line-height: 1;
+    color: $color-caption;
+
+    @include mq(pc) {
+      font-size: rem(14);
+    }
+  }
+
+  &__list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: svw(10) svw(5);
+    margin-top: svw(12);
+
+    @include mq(pc) {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 16px;
+    }
+  }
+
+  &__link {
+    display: flex;
+    gap: svw(8);
+    align-items: center;
+    justify-content: space-between;
+    height: svw(48);
+    padding: 0 svw(15);
+    font-size: sfont(14);
+    line-height: 1;
+    color: $color-main;
+    background: #fff;
+    border: 1px solid $color-line;
+    border-radius: svw(2);
+    transition: color 0.3s, background-color 0.3s, border-color 0.3s;
+
+    @include mq(pc) {
+      height: 60px;
+      padding: 0 20px;
+      font-size: rem(16);
+      border-radius: 3px;
+    }
+
+    // ホバー：紺塗り・白文字に反転（c-link-btn--white と同じ）
+    @include hover {
+      color: #fff;
+      background: $color-main;
+      border-color: $color-main;
+    }
+  }
+
+  // 丸囲みの下向き矢印（_arrow.ejs を 90°回転）
+  &__icon {
+    width: svw(25);
+
+    @include mq(pc) {
+      width: 30px;
+    }
+
+    .c-arrow {
+      rotate: 90deg;
+    }
+  }
+}

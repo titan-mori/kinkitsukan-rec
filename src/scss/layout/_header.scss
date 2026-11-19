@@ -98,67 +98,60 @@
     }
   }
 
-  // ---- ナビ（SP：ドロワー / PC：横並び）
+  // ---- PC の横並びナビ（SP は .l-drawer）
   &__nav {
-    position: fixed;
-    inset: $header-height-sp 0 0;
-    visibility: hidden;
-    padding: svw(40) svw(20);
-    overflow-y: auto;
-    color: #fff;
-    background: $color-main;
-    opacity: 0;
-    transition: opacity 0.3s, visibility 0.3s;
-
-    &.is-open {
-      visibility: visible;
-      opacity: 1;
-    }
+    display: none;
 
     @include mq(nav) {
-      position: static;
-      visibility: visible;
-      padding: 0;
+      display: block;
       margin-right: 46px;
-      overflow: visible;
-      color: inherit;
-      background: none;
-      opacity: 1;
     }
   }
 
   &__list {
-    display: grid;
-
-    @include mq(nav) {
-      display: flex;
-      gap: 24px;
-    }
+    display: flex;
+    gap: 24px;
   }
 
   &__link {
     display: block;
-    padding: svw(16) 0;
-    font-size: sfont(16);
+    font-size: rem(14);
     font-weight: 700;
-    border-bottom: 1px solid rgb(255 255 255 / 30%);
+    line-height: 1.4;
+    transition: opacity 0.3s;
 
-    @include mq(nav) {
-      padding: 0;
-      font-size: rem(14);
-      line-height: 1.4;
-      border-bottom: 0;
-      transition: opacity 0.3s;
-
-      @include hover {
-        opacity: 0.7;
-      }
-
-      .is-scrolled &,
-      .is-solid & {
-        font-weight: 500;
-      }
+    @include hover {
+      opacity: 0.7;
     }
+
+    .is-scrolled &,
+    .is-solid & {
+      font-weight: 500;
+    }
+  }
+
+  // ---- SP メニューを開いているとき（Figma 682:1117）
+  // ヘッダーは透明にして下のドロワー（紺）を見せ、ロゴ・文字は白に戻す
+  &.is-menu-open {
+    color: #fff;
+    background: transparent;
+    box-shadow: none;
+
+    &::after {
+      opacity: 0;
+    }
+  }
+
+  &.is-menu-open &__logo-img--w {
+    display: block;
+  }
+
+  &.is-menu-open &__logo-img--c {
+    display: none;
+  }
+
+  &.is-menu-open &__site {
+    color: #fff;
   }
 
   // ---- ENTRY / メニューボタン
@@ -172,7 +165,7 @@
     gap: svw(14);
     align-items: center;
     justify-content: center;
-    width: svw(76);
+    width: svw(78);
     font-family: $font-en;
     font-size: sfont(12);
     font-weight: 700;
@@ -204,6 +197,12 @@
     }
   }
 
+  // メニューを開いているとき：ENTRY は白地に黒文字
+  &.is-menu-open &__entry {
+    color: $color-dark;
+    background: #fff;
+  }
+
   &__menu {
     position: relative;
     width: svw(56);
@@ -211,28 +210,32 @@
     color: #fff;
     background: $color-main;
     border: 0;
+    transition: background-color 0.3s;
+
+    &[aria-expanded="true"] {
+      background: $color-dark;
+    }
 
     @include mq(nav) {
       display: none;
     }
   }
 
-  // 3本線（中央の線＋前後の疑似要素）
+  // 3本線（中央の線＋前後の疑似要素）。Figma：幅 20・高さ 15・線 1px
   &__menu-line,
   &__menu-line::before,
   &__menu-line::after {
     position: absolute;
     left: 50%;
-    width: svw(22);
-    height: 2px;
-    margin-left: svw(-11);
+    width: svw(20);
+    height: 1px;
+    margin-left: svw(-10);
     background: currentColor;
-    transition: transform 0.3s, opacity 0.3s;
+    transition: transform 0.3s, opacity 0.3s, width 0.3s, margin 0.3s;
   }
 
   &__menu-line {
     top: 50%;
-    margin-top: -1px;
 
     &::before,
     &::after {
@@ -248,8 +251,15 @@
     }
   }
 
+  // 開いたとき：×（線を長くして 45° 回転）
   &__menu[aria-expanded="true"] &__menu-line {
     background: transparent;
+
+    &::before,
+    &::after {
+      width: svw(24);
+      margin-left: svw(-12);
+    }
 
     &::before {
       transform: translateY(svw(7)) rotate(45deg);
@@ -257,6 +267,184 @@
 
     &::after {
       transform: translateY(svw(-7)) rotate(-45deg);
+    }
+  }
+}
+
+// ================================================================
+// SP メニュー（ドロワー）Figma 682:1117
+// ================================================================
+.l-drawer {
+  position: fixed;
+  inset: 0;
+  z-index: -1; // ヘッダーの中身（ロゴ・ボタン）の下に敷く
+  display: flex;
+  flex-direction: column;
+  visibility: hidden;
+  padding: calc(#{$header-height-sp} + #{svw(35)}) svw(30) svw(66);
+  overflow-y: auto;
+  color: #fff;
+  background: $color-main;
+  opacity: 0;
+  transition: opacity 0.3s, visibility 0.3s;
+
+  &.is-open {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  @include mq(nav) {
+    display: none;
+  }
+
+  // ---- 項目
+  &__item {
+    border-bottom: 1px solid rgb(255 255 255 / 50%);
+  }
+
+  &__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: svw(20) 0;
+    font-size: sfont(16);
+    font-weight: 700;
+    line-height: 1;
+    color: inherit;
+    text-align: left;
+    background: none;
+    border: 0;
+  }
+
+  // 子ページがある項目：開くとサブ項目の上に区切り線
+  &__head--toggle[aria-expanded="true"] {
+    border-bottom: 1px solid rgb(255 255 255 / 50%);
+  }
+
+  // 「＞」
+  &__chevron {
+    width: svw(8);
+    height: svw(8);
+    margin-right: svw(3);
+    border-top: 2px solid currentColor;
+    border-right: 2px solid currentColor;
+    transform: rotate(45deg);
+  }
+
+  // 「＋」／開いたら「−」
+  &__plus {
+    position: relative;
+    width: svw(14);
+    height: svw(14);
+
+    &::before,
+    &::after {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      margin-top: -1px;
+      content: "";
+      background: currentColor;
+      transition: transform 0.3s;
+    }
+
+    &::after {
+      transform: rotate(90deg);
+    }
+
+    [aria-expanded="true"] > &::after {
+      transform: rotate(0deg);
+    }
+  }
+
+  // ---- サブ項目（grid-template-rows 0fr → 1fr で高さをアニメーション）
+  &__panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    visibility: hidden;
+    transition: grid-template-rows 0.3s, visibility 0.3s;
+
+    &.is-open {
+      grid-template-rows: 1fr;
+      visibility: visible;
+    }
+  }
+
+  &__sub {
+    display: grid;
+    gap: svw(20);
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  // 上下の余白は中身に持たせる（閉じたとき高さ 0 にできるよう）。区切り線から 20 / 最後の項目の下 17
+  &__sub > li:first-child {
+    margin-top: svw(20);
+  }
+
+  &__sub > li:last-child {
+    margin-bottom: svw(17);
+  }
+
+  &__sub-link {
+    display: block;
+    font-size: sfont(14);
+    font-weight: 400;
+    line-height: 1;
+  }
+
+  &__head,
+  &__sub-link {
+    transition: opacity 0.3s;
+
+    @include hover {
+      opacity: 0.7;
+    }
+  }
+
+  // ---- 下部：応募・面談ボタン（c-cta-btn をドロワー用の見た目に上書き）Figma 763:13765 / 763:13768
+  //  薄いグレー地（#F4F5F7）に紺文字・高さ 70。メニュー最下段の区切り線から 40 下に置く
+  &__cta {
+    display: grid;
+    gap: svw(16);
+    padding-top: svw(40);
+  }
+
+  &__cta .c-cta-btn {
+    height: svw(70);
+    padding: 0 svw(26) 0 svw(30);
+    color: $color-main;
+    background: $color-bg-gray;
+    border-radius: 0;
+
+    @include hover {
+      color: $color-main;
+      background: #fff;
+      border-color: transparent;
+    }
+  }
+
+  &__cta .c-cta-btn__en {
+    margin-right: svw(11);
+  }
+
+  &__cta .c-cta-btn__icon {
+    width: svw(28);
+  }
+
+  // 吹き出しの塗りはボタンの背景色に合わせる（component 側より後から読まれないため、詳細度を上げて上書き）
+  &__cta .c-cta-btn--casual .c-cta-btn__bubble {
+    fill: $color-bg-gray;
+  }
+
+  &__cta .c-cta-btn--casual {
+    @include hover {
+      .c-cta-btn__bubble {
+        fill: #fff;
+      }
     }
   }
 }

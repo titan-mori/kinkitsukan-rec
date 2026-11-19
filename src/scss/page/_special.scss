@@ -1,7 +1,7 @@
 @use "../foundation" as *;
 
 // ================================================================
-// 港湾倉庫作業員という仕事（Figma PC 161:3244。SP デザインなし＝仮）
+// 港湾倉庫作業員という仕事（Figma PC 161:3244 / SP 690:4420（ファイル fTSd3vqfOtn9P85BsSU1vT））
 // ================================================================
 
 // 画像が未配置の間も枠が分かるよう、写真系の img に下地色を敷く
@@ -14,15 +14,71 @@
 
 .p-special {
   &__inner {
-    max-width: calc(#{$inner-width} + #{svw(40)});
-    padding: 0 svw(20);
+    max-width: calc(#{$inner-width} + #{svw(30)});
+    padding: 0 svw(15);
     margin: 0 auto;
+
+    @include mq(pc) {
+      max-width: calc(#{$inner-width} + 40px);
+      padding: 0 20px;
+    }
   }
 
-  // 見出し横の和文サブ（このページは小さめ・灰色）
+  // 見出し横の和文サブ（PC だけ小さめ・灰色。SP は c-ttl の既定）
   &__ttl-ja {
-    font-size: sfont(11, 10);
-    color: $color-meta;
+    @include mq(pc) {
+      font-size: rem(11);
+      color: $color-meta;
+    }
+  }
+
+  &__br-sp {
+    @include mq(pc) {
+      display: none;
+    }
+  }
+
+  // ヒーロー：SP は見出しが2行なので高さ 320・行間 54（Figma SP phero）
+  .l-page-hero {
+    height: svw(320);
+
+    @include mq(pc) {
+      height: 532px;
+    }
+  }
+
+  .l-page-hero__body {
+    padding-top: svw(89);
+
+    @include mq(pc) {
+      padding-top: fluid(190);
+    }
+  }
+
+  .l-page-hero__ttl {
+    line-height: 1.35;
+
+    @include mq(pc) {
+      line-height: 80px;
+    }
+  }
+
+  // 右下の英字：このページの SP だけ少し下げ、下端を白いパネルに少し隠す（ユーザー指定）
+  .l-page-hero__en {
+    top: svw(252);
+
+    @include mq(pc) {
+      top: 338px;
+    }
+  }
+
+  // 締めの赤いボタン（英字つき）は SP 高さ 76（Figma SP closing cbtn）
+  .l-page-closing .c-link-btn--red {
+    height: svw(76);
+
+    @include mq(pc) {
+      height: 90px;
+    }
   }
 }
 
@@ -48,18 +104,23 @@
 // WORK GUIDE / 仕事図鑑
 // ================================================================
 .p-special-guide {
-  padding: svw(38) 0 svw(72);
+  padding: svw(38) 0 svw(60);
 
   @include mq(pc) {
     padding: fluid(128) 0 fluid(100);
+  }
+
+  // 段落の間を1行あける（SP も）
+  .c-intro__txt p + p {
+    margin-top: 1lh;
   }
 }
 
 // ---- 仕事の流れ（PC：左に写真 500×330、右に本文）
 .p-special-steps {
   display: grid;
-  gap: svw(40);
-  margin-top: svw(40);
+  gap: svw(30);
+  margin-top: svw(30);
 
   @include mq(pc) {
     gap: 50px;
@@ -76,7 +137,11 @@
   }
 
   &__img {
-    aspect-ratio: 500 / 330;
+    aspect-ratio: 345 / 228;
+
+    @include mq(pc) {
+      aspect-ratio: 500 / 330;
+    }
 
     img {
       @extend %img-cover;
@@ -97,14 +162,15 @@
     gap: svw(6);
     align-items: center;
     font-family: $font-en;
-    font-size: sfont(13);
+    font-size: sfont(14);
     font-weight: 600;
-    line-height: 30px;
+    line-height: 1;
     color: $color-main;
 
     @include mq(pc) {
       gap: 6px;
       font-size: rem(14);
+      line-height: 30px;
     }
 
     &::after {
@@ -120,10 +186,10 @@
   }
 
   &__ttl {
-    margin-top: svw(2);
-    font-size: sfont(21);
+    margin-top: svw(10);
+    font-size: sfont(20);
     font-weight: 700;
-    line-height: 1.55;
+    line-height: 1.5;
 
     @include mq(pc) {
       margin-top: 4px;
@@ -133,10 +199,10 @@
   }
 
   &__txt {
-    margin-top: svw(8);
-    font-size: sfont(14);
+    margin-top: svw(6);
+    font-size: sfont(15);
     font-weight: 400;
-    line-height: 1.9;
+    line-height: 1.6;
 
     @include mq(pc) {
       margin-top: 12px;
@@ -147,10 +213,10 @@
 
   &__point-ttl {
     width: fit-content;
-    margin-top: svw(16);
-    font-size: sfont(14);
+    margin-top: svw(10);
+    font-size: sfont(16);
     font-weight: 700;
-    line-height: 1.6;
+    line-height: 1.45;
     color: $color-main;
     text-decoration: underline;
     text-decoration-thickness: 10%;
@@ -159,18 +225,20 @@
     @include mq(pc) {
       margin-top: 30px;
       font-size: rem(16);
+      line-height: 1.6;
     }
   }
 
   &__point {
-    margin-top: svw(4);
-    font-size: sfont(13);
+    margin-top: svw(8);
+    font-size: sfont(15);
     font-weight: 400;
-    line-height: 1.65;
+    line-height: 1.6;
 
     @include mq(pc) {
       margin-top: 6px;
       font-size: rem(15);
+      line-height: 1.65;
     }
   }
 }
@@ -179,8 +247,8 @@
 .p-special-tools {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: svw(10);
-  margin-top: svw(48);
+  gap: svw(14) svw(10);
+  margin-top: svw(54);
 
   @include mq(pc) {
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -193,18 +261,19 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: svw(20) svw(8) svw(18);
+  aspect-ratio: 1;
+  padding: svw(26) svw(4) 0;
   text-align: center;
   background: #fff;
-  border: 2px solid $color-frame;
+  border: 1px solid $color-frame;
 
   @include mq(pc) {
-    aspect-ratio: 1;
     padding: 38px 10px 0;
+    border-width: 2px;
   }
 
   &__icon {
-    width: svw(80);
+    width: svw(69);
     height: auto;
 
     @include mq(pc) {
@@ -213,36 +282,28 @@
   }
 
   &__name {
-    margin-top: svw(12);
+    margin-top: svw(10);
     font-size: sfont(14);
     font-weight: 700;
-    line-height: 1.4;
+    line-height: 1.58;
 
     @include mq(pc) {
       margin-top: 18px;
       font-size: rem(18);
+      line-height: 1.4;
     }
   }
 
   &__txt {
-    margin-top: svw(6);
-    font-size: sfont(12);
+    margin-top: svw(4);
+    font-size: sfont(14);
     font-weight: 400;
-    line-height: 1.6;
+    line-height: 1.58;
 
     @include mq(pc) {
       margin-top: 8px;
       font-size: rem(16);
       line-height: 26px;
-    }
-
-    // SP は幅が狭いので改行位置を任せる
-    br {
-      display: none;
-
-      @include mq(pc) {
-        display: inline;
-      }
     }
   }
 }
@@ -251,18 +312,27 @@
 // TEAM SURVEY / 10人に聞きました（青グラデーション）
 // ================================================================
 .p-special-survey {
-  padding: svw(56) 0 svw(64);
+  padding: svw(55) 0 svw(72);
   color: #fff;
-  background: linear-gradient(149.86deg, $color-grad-blue-1 12.96%, $color-grad-blue-2 69.36%, $color-grad-blue-3 152.83%);
+  background: linear-gradient(104.37deg, $color-grad-blue-1 12.96%, $color-grad-blue-2 69.36%, $color-grad-blue-3 152.83%);
 
   @include mq(pc) {
     padding: fluid(93) 0 fluid(129);
+    background: linear-gradient(149.86deg, $color-grad-blue-1 12.96%, $color-grad-blue-2 69.36%, $color-grad-blue-3 152.83%);
+  }
+
+  .c-intro__txt {
+    margin-top: svw(20);
+
+    @include mq(pc) {
+      margin-top: 43px;
+    }
   }
 
   &__cards {
     display: grid;
-    gap: svw(12);
-    margin-top: svw(32);
+    gap: svw(14);
+    margin-top: svw(28);
     color: $color-txt;
 
     @include mq(pc) {
@@ -273,7 +343,7 @@
 
   &__row {
     display: grid;
-    gap: svw(12);
+    gap: svw(14);
 
     @include mq(pc) {
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -292,10 +362,10 @@
 // ---- 白いカード（見出しの頭に小さな丸）
 .p-special-card {
   position: relative;
-  padding: svw(20) svw(20) svw(24);
+  padding: svw(19) svw(20) svw(28);
   overflow: hidden;
   background: #fff;
-  border-radius: svw(5);
+  border-radius: svw(6);
 
   @include mq(pc) {
     padding: 23px 30px 30px;
@@ -304,6 +374,7 @@
 
   &__ttl {
     position: relative;
+    z-index: 1;
     padding-left: svw(15);
     font-size: sfont(15);
     font-weight: 700;
@@ -339,6 +410,8 @@
 
 // ---- 人数カード（0人 / 10人中 ＋ 右下にイラスト）
 .p-special-count {
+  padding-bottom: svw(18);
+
   @include mq(pc) {
     min-height: 204px;
     padding-bottom: 20px;
@@ -349,7 +422,7 @@
     z-index: 1;
     display: flex;
     align-items: baseline;
-    margin-top: svw(8);
+    margin-top: svw(2);
     font-weight: 700;
     color: $color-main;
 
@@ -359,11 +432,12 @@
   }
 
   &__big {
-    font-size: sfont(72);
-    line-height: 1;
+    font-size: sfont(64);
+    line-height: 1.14;
 
     @include mq(pc) {
       font-size: rem(100);
+      line-height: 1;
     }
   }
 
@@ -379,8 +453,8 @@
   }
 
   &__total {
-    margin-left: svw(10);
-    font-size: sfont(16);
+    margin-left: svw(15);
+    font-size: sfont(20);
     line-height: 1;
     color: $color-txt;
 
@@ -392,9 +466,9 @@
 
   &__icon {
     position: absolute;
-    right: svw(20);
-    bottom: svw(18);
-    width: svw(80);
+    right: svw(25);
+    bottom: svw(27);
+    width: svw(73);
     height: auto;
 
     @include mq(pc) {
@@ -404,11 +478,19 @@
     }
 
     &--2 {
+      bottom: svw(36);
+      width: svw(84);
+
       @include mq(pc) {
         width: 112px;
       }
     }
+
     &--3 {
+      right: svw(16);
+      bottom: svw(31);
+      width: svw(88);
+
       @include mq(pc) {
         width: 117px;
       }
@@ -418,9 +500,15 @@
 
 // ---- よく担当する仕事（横棒グラフ。10人中の人数を --num で渡す）
 .p-special-bars {
-  margin-top: svw(16);
+  --track: #{svw(280)};
+
+  padding-left: svw(15);
+  margin-top: svw(17);
 
   @include mq(pc) {
+    --track: 280px;
+
+    padding-left: 0;
     margin-top: 21px;
   }
 
@@ -429,7 +517,7 @@
     display: block;
 
     & + & {
-      margin-top: svw(12);
+      margin-top: svw(16);
 
       @include mq(pc) {
         margin-top: 20px;
@@ -439,8 +527,12 @@
 
   &__label {
     display: block;
-    font-size: sfont(13);
-    line-height: 20px;
+    font-size: sfont(14);
+    line-height: 1.43;
+
+    @include mq(pc) {
+      line-height: 20px;
+    }
 
     @include mq(pc) {
       font-size: rem(14);
@@ -449,10 +541,9 @@
 
   &__track {
     display: block;
-    width: 100%;
-    max-width: 280px;
-    height: svw(14);
-    margin-top: 4px;
+    width: min(100%, var(--track));
+    height: svw(16);
+    margin-top: svw(4);
     background: $color-bg-gray;
 
     @include mq(pc) {
@@ -471,11 +562,11 @@
   &__val {
     position: absolute;
     bottom: -2px;
-    left: calc(min(100%, 280px) * var(--num) / 10 + 9px);
+    left: calc(min(100%, var(--track)) * var(--num) / 10 + #{svw(9)});
   }
 
   &__item:nth-child(-n + 2) &__val {
-    font-size: sfont(34);
+    font-size: sfont(36);
 
     @include mq(pc) {
       font-size: rem(36);
@@ -487,11 +578,12 @@
 .p-special-pie {
   position: relative;
   width: 100%;
-  max-width: 290px;
+  max-width: svw(210);
   aspect-ratio: 290 / 330;
   margin: svw(8) auto 0;
 
   @include mq(pc) {
+    max-width: 290px;
     margin-top: 10px;
   }
 
@@ -535,24 +627,41 @@
   }
 }
 
+// ---- 仕事で使う力（中身は未作成。SP は Figma の枠の高さだけ確保）
+.p-special-power {
+  min-height: svw(232);
+
+  @include mq(pc) {
+    min-height: 0;
+  }
+}
+
 // ---- 好きなところ / 大変なところ（1〜3位はリボン、点線のリーダーで人数へ）
 .p-special-rank {
   display: grid;
-  gap: svw(12);
-  margin-top: svw(18);
+  gap: svw(16);
+  margin-top: svw(29);
 
   @include mq(pc) {
     gap: 16px;
     margin-top: 32px;
   }
 
+  // SP：[順位][項目（折り返す）][人数]。PC：[順位][項目][点線][人数]
   &__item {
     display: grid;
-    grid-template-columns: auto auto minmax(#{svw(16)}, 1fr) auto;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    column-gap: svw(10);
     align-items: center;
 
-    // 点線のリーダー
+    @include mq(pc) {
+      grid-template-columns: auto auto minmax(16px, 1fr) auto;
+      column-gap: 0;
+    }
+
+    // 点線のリーダー（PC のみ）
     &::after {
+      display: none;
       grid-row: 1;
       grid-column: 3;
       height: 0;
@@ -561,6 +670,7 @@
       border-top: 1px dashed $color-main;
 
       @include mq(pc) {
+        display: block;
         margin: 0 10px;
       }
     }
@@ -599,18 +709,28 @@
     background: $color-rank-2;
   }
 
+  // 4・5位は数字だけなので、SP は行の高さを文字に合わせる
+  &__item:nth-child(n + 4) &__no {
+    height: auto;
+
+    @include mq(pc) {
+      height: 33px;
+    }
+  }
+
   &__item--3 &__no {
     background: $color-rank-3;
   }
 
   &__label {
-    margin-left: svw(12);
-    font-size: sfont(14);
-    line-height: 1.5;
+    margin-left: svw(1);
+    font-size: sfont(15);
+    line-height: 1.47;
 
     @include mq(pc) {
       margin-left: 15px;
       font-size: rem(16);
+      line-height: 1.5;
     }
   }
 
@@ -618,21 +738,23 @@
     font-weight: 400;
   }
 
+  // SP は人数をすべて 30px（Figma SP）
   &__val {
-    grid-column: 4;
+    margin-right: svw(7);
+
+    @include mq(pc) {
+      grid-column: 4;
+      margin-right: 0;
+    }
   }
 
   &__item:nth-child(-n + 2) &__val {
-    font-size: sfont(34);
-
     @include mq(pc) {
       font-size: rem(36);
     }
   }
 
   &__item:nth-child(n + 4) &__val {
-    font-size: sfont(24);
-
     @include mq(pc) {
       font-size: rem(26);
     }
@@ -641,28 +763,35 @@
 
 // ---- 向いている人（タグ）
 .p-special-fits {
+  padding-bottom: svw(37);
+
   @include mq(pc) {
     min-height: 214px;
+    padding-bottom: 30px;
   }
 
   &__list {
     position: relative;
     z-index: 1;
     display: flex;
-    flex-wrap: wrap;
-    gap: svw(8);
-    margin-top: svw(16);
+    flex-direction: column;
+    gap: svw(10);
+    align-items: flex-start;
+    margin: svw(20) 0 0 svw(6);
 
     @include mq(pc) {
+      flex-flow: row wrap;
       gap: 18px 16px;
+      margin-left: 0;
       max-width: 740px;
       margin-top: 22px;
     }
 
     li {
-      padding: svw(6) svw(14) svw(8);
-      font-size: sfont(13);
+      padding: svw(7) svw(16) svw(9);
+      font-size: sfont(14);
       line-height: 1.4;
+      white-space: nowrap;
       color: $color-main;
       background: $color-bg-gray;
       border: 1px solid $color-line;
@@ -676,15 +805,16 @@
   }
 
   &__icon {
-    display: none;
+    position: absolute;
+    top: svw(36);
+    right: svw(19);
+    width: svw(92);
+    height: auto;
 
     @include mq(pc) {
-      position: absolute;
       top: 52px;
       right: 90px;
-      display: block;
       width: 126px;
-      height: auto;
     }
   }
 }
@@ -693,7 +823,7 @@
 // 社員の声（引用カード → 入社前〜現在 → 募集要項 → 社員インタビュー）
 // ================================================================
 .p-special-voice {
-  padding: svw(64) 0 svw(72);
+  padding: svw(41) 0 svw(40);
 
   @include mq(pc) {
     padding: fluid(100) 0 fluid(112);
@@ -701,7 +831,7 @@
 
   &__list {
     display: grid;
-    gap: svw(12);
+    gap: svw(14);
 
     @include mq(pc) {
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -710,26 +840,27 @@
   }
 }
 
-// ---- 引用カード（右下に人物写真）
+// ---- 引用カード（SP：右に丸い顔写真 / PC：右下に人物写真）
 .p-special-quote {
   position: relative;
-  min-height: svw(150);
-  padding: svw(40) svw(110) svw(20) svw(24);
-  border: 4px solid $color-line;
-  border-radius: svw(10);
+  min-height: svw(160);
+  padding: svw(44) svw(126) svw(20) svw(20);
+  border: 2px solid $color-line;
+  border-radius: svw(6);
 
   @include mq(pc) {
     min-height: 185px;
     padding: 36px 90px 20px 44px;
+    border-width: 4px;
     border-radius: 10px;
   }
 
   // 左上の引用符
   &::before {
     position: absolute;
-    top: svw(16);
-    left: svw(18);
-    font-size: sfont(36);
+    top: svw(12);
+    left: svw(17);
+    font-size: sfont(40);
     font-weight: 700;
     line-height: 1;
     color: $color-accent;
@@ -745,7 +876,7 @@
   &__txt {
     font-size: sfont(15);
     font-weight: 400;
-    line-height: 1.7;
+    line-height: 1.6;
 
     @include mq(pc) {
       font-size: rem(16);
@@ -754,8 +885,8 @@
   }
 
   &__meta {
-    margin-top: svw(10);
-    font-size: sfont(13);
+    margin-top: svw(16);
+    font-size: sfont(14);
     font-weight: 400;
     color: $color-meta;
 
@@ -767,16 +898,21 @@
 
   &__img {
     position: absolute;
-    right: svw(16);
-    bottom: 0;
-    width: svw(90);
+    top: svw(42);
+    right: svw(25);
+    width: svw(70);
     height: auto;
-    aspect-ratio: 96 / 97;
+    aspect-ratio: 1;
     object-fit: cover;
+    border-radius: 50%;
 
     @include mq(pc) {
+      top: auto;
       right: 20px;
+      bottom: 0;
       width: 96px;
+      aspect-ratio: 96 / 97;
+      border-radius: 0;
     }
   }
 }
@@ -784,7 +920,7 @@
 // ---- 入社前 → 最初の仕事 → 現在（タイムライン）
 .p-special-career {
   position: relative;
-  padding: svw(40) svw(20) svw(24);
+  padding: svw(48) svw(18) svw(32) svw(19);
   background: $color-bg-gray;
 
   @include mq(pc) {
@@ -793,8 +929,8 @@
 
   &__list {
     display: grid;
-    gap: svw(32);
-    margin-top: svw(48);
+    gap: svw(31);
+    margin-top: svw(37);
 
     @include mq(pc) {
       grid-template-columns: repeat(2, minmax(0, 520px));
@@ -810,7 +946,7 @@
     top: svw(-11);
     left: 50%;
     padding: 0 svw(13);
-    font-size: sfont(13);
+    font-size: sfont(14);
     font-weight: 700;
     line-height: svw(30);
     color: #fff;
@@ -834,7 +970,7 @@
       position: absolute;
       top: svw(6);
       bottom: svw(6);
-      left: svw(5);
+      left: svw(4);
       width: 2px;
       content: "";
       background: $color-line;
@@ -859,7 +995,7 @@
         position: absolute;
         top: svw(6);
         left: 0;
-        width: svw(12);
+        width: svw(10);
         aspect-ratio: 1;
         content: "";
         background: $color-main;
@@ -873,7 +1009,7 @@
     }
 
     > div + div {
-      margin-top: svw(18);
+      margin-top: svw(13);
 
       @include mq(pc) {
         margin-top: 20px;
@@ -881,9 +1017,9 @@
     }
 
     dt {
-      font-size: sfont(13);
+      font-size: sfont(15);
       font-weight: 700;
-      line-height: 1.6;
+      line-height: 1.47;
       color: $color-main;
 
       @include mq(pc) {
@@ -893,8 +1029,8 @@
     }
 
     dd {
-      margin-top: svw(2);
-      font-size: sfont(14);
+      margin-top: svw(4);
+      font-size: sfont(15);
       font-weight: 400;
       line-height: 1.6;
 
@@ -907,11 +1043,11 @@
   }
 
   &__growth {
-    padding: svw(16) svw(18);
-    margin-top: svw(20);
-    font-size: sfont(14);
+    padding: svw(14) svw(18);
+    margin-top: svw(15);
+    font-size: sfont(15);
     font-weight: 400;
-    line-height: 1.7;
+    line-height: 1.6;
     background: #fff;
 
     @include mq(pc) {
@@ -925,7 +1061,7 @@
 
 // ---- 条件は募集要項へ
 .p-special-conditions {
-  margin-top: svw(40);
+  margin-top: svw(23);
 
   @include mq(pc) {
     display: flex;
@@ -936,8 +1072,8 @@
   }
 
   &__txt {
-    font-size: sfont(14);
-    line-height: 1.7;
+    font-size: sfont(13);
+    line-height: 1.54;
     text-align: center;
 
     @include mq(pc) {
@@ -947,7 +1083,7 @@
   }
 
   &__btn {
-    margin-top: svw(16);
+    margin-top: svw(14);
 
     @include mq(pc) {
       flex-shrink: 0;
@@ -959,7 +1095,7 @@
 
 // ---- 社員インタビュー（共通部品 c-people-link）
 .p-special-people {
-  margin-top: svw(64);
+  margin-top: svw(44);
 
   @include mq(pc) {
     margin-top: fluid(126);
@@ -970,7 +1106,7 @@
 // FAQ（薄い灰色の帯。PC：左に見出し、右に質問 579px）
 // ================================================================
 .p-special-faq {
-  padding: svw(56) 0;
+  padding: svw(31) 0 svw(40);
   background: $color-bg-gray;
 
   @include mq(pc) {
@@ -987,7 +1123,7 @@
   }
 
   .c-faq {
-    margin-top: svw(28);
+    margin-top: svw(19);
 
     @include mq(pc) {
       margin-top: 7px;

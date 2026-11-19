@@ -1,14 +1,44 @@
 @use "../foundation" as *;
 
 // ================================================================
-// 人を知る（Figma PC 162:5894。SP デザインなし＝仮）
+// 人を知る（Figma PC 162:5894 / SP 695:7277）
 // 一覧はカスタム投稿（社員インタビュー）のループを想定
 // ================================================================
 .p-interview {
   &__inner {
-    max-width: calc(#{$inner-width} + #{svw(40)});
-    padding: 0 svw(20);
+    max-width: calc(#{$inner-width} + #{svw(30)});
+    padding: 0 svw(15);
     margin: 0 auto;
+
+    @include mq(pc) {
+      max-width: calc(#{$inner-width} + 40px);
+      padding: 0 20px;
+    }
+  }
+
+  // 締め（SP）：写真を高めに、リード文は左揃え、下の余白を詰める（Figma SP 695:7355）
+  .l-page-closing {
+    padding-bottom: svw(48);
+
+    @include mq(pc) {
+      padding-bottom: fluid(98);
+    }
+  }
+
+  .l-page-closing__img {
+    height: svw(260);
+
+    @include mq(pc) {
+      height: auto;
+    }
+  }
+
+  .l-page-closing__txt {
+    text-align: left;
+
+    @include mq(pc) {
+      text-align: center;
+    }
   }
 }
 
@@ -16,22 +46,25 @@
 // INTERVIEWS / 社員インタビュー一覧
 // ================================================================
 .p-interview-list {
-  padding: svw(38) 0 svw(64);
+  padding: svw(38) 0 svw(84);
 
   @include mq(pc) {
     padding: fluid(128) 0 fluid(148);
   }
 
+  // SP：1列（カード幅 300px。左 40 / 右 35）
   // PC：2列。右列は 134px 下げて互い違いに
   &__items {
     display: grid;
-    gap: svw(48);
-    margin-top: svw(36);
+    gap: svw(40);
+    padding: 0 svw(20) 0 svw(25);
+    margin-top: svw(38);
 
     @include mq(pc) {
       grid-template-columns: repeat(2, minmax(0, 513px));
       gap: 70px 76px;
       justify-content: space-between;
+      padding: 0;
       margin-top: 60px;
     }
   }

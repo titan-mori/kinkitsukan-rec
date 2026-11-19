@@ -8,8 +8,8 @@
       <span class="l-header__site">RECRUIT SITE</span>
     </a>
 
-    <%# data-lenis-prevent：SP ドロワー内の縦スクロールを Lenis に奪われないように %>
-    <nav class="l-header__nav" id="global-nav" aria-label="グローバルナビゲーション" data-lenis-prevent>
+    <%# PC（1024px 以上）の横並びナビ。SP は下の .l-drawer を使う %>
+    <nav class="l-header__nav" aria-label="グローバルナビゲーション">
       <ul class="l-header__list">
         <% site.nav.forEach((item) => { %>
           <li class="l-header__item">
@@ -24,10 +24,54 @@
         <span>ENTRY</span>
         <%- include('_arrow') %>
       </a>
-      <button class="l-header__menu" type="button" aria-controls="global-nav" aria-expanded="false" data-menu-btn>
+      <button class="l-header__menu" type="button" aria-controls="sp-menu" aria-expanded="false" data-menu-btn>
         <span class="l-header__menu-line" aria-hidden="true"></span>
         <span class="u-visually-hidden" data-menu-label>メニューを開く</span>
       </button>
     </div>
   </div>
+
+  <%#
+    SP メニュー（ドロワー）Figma 682:1117
+     - 子ページがある項目はアコーディオン（最初は全部閉じる・1つ開くと他は閉じる：main.js initMenu）
+     - 親ページへ行けるよう、子の先頭に「〇〇 TOP」を足す（子に親と同じリンクがある項目は足さない）
+     - data-lenis-prevent：ドロワー内の縦スクロールを Lenis に奪われないように
+  %>
+  <nav class="l-drawer" id="sp-menu" aria-label="メニュー" data-lenis-prevent>
+    <ul class="l-drawer__list">
+      <% site.nav.forEach((item, i) => { %>
+        <li class="l-drawer__item">
+          <% if (item.children.length) { %>
+            <%
+              const subs = item.children.some((c) => c.href === item.href)
+                ? item.children
+                : [{ label: `${item.label} TOP`, href: item.href }, ...item.children];
+            %>
+            <button class="l-drawer__head l-drawer__head--toggle" type="button" aria-expanded="false" aria-controls="sp-menu-sub<%= i %>" data-drawer-toggle>
+              <%= item.label %>
+              <span class="l-drawer__plus" aria-hidden="true"></span>
+            </button>
+            <div class="l-drawer__panel" id="sp-menu-sub<%= i %>" data-drawer-panel>
+              <ul class="l-drawer__sub">
+                <% subs.forEach((child) => { %>
+                  <li><a class="l-drawer__sub-link" href="<%= root %><%= child.href %>"><%= child.label %></a></li>
+                <% }) %>
+              </ul>
+            </div>
+          <% } else { %>
+            <a class="l-drawer__head" href="<%= root %><%= item.href %>"<%- page.name === item.key ? ' aria-current="page"' : '' %>>
+              <%= item.label %>
+              <span class="l-drawer__chevron" aria-hidden="true"></span>
+            </a>
+          <% } %>
+        </li>
+      <% }) %>
+    </ul>
+
+    <%# 下部：応募・面談ボタン（フッターと同じ部品。見た目は _header.scss の .l-drawer__cta で上書き） %>
+    <ul class="l-drawer__cta">
+      <li><%- include('_cta-btn', { variant: 'entry', href: site.entry.form, label: '応募フォーム', en: 'ENTRY' }) %></li>
+      <li><%- include('_cta-btn', { variant: 'casual', href: site.entry.casual, label: '職場見学・カジュアル面談' }) %></li>
+    </ul>
+  </nav>
 </header>

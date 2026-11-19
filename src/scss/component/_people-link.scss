@@ -4,7 +4,7 @@
 // 社員インタビューへの導線（partials/_people-link.ejs）
 //  白いカード（PC 1102×393）。右側に写真1枚（斜めに並べた写真を書き出したもの 650×393）
 //  幅は使う側（各ページの __inner）で決める
-//  Figma：港湾倉庫作業員という仕事 309:3326
+//  Figma：港湾倉庫作業員という仕事 PC 309:3326 / SP 690:4420
 // ================================================================
 
 .c-people-link {
@@ -25,7 +25,7 @@
   &__body {
     position: relative;
     z-index: 1;
-    padding: svw(32) svw(24) 0;
+    padding: svw(34) svw(15) 0;
 
     @include mq(pc) {
       padding: 0 0 0 74px;
@@ -37,9 +37,9 @@
   }
 
   &__lead {
-    margin-top: svw(12);
-    font-size: sfont(14);
-    line-height: 1.8;
+    margin-top: svw(10);
+    font-size: sfont(15);
+    line-height: 1.6;
 
     @include mq(pc) {
       margin-top: 17px;
@@ -49,7 +49,7 @@
   }
 
   &__btn {
-    margin-top: svw(24);
+    margin-top: svw(22);
 
     @include mq(pc) {
       width: 288px;
@@ -57,25 +57,64 @@
     }
   }
 
-  // 写真エリア：SP は本文の下に全幅、PC はカード右側（650×393）
+  // 文言：SP は「社員インタビューを見る」、PC は「すべてのインタビューを見る」（Figma SP / PC）
+  &__btn-sp {
+    @include mq(pc) {
+      display: none;
+    }
+  }
+
+  &__btn-pc {
+    display: none;
+
+    @include mq(pc) {
+      display: inline;
+    }
+  }
+
+  // PC の写真（カード右側 650×393）。SP は下のスライダーを使う
   &__photos {
-    position: relative;
-    aspect-ratio: 1300 / 786;
-    margin-top: svw(8);
+    display: none;
 
     @include mq(pc) {
       position: absolute;
       top: 0;
       right: 0;
+      display: block;
       width: 650px;
-      margin-top: 0;
+      aspect-ratio: 1300 / 786;
+    }
+
+    // 写真の間は白地を見せるので下地色は敷かない
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
   }
 
-  // 写真の間は白地を見せるので下地色は敷かない
-  &__photos img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  // SP の写真スライダー（Figma SP 690:7087）
+  //  写真 146×184・間 18。1枚目はカードの左端で 22 切れた位置から始まる（Figma どおり左へずらす）
+  &__slider {
+    width: calc(100% + #{svw(22)});
+    margin: svw(24) 0 svw(38) svw(-22);
+
+    @include mq(pc) {
+      display: none;
+    }
+  }
+
+  &__slide {
+    width: svw(146);
+    aspect-ratio: 146 / 184;
+    overflow: hidden;
+    border-radius: svw(2);
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      background: $color-placeholder;
+    }
   }
 }

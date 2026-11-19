@@ -31,10 +31,25 @@ function initMenu() {
   if (!btn) return;
   const nav = document.getElementById(btn.getAttribute('aria-controls'));
   const label = btn.querySelector('[data-menu-label]');
+  const header = btn.closest('[data-header]');
+
+  // アコーディオン：最初は全部閉じる。1つ開くと他は閉じる
+  const toggles = [...nav.querySelectorAll('[data-drawer-toggle]')];
+  const setAccordion = (toggle, open) => {
+    toggle.setAttribute('aria-expanded', String(open));
+    document.getElementById(toggle.getAttribute('aria-controls')).classList.toggle('is-open', open);
+  };
+  toggles.forEach((toggle) => {
+    toggle.addEventListener('click', () => {
+      const open = toggle.getAttribute('aria-expanded') !== 'true';
+      toggles.forEach((t) => setAccordion(t, t === toggle ? open : false));
+    });
+  });
 
   const setOpen = (open) => {
     btn.setAttribute('aria-expanded', String(open));
     nav.classList.toggle('is-open', open);
+    header?.classList.toggle('is-menu-open', open);
     document.body.classList.toggle('is-menu-open', open);
     label.textContent = open ? 'メニューを閉じる' : 'メニューを開く';
     // 開いている間は背面のページをスクロールさせない
@@ -155,6 +170,39 @@ function initPeopleSwiper() {
   el.addEventListener('focusout', () => {
     if (!reducedMotion.matches) swiper.autoplay?.start();
   });
+}
+
+/**
+ * 社員インタビュー導線（c-people-link）の SP 写真スライダー
+ *  - スワイプのみ・ループなし・自動再生なし（ユーザー指定）。PC は1枚画像なので Swiper を外す
+ *  - 写真の間はデザイン 18px を CSS の svw() と同じ比率で拡大縮小
+ */
+function initPeopleLinkSwiper() {
+  const el = document.querySelector('[data-people-link-swiper]');
+  if (!el) return;
+  const pcQuery = window.matchMedia('(min-width: 897px)');
+  const gap = () => 18 * Math.min(window.innerWidth / 375, 540 / 375);
+  let swiper = null;
+
+  const toggle = () => {
+    if (pcQuery.matches) {
+      swiper?.destroy(true, true);
+      swiper = null;
+    } else if (!swiper) {
+      swiper = new Swiper(el, {
+        slidesPerView: 'auto',
+        spaceBetween: gap(),
+        on: {
+          beforeResize(s) {
+            s.params.spaceBetween = gap();
+          },
+        },
+      });
+    }
+  };
+
+  toggle();
+  pcQuery.addEventListener('change', toggle);
 }
 
 /**
@@ -303,6 +351,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initMenu();
   initModal();
   initPeopleSwiper();
+  initPeopleLinkSwiper();
   initTabs();
   initJobsNav();
 });

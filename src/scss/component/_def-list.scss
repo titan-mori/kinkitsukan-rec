@@ -8,7 +8,7 @@
 // ================================================================
 .c-def-list {
   div + div {
-    margin-top: svw(16);
+    margin-top: svw(10);
 
     @include mq(pc) {
       margin-top: 20px;
@@ -16,8 +16,8 @@
   }
 
   dt {
-    font-size: sfont(14);
-    line-height: 1.5;
+    font-size: sfont(15);
+    line-height: 1.6;
     text-decoration: underline;
     text-underline-offset: 4px;
 
@@ -27,10 +27,10 @@
   }
 
   dd {
-    margin-top: svw(6);
-    font-size: sfont(14);
+    margin-top: svw(10);
+    font-size: sfont(15);
     font-weight: 400;
-    line-height: 1.7;
+    line-height: 1.6;
 
     @include mq(pc) {
       margin-top: 10px;

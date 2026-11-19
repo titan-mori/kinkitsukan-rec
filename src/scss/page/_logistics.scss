@@ -21,24 +21,21 @@
 }
 
 .p-logistics {
+  // SP の左右余白は 15px（締めのみ 20px）
   &__inner {
-    max-width: calc(#{$inner-width} + #{svw(40)});
-    padding: 0 svw(20);
+    max-width: calc(#{$inner-width} + 40px);
+    padding: 0 svw(15);
     margin: 0 auto;
-  }
-
-  // 見出し：SP は c-ttl より小さめ（Figma SP 22px）
-  &__ttl .c-ttl__main {
-    margin-top: svw(3);
-    font-size: sfont(22);
-    line-height: 1.6;
-    letter-spacing: 0.08em;
 
     @include mq(pc) {
-      margin-top: 13px;
+      padding: 0 20px;
+    }
+  }
+
+  // 見出し：SP は c-ttl のまま（26px）。PC は画面幅で伸縮
+  &__ttl .c-ttl__main {
+    @include mq(pc) {
       font-size: fluid(40, 30);
-      line-height: 1.475;
-      letter-spacing: 0;
     }
   }
 
@@ -61,14 +58,14 @@
 // ABOUT US / 物流の流れ
 // ================================================================
 .p-logistics-intro {
-  padding-top: svw(38);
+  padding-top: svw(37);
 
   @include mq(pc) {
     padding-top: fluid(128);
   }
 
   &__inner {
-    padding-bottom: svw(32);
+    padding-bottom: svw(71);
 
     @include mq(pc) {
       display: grid;
@@ -79,25 +76,20 @@
   }
 
   &__txt {
-    margin-top: svw(19);
-    font-size: sfont(14);
-    font-weight: 400;
-    line-height: 2;
-    letter-spacing: 0.04em;
+    margin-top: svw(12);
+    font-size: sfont(15);
+    line-height: 1.6;
 
     @include mq(pc) {
       // 見出し（ラベル 30px ＋ 13px）の高さにそろえる
       padding-top: 43px;
       margin-top: 0;
       font-size: rem(16);
-      font-weight: 500;
       line-height: 1.875;
-      letter-spacing: 0;
     }
 
+    // SP は段落間の余白なし
     p + p {
-      margin-top: svw(14);
-
       @include mq(pc) {
         margin-top: 30px;
       }
@@ -109,44 +101,46 @@
 // 輸出 / 輸入 タブとフロー
 // ================================================================
 .p-logistics-flow {
-  margin-bottom: svw(80);
+  margin-bottom: svw(62);
 
   @include mq(pc) {
     margin-bottom: 96px;
   }
 
+  // SP：タブは下のパネル（左右 15px）より内側の 20px から
   &__tabs {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: svw(8);
+    gap: svw(7);
+    margin: 0 svw(5);
 
     @include mq(pc) {
       gap: 37px;
+      margin: 0;
     }
   }
 
-  // SP：アイコン／見出し＋丸矢印／説明 を縦に中央そろえ（Figma 676:429）
-  //   両端の 1fr で見出し＋丸矢印の行を中央に寄せる（説明文の幅に列が引き伸ばされないように）
-  //   align-content: start で行を上詰め（高さ 113px に行が引き伸ばされないように）
+  // SP：アイコン＋見出しを横並びで中央、その下に説明（Figma fTSd3… 676:429）。丸矢印は出さない
+  //   両端の 1fr で アイコン＋見出し の行を中央に寄せる（説明文の幅に列が引き伸ばされないように）
+  //   align-content: start で行を上詰め（タブの高さに行が引き伸ばされないように）
   // PC：アイコン・見出し・丸矢印を横並び
   &__tab {
     display: grid;
     grid-template-areas:
-      "icon icon icon icon"
-      ". ttl arrow ."
+      ". icon ttl ."
       "desc desc desc desc";
     grid-template-columns: 1fr auto auto 1fr;
-    gap: svw(8) svw(7);
+    gap: svw(8);
     align-content: start;
     align-items: center;
     justify-items: center;
-    height: svw(113);
-    padding: svw(16) svw(4) 0;
+    height: svw(100);
+    padding: svw(18) svw(4) 0;
     color: $color-main;
     background: $color-bg;
-    border: 1px solid $color-tag-border;
+    border: 2px solid $color-bg-gray;
     border-bottom: 0;
-    border-radius: svw(8) svw(8) 0 0;
+    border-radius: svw(6) svw(6) 0 0;
     transition: background-color 0.3s, color 0.3s;
 
     @include mq(pc) {
@@ -156,8 +150,6 @@
       height: 110px;
       padding: 0 33px 0 50px;
       text-align: left;
-      border: 2px solid $color-bg-gray;
-      border-bottom: 0;
       border-radius: 15px 15px 0 0;
     }
 
@@ -186,8 +178,8 @@
   // アイコンは mask で currentColor に塗る（選択中は白・未選択は青）
   &__tab-icon {
     grid-area: icon;
-    width: svw(40);
-    height: svw(34);
+    width: svw(44);
+    height: svw(36);
     background: currentColor;
     mask: center / contain no-repeat;
 
@@ -221,34 +213,30 @@
     grid-area: ttl;
     font-size: sfont(16);
     font-weight: 700;
-    line-height: 1;
-    letter-spacing: 0.1em;
+    line-height: 1.45;
 
     @include mq(pc) {
       font-size: rem(20);
-      line-height: 1.45;
-      letter-spacing: 0;
     }
   }
 
   &__tab-desc {
     grid-area: desc;
-    font-size: sfont(10);
+    font-size: sfont(12);
     font-weight: 400;
-    line-height: 1.4;
-    letter-spacing: 0.02em;
+    line-height: 1.45;
 
     @include mq(pc) {
       font-size: rem(14);
-      letter-spacing: 0;
     }
   }
 
+  // 丸矢印は PC のみ
   &__tab-arrow {
-    grid-area: arrow;
-    width: svw(18);
+    display: none;
 
     @include mq(pc) {
+      display: inline-grid;
       width: 53px;
     }
 
@@ -262,13 +250,13 @@
   &__tab {
     @include hover {
       .c-arrow {
-        transform: rotate(90deg) translateX(svw(3));
+        transform: rotate(90deg) translateX(3px);
       }
     }
   }
 
   &__panel {
-    padding: svw(24) svw(16) svw(32);
+    padding: svw(28) svw(21) svw(32);
     background: $color-bg-gray;
 
     @include mq(pc) {
@@ -281,15 +269,13 @@
   }
 
   &__lead {
-    font-size: sfont(14);
-    font-weight: 700;
-    line-height: 1.7;
-    letter-spacing: 0.04em;
+    font-size: sfont(15);
+    line-height: 1.6;
 
     @include mq(pc) {
       font-size: rem(18);
+      font-weight: 700;
       line-height: 1.45;
-      letter-spacing: 0;
     }
   }
 
@@ -383,9 +369,8 @@
   }
 
   &__num-en {
-    font-size: sfont(10);
+    font-size: sfont(12);
     font-weight: 600;
-    letter-spacing: 0.08em;
 
     @include mq(pc) {
       font-size: rem(16);
@@ -417,12 +402,10 @@
     font-size: sfont(16);
     font-weight: 700;
     line-height: 1.5;
-    letter-spacing: 0.06em;
 
     @include mq(pc) {
       font-size: rem(22);
       line-height: 1.43;
-      letter-spacing: 0;
     }
   }
 
@@ -430,19 +413,17 @@
     margin-top: svw(5);
     font-size: sfont(13);
     font-weight: 400;
-    line-height: 1.8;
-    letter-spacing: 0.04em;
+    line-height: 1.7;
 
     @include mq(pc) {
       margin-top: 10px;
       font-size: rem(16);
       line-height: 1.6875;
-      letter-spacing: 0;
     }
   }
 
   .p-logistics-tags {
-    margin-top: svw(12);
+    margin-top: svw(15);
 
     @include mq(pc) {
       margin-top: 18px;
@@ -512,11 +493,10 @@
 
   &__item {
     padding: svw(6) svw(11);
-    font-size: sfont(11);
+    font-size: sfont(12);
     font-weight: 700;
     line-height: 1;
     color: $color-main;
-    letter-spacing: 0.05em;
     background: $color-bg;
     border: 1px solid $color-track;
     border-radius: svw(999);
@@ -526,7 +506,6 @@
       font-size: rem(14);
       font-weight: 500;
       line-height: 1.45;
-      letter-spacing: 0;
       border-color: $color-tag-border;
     }
   }
@@ -546,7 +525,7 @@
 // ================================================================
 .p-logistics-behind {
   position: relative;
-  padding: svw(54) 0 svw(64);
+  padding: svw(43) 0 svw(50);
   overflow: hidden;
   color: #fff;
 
@@ -575,6 +554,15 @@
   }
 
   &__head {
+    // SP の見出しは行の高さ 36px（Figma）
+    .c-ttl__main {
+      line-height: 1.385;
+
+      @include mq(pc) {
+        line-height: 1.475;
+      }
+    }
+
     @include mq(pc) {
       display: grid;
       grid-template-columns: 1fr 452px;
@@ -583,11 +571,9 @@
   }
 
   &__txt {
-    margin-top: svw(19);
-    font-size: sfont(14);
-    font-weight: 400;
-    line-height: 2;
-    letter-spacing: 0.04em;
+    margin-top: svw(12);
+    font-size: sfont(15);
+    line-height: 1.6;
 
     @include mq(pc) {
       padding-top: 43px;
@@ -595,14 +581,13 @@
       font-size: rem(16);
       font-weight: 700;
       line-height: 1.875;
-      letter-spacing: 0;
     }
   }
 
   &__list {
     display: grid;
-    gap: svw(12);
-    margin-top: svw(28);
+    gap: svw(16);
+    margin-top: svw(33);
 
     @include mq(pc) {
       grid-template-columns: repeat(3, 1fr);
@@ -611,33 +596,32 @@
     }
   }
 
+  // SP・PC とも淡い青のグラデーション＋2px 枠
   &__card {
     display: flex;
     flex-direction: column;
-    padding: svw(24) svw(20) svw(25);
+    min-height: svw(174);
+    padding: svw(23) svw(24) svw(26);
     color: $color-txt;
-    background: rgb(255 255 255 / 82%);
-    border: 1px solid rgb(255 255 255 / 95%);
-    border-radius: svw(6);
+    background: radial-gradient(
+      ellipse 110% 90% at 20% 110%,
+      color.change($color-glow, $alpha: 0.8) 0%,
+      color.change($color-bg-soft-light, $alpha: 0.8) 98%
+    );
+    border: 2px solid $color-pale;
+    border-radius: 5px;
 
     @include mq(pc) {
       min-height: 322px;
       padding: 52px 36px 59px;
-      background: radial-gradient(
-        ellipse 110% 90% at 20% 110%,
-        color.change($color-glow, $alpha: 0.8) 0%,
-        color.change($color-bg-soft-light, $alpha: 0.8) 98%
-      );
-      border: 2px solid $color-pale;
-      border-radius: 5px;
     }
 
     .p-logistics-tags {
-      margin-top: svw(15);
+      padding-top: svw(20);
+      margin-top: auto;
 
       @include mq(pc) {
         padding-top: 40px;
-        margin-top: auto;
       }
     }
   }
@@ -647,12 +631,10 @@
     font-weight: 700;
     line-height: 1.5;
     color: $color-main;
-    letter-spacing: 0.06em;
 
     @include mq(pc) {
       font-size: rem(20);
       line-height: 1.45;
-      letter-spacing: 0;
     }
   }
 
@@ -660,8 +642,7 @@
     margin-top: svw(8);
     font-size: sfont(13);
     font-weight: 400;
-    line-height: 1.9;
-    letter-spacing: 0.04em;
+    line-height: 1.69;
 
     @include mq(pc) {
       margin-top: 14px;
@@ -669,7 +650,6 @@
       font-weight: 500;
       line-height: 1.875;
       color: rgb(44 44 44 / 92%);
-      letter-spacing: 0;
     }
   }
 }
@@ -678,63 +658,66 @@
 // 締め（仕事を知る / SPECIAL CONTENT）
 // ================================================================
 .p-logistics-closing {
-  padding: svw(64) 0 svw(88);
+  padding: svw(55) 0 svw(42);
 
   @include mq(pc) {
     padding: fluid(100) 0;
   }
 
+  // SP の左右余白はこのセクションだけ 20px
+  .p-logistics__inner {
+    padding: 0 svw(20);
+
+    @include mq(pc) {
+      padding: 0 20px;
+    }
+  }
+
   &__ttl {
-    font-size: sfont(21);
+    font-size: sfont(22);
     font-weight: 700;
-    line-height: 1.7;
+    line-height: 1.455;
     text-align: center;
-    letter-spacing: 0.08em;
 
     @include mq(pc) {
       font-size: fluid(40, 30);
       line-height: 1.475;
-      letter-spacing: 0;
     }
   }
 
   &__txt {
     margin-top: svw(20);
-    font-size: sfont(14);
+    font-size: sfont(15);
     font-weight: 400;
-    line-height: 2;
-    letter-spacing: 0.04em;
+    line-height: 1.6;
+    text-align: center;
 
     @include mq(pc) {
       margin-top: 30px;
       font-size: rem(16);
       font-weight: 500;
       line-height: 1.875;
-      text-align: center;
-      letter-spacing: 0;
     }
   }
 
   &__ask {
-    margin-top: svw(16);
-    font-size: sfont(14);
+    margin-top: svw(10);
+    font-size: sfont(15);
     font-weight: 700;
-    line-height: 1.8;
+    line-height: 1.6;
     text-align: center;
-    letter-spacing: 0.04em;
 
     @include mq(pc) {
       margin-top: 30px;
       font-size: rem(16);
       line-height: 1.875;
-      letter-spacing: 0;
     }
   }
 
   &__btns {
     display: grid;
     gap: svw(12);
-    margin-top: svw(28);
+    margin-top: svw(36);
 
     @include mq(pc) {
       grid-template-columns: repeat(2, 350px);
@@ -744,8 +727,21 @@
     }
   }
 
-  // 英字はこのページだけ 13px・太字・白 80%（Figma 物流を知る）
+  // SP は角丸 2px（Figma 物流を知る SP）
+  // SP の高さはこのページだけ 76（Figma 物流を知る SP）
+  .c-link-btn {
+    height: svw(76);
+
+    @include mq(pc) {
+      height: 90px;
+    }
+  }
+
+  // 英字はこのページだけ SP 12px／PC 13px・太字・白 80%（Figma 物流を知る）
   .c-link-btn__en {
+    font-size: sfont(12);
+    font-weight: 600;
+    letter-spacing: 0;
     color: rgb(255 255 255 / 80%);
 
     @include mq(pc) {

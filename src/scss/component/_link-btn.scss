@@ -2,22 +2,22 @@
 
 // ================================================================
 // 四角いリンクボタン（文字＋丸囲み矢印）。partials/_link-btn.ejs
-//  - 幅は親（グリッド・リスト）で決める。高さは SP 76 / PC 90
+//  - 幅は親（グリッド・リスト）で決める。高さは SP 68 / PC 90
 //  - 色：既定＝紺 / --red＝赤（SPECIAL CONTENT）/ --white＝白地＋枠線
 //  - --lg：PC の和文を 18px に（ページ末尾の大きいボタン）
-//  Figma：仕事を知る 223:115 / 307:2644、物流を知る 締め
+//  Figma：仕事を知る PC 223:115 / 307:2644・SP 686:1692（lbtn）、物流を知る 締め
 // ================================================================
 .c-link-btn {
   display: flex;
   gap: svw(12);
   align-items: center;
   justify-content: space-between;
-  height: svw(76);
+  height: svw(68);
   padding: 0 svw(20);
   color: #fff;
   background: $color-main;
   border: 1px solid transparent;
-  border-radius: svw(4);
+  border-radius: svw(2);
   transition: opacity 0.3s, color 0.3s, background-color 0.3s, border-color 0.3s;
 
   @include mq(pc) {
@@ -89,7 +89,7 @@
   &__txt {
     display: flex;
     flex-direction: column;
-    gap: svw(6);
+    gap: svw(3);
 
     @include mq(pc) {
       gap: 5px;
@@ -98,13 +98,14 @@
 
   &__en {
     font-family: $font-en;
-    font-size: sfont(10);
-    font-weight: 500;
+    font-size: sfont(12);
+    font-weight: 600;
     line-height: 1;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.1em;
 
     @include mq(pc) {
       font-size: rem(12);
+      font-weight: 500;
       line-height: 1.2;
       letter-spacing: 0;
     }
@@ -113,12 +114,11 @@
   &__ja {
     font-size: sfont(15);
     font-weight: 700;
-    line-height: 1.2;
-    letter-spacing: 0.06em;
+    line-height: 1.33;
 
     @include mq(pc) {
       font-size: rem(16);
-      letter-spacing: 0;
+      line-height: 1.2;
     }
   }
 

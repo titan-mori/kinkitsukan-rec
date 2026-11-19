@@ -1,7 +1,7 @@
 @use "../foundation" as *;
 
 // ================================================================
-// 仕事を知る（Figma PC 160:2334。SP デザインなし＝仮）
+// 仕事を知る（Figma PC 160:2334 / SP 686:1692）
 // ================================================================
 
 // 画像が未配置の間も枠が分かるよう、写真系の img に下地色を敷く
@@ -17,8 +17,13 @@ $jobs-sticky-top: $header-height + 60px;
 
 .p-jobs {
   &__inner {
-    max-width: calc(#{$inner-width} + #{svw(40)});
-    padding: 0 svw(20);
+    max-width: calc(#{$inner-width} + #{svw(30)});
+    padding: 0 svw(15);
+
+    @include mq(pc) {
+      max-width: calc(#{$inner-width} + 40px);
+      padding: 0 20px;
+    }
     margin: 0 auto;
   }
 
@@ -41,19 +46,21 @@ $jobs-sticky-top: $header-height + 60px;
 // ONE TEAM / 仕事のつながり
 // ================================================================
 .p-jobs-team {
-  padding-top: svw(38);
+  padding: svw(38) 0 svw(46);
 
   @include mq(pc) {
-    padding-top: fluid(128);
+    padding: fluid(128) 0 0;
   }
 }
 
 // ---- 図（画像1枚。PC / SP で picture 切り替え）
 .p-jobs-map {
   display: block;
-  margin-top: svw(32);
+  padding: 0 svw(5); // SP は図だけ左右 20px
+  margin-top: svw(16);
 
   @include mq(pc) {
+    padding: 0;
     margin-top: fluid(120, 72);
   }
 
@@ -69,13 +76,17 @@ $jobs-sticky-top: $header-height + 60px;
 //      職種ナビは .p-jobs-list 全体、職種見出しは各セクション内でスクロールに追従（sticky）
 //  SP（仮）：ナビなし。見出し→本文の縦積み
 // ================================================================
-.p-jobs-list {
-  position: relative;
+// ---- 職種から探す（SP のみ）
+.p-jobs-anchor {
   margin-top: svw(56);
 
   @include mq(pc) {
-    margin-top: 0;
+    display: none;
   }
+}
+
+.p-jobs-list {
+  position: relative;
 }
 
 .p-jobs-nav {
@@ -142,7 +153,7 @@ $jobs-sticky-top: $header-height + 60px;
 }
 
 .p-jobs-job {
-  padding: svw(48) 0 svw(56);
+  padding: svw(54) 0 svw(72);
 
   @include mq(pc) {
     padding: fluid(120) 0;
@@ -174,22 +185,23 @@ $jobs-sticky-top: $header-height + 60px;
 
   &__name {
     display: flex;
-    gap: svw(12);
+    gap: svw(10);
     align-items: center;
-    margin-top: svw(4);
+    margin-top: svw(6);
     font-size: sfont(26);
     font-weight: 700;
-    line-height: 1.33;
+    line-height: 1.462;
 
     @include mq(pc) {
       gap: 15px;
       margin-top: 10px;
       font-size: fluid(36, 26);
+      line-height: 1.333;
     }
   }
 
   &__icon {
-    width: svw(32); // 色は見出しの文字色（$color-txt）を currentColor で継承
+    width: svw(26); // 色は見出しの文字色（$color-txt）を currentColor で継承
 
     @include mq(pc) {
       width: 42px;
@@ -197,9 +209,9 @@ $jobs-sticky-top: $header-height + 60px;
   }
 
   &__lead {
-    margin-top: svw(8);
-    font-size: sfont(14);
-    line-height: 1.7;
+    margin-top: svw(12);
+    font-size: sfont(15);
+    line-height: 1.6;
 
     @include mq(pc) {
       margin-top: 20px;
@@ -209,7 +221,7 @@ $jobs-sticky-top: $header-height + 60px;
 
   // ---- 本文
   &__body {
-    margin-top: svw(28);
+    margin-top: svw(18);
 
     @include mq(pc) {
       grid-column: 3;
@@ -221,7 +233,7 @@ $jobs-sticky-top: $header-height + 60px;
   &__catch {
     font-size: sfont(20);
     font-weight: 700;
-    line-height: 1.6;
+    line-height: 1.5;
 
     @include mq(pc) {
       font-size: fluid(36, 24);
@@ -231,22 +243,26 @@ $jobs-sticky-top: $header-height + 60px;
 
   &__txt {
     margin-top: svw(14);
-    font-size: sfont(14);
-    line-height: 1.9;
+    font-size: sfont(15);
+    font-weight: 400;
+    line-height: 1.6;
 
     @include mq(pc) {
       margin-top: 30px;
       font-size: rem(16);
+      font-weight: 500;
       line-height: 1.6875;
     }
   }
 
   &__img {
-    margin-top: svw(24);
-    aspect-ratio: 810 / 300;
+    height: svw(200);
+    margin-top: svw(20);
 
     @include mq(pc) {
+      height: auto;
       margin-top: 50px;
+      aspect-ratio: 810 / 300;
     }
 
     img {
@@ -256,8 +272,8 @@ $jobs-sticky-top: $header-height + 60px;
 
   // ---- 主な仕事 / 仕事選びのポイント
   &__box {
-    padding: svw(24) svw(18) svw(28);
-    margin-top: svw(16);
+    padding: svw(29) svw(20);
+    margin-top: svw(20);
     background: $color-bg-gray;
 
     @include mq(pc) {
@@ -273,7 +289,6 @@ $jobs-sticky-top: $header-height + 60px;
   &__works {
     display: grid;
     gap: svw(6);
-    padding-left: svw(4);
     margin-top: svw(10);
 
     @include mq(pc) {
@@ -288,10 +303,10 @@ $jobs-sticky-top: $header-height + 60px;
 
     li {
       position: relative;
-      padding-left: svw(15);
-      font-size: sfont(14);
+      padding-left: svw(12);
+      font-size: sfont(15);
       font-weight: 400;
-      line-height: 1.5;
+      line-height: 1.45;
 
       @include mq(pc) {
         padding-left: 15px;
@@ -331,12 +346,14 @@ $jobs-sticky-top: $header-height + 60px;
 
   &__btns {
     display: grid;
-    gap: svw(12);
-    margin-top: svw(28);
+    gap: svw(10);
+    padding: 0 svw(5); // SP はボタンだけ左右 20px
+    margin-top: svw(24);
 
     @include mq(pc) {
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 30px;
+      padding: 0;
       margin-top: 50px;
     }
   }

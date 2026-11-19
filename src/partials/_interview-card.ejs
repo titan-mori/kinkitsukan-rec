@@ -31,6 +31,10 @@
       <% catchLines.forEach((line) => { %><span class="c-interview-card__catch-line"><%- line %></span><% }) %>
     </<%= cardTag %>>
     <p class="c-interview-card__job"><%= job %></p>
-    <p class="c-interview-card__meta"><%= meta %></p>
+    <div class="c-interview-card__foot">
+      <p class="c-interview-card__meta"><%= meta %></p>
+      <%# SP のみ表示（PC デザインにはない） %>
+      <span class="c-interview-card__more" aria-hidden="true">詳しく見る<span class="c-circle-arrow c-interview-card__more-icon"><%- include('partials/_arrow') %></span></span>
+    </div>
   </div>
 </a>
