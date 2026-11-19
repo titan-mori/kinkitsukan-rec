@@ -20,7 +20,7 @@
     </nav>
 
     <div class="l-header__actions">
-      <a class="l-header__entry" href="<%= site.entry.form %>">
+      <a class="l-header__entry" href="<%= root %><%= site.entry.form %>">
         <span>ENTRY</span>
         <%- include('_arrow') %>
       </a>
@@ -70,8 +70,8 @@
 
     <%# 下部：応募・面談ボタン（フッターと同じ部品。見た目は _header.scss の .l-drawer__cta で上書き） %>
     <ul class="l-drawer__cta">
-      <li><%- include('_cta-btn', { variant: 'entry', href: site.entry.form, label: '応募フォーム', en: 'ENTRY' }) %></li>
-      <li><%- include('_cta-btn', { variant: 'casual', href: site.entry.casual, label: '職場見学・カジュアル面談' }) %></li>
+      <li><%- include('_cta-btn', { variant: 'entry', href: root + site.entry.form, label: '応募フォーム', en: 'ENTRY' }) %></li>
+      <li><%- include('_cta-btn', { variant: 'casual', href: root + site.entry.casual, label: '職場見学・カジュアル面談' }) %></li>
     </ul>
   </nav>
 </header>

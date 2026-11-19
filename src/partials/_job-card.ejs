@@ -1,0 +1,30 @@
+<%#
+  募集職種カード（スタイル：scss/component/_job-card.scss）。カード全体が1つのリンク
+  募集要項一覧で使用。WP 化時はカスタム投稿のループ内で同じマークアップを出力する
+    include('partials/_job-card', { num: '01', name: '港湾倉庫作業員', lead: '世界と日本をつなぐ現場の仕事', tags: ['正社員', '中途'], href: '#' })
+  引数
+    num  … 番号（JOBS 01 の 01）
+    name … 職種名
+    lead … キャッチ
+    tags … 雇用形態などのタグ（文字列の配列）。省略可
+    href … 詳細ページへのリンク
+%>
+<% const cardTags = typeof tags !== 'undefined' ? tags : []; %>
+<a class="c-job-card" href="<%= href %>">
+  <span class="c-job-card__body">
+    <span class="c-ttl__en c-job-card__num">JOBS <%= num %></span>
+    <span class="c-job-card__name"><%= name %></span>
+    <span class="c-job-card__meta">
+      <span class="c-job-card__lead"><%= lead %></span>
+      <% if (cardTags.length) { %>
+        <span class="c-tag-list">
+          <% cardTags.forEach((tag) => { %><span class="c-tag"><%= tag %></span><% }) %>
+        </span>
+      <% } %>
+    </span>
+  </span>
+  <span class="c-job-card__more">
+    募集要項を見る
+    <span class="c-circle-arrow c-job-card__icon" aria-hidden="true"><%- include('partials/_arrow') %></span>
+  </span>
+</a>

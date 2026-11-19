@@ -1,0 +1,71 @@
+@use "../foundation" as *;
+
+// ================================================================
+// 小見出し付きの項目表（partials/_spec-table.ejs）
+//  グループ（c-subttl ＋ dl）を縦に並べる
+//  PC：項目名 240px ＋ 内容を横並び / SP：項目名の下に内容
+//  Figma：募集要項詳細 PC 739:697 / SP 753:470
+//  外側の白パネル・余白は使う側で指定する
+// ================================================================
+.c-spec-table {
+  display: grid;
+  gap: svw(36);
+
+  @include mq(pc) {
+    gap: 56px;
+  }
+
+  // SP はこの表だけ小見出しを 18px に（c-subttl の SP 既定は 16px）
+  &__ttl {
+    gap: svw(8);
+    font-size: sfont(18);
+
+    @include mq(pc) {
+      gap: 10px;
+      font-size: rem(20);
+    }
+  }
+
+  &__list {
+    margin-top: svw(12);
+    border-top: 1px solid $color-line;
+
+    @include mq(pc) {
+      margin-top: 18px;
+    }
+  }
+
+  &__row {
+    display: grid;
+    gap: svw(4);
+    padding: svw(14) 0;
+    font-size: sfont(14);
+    border-bottom: 1px solid $color-line;
+
+    @include mq(pc) {
+      grid-template-columns: 240px minmax(0, 1fr);
+      gap: 32px;
+      padding: 22px 0;
+      font-size: rem(15);
+      line-height: 1.867;
+    }
+
+    dt {
+      font-weight: 700;
+      line-height: 1.571;
+
+      @include mq(pc) {
+        line-height: inherit;
+      }
+    }
+
+    dd {
+      font-weight: 400;
+      line-height: 1.714;
+
+      @include mq(pc) {
+        line-height: inherit;
+      }
+    }
+  }
+}

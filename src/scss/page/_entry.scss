@@ -1,0 +1,105 @@
+@use "../foundation" as *;
+
+// ================================================================
+// 応募フォーム（Figma PC 742:707 / SP 753:681）・送信完了
+// p-entry__inner と p-entry-form は職場見学・カジュアル面談（casual/）でも使う
+// フォーム本体は c-form、カジュアル面談への導線は c-cross-link
+// ================================================================
+.p-entry {
+  // SP は左右 20px（募集要項と同じ）
+  &__inner {
+    max-width: calc(#{$inner-width} + #{svw(40)});
+    padding: 0 svw(20);
+    margin: 0 auto;
+
+    @include mq(pc) {
+      max-width: calc(#{$inner-width} + 40px);
+      padding: 0 20px;
+    }
+  }
+}
+
+// ================================================================
+// 導入（見出し＋リード＋カジュアル面談への導線）
+// ================================================================
+.p-entry-intro {
+  padding: svw(38) 0 svw(40);
+
+  @include mq(pc) {
+    padding: fluid(110) 0 fluid(90);
+  }
+
+  // SP はリードの上を 14px に（c-intro__txt の SP 既定は 12px）
+  .c-intro__txt {
+    margin-top: svw(14);
+
+    @include mq(pc) {
+      margin-top: 43px;
+    }
+  }
+
+  &__cross {
+    margin-top: svw(14);
+
+    @include mq(pc) {
+      margin-top: 56px;
+    }
+  }
+}
+
+// ================================================================
+// フォーム（グレー背景の上に白いカード）
+// ================================================================
+.p-entry-form {
+  padding: svw(40) 0 svw(56);
+  background: $color-bg-gray;
+
+  @include mq(pc) {
+    padding: fluid(100) 0 fluid(120);
+  }
+}
+
+// ================================================================
+// 送信完了
+// ================================================================
+.p-entry-thanks {
+  padding: svw(38) 0 svw(64);
+
+  @include mq(pc) {
+    padding: fluid(110) 0 fluid(140);
+  }
+
+  &__body {
+    max-width: 800px;
+    margin: svw(24) auto 0;
+    font-size: sfont(15);
+    line-height: 1.8;
+
+    @include mq(pc) {
+      margin-top: 48px;
+      font-size: rem(16);
+      line-height: 1.875;
+      text-align: center;
+    }
+
+    p + p {
+      margin-top: 1lh;
+    }
+  }
+
+  &__br-pc {
+    display: none;
+
+    @include mq(pc) {
+      display: inline;
+    }
+  }
+
+  &__btn {
+    margin-top: svw(32);
+
+    @include mq(pc) {
+      margin-top: 56px;
+    }
+  }
+}

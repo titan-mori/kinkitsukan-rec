@@ -45,5 +45,5 @@
       "children": []
     }
   ],
-  "entry": { "form": "#", "casual": "#" }
+  "entry": { "form": "entry/", "casual": "casual/" }
 }

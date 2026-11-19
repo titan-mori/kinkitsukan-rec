@@ -1,0 +1,180 @@
+@use "../foundation" as *;
+
+// ================================================================
+// 募集職種カードのリスト（募集要項一覧・詳細の「ほかの職種も見る」）
+//   <ul class="c-job-list"><li>（_job-card）</li>...</ul>
+// ================================================================
+.c-job-list {
+  display: grid;
+  gap: svw(12);
+
+  @include mq(pc) {
+    gap: 16px;
+  }
+}
+
+// ================================================================
+// 募集職種カード（partials/_job-card.ejs）。カード全体がリンク
+//  PC：左に番号・職種名・キャッチ＋タグ、右端に「募集要項を見る」
+//  SP：縦に積み、「募集要項を見る」の行の上に区切り線
+//  Figma：募集要項 PC 735:647 / SP 750:389
+// ================================================================
+.c-job-card {
+  display: flex;
+  flex-direction: column;
+  gap: svw(8);
+  padding: svw(20) svw(20) svw(16);
+  background: #fff;
+  border: 1px solid $color-line;
+  border-radius: 4px;
+  transition:
+    color 0.3s,
+    background-color 0.3s,
+    border-color 0.3s;
+
+  @include mq(pc) {
+    flex-direction: row;
+    gap: 40px;
+    align-items: center;
+    padding: 36px 48px;
+    border-radius: 3px;
+  }
+
+  // ホバー：紺ベタに反転（文字・タグ・区切り線は白、丸矢印は白地に紺）
+  @include hover {
+    color: #fff;
+    background: $color-main;
+    border-color: $color-main;
+
+    .c-job-card__num,
+    .c-job-card__more {
+      color: #fff;
+    }
+
+    .c-job-card__more {
+      border-top-color: rgb(255 255 255 / 30%);
+    }
+
+    .c-tag {
+      color: #fff;
+      background: transparent;
+      border-color: #fff;
+    }
+
+    .c-job-card__icon {
+      color: $color-main;
+      background: #fff;
+      border-color: #fff;
+    }
+
+    // 矢印を少し右へ（c-link-btn と同じ動き）
+    .c-arrow {
+      transform: translateX(svw(3));
+    }
+  }
+
+  .c-arrow {
+    transition: transform 0.3s;
+  }
+
+  &__num,
+  &__more,
+  .c-tag {
+    transition:
+      color 0.3s,
+      background-color 0.3s,
+      border-color 0.3s;
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: svw(8);
+
+    @include mq(pc) {
+      flex: 1;
+      gap: 10px;
+      min-width: 0;
+    }
+  }
+
+  // 番号（c-ttl__en の菱形付き英字を流用）
+  &__num {
+    align-self: flex-start;
+    line-height: svw(30);
+
+    @include mq(pc) {
+      line-height: 30px;
+    }
+  }
+
+  &__name {
+    font-size: sfont(22);
+    font-weight: 700;
+    line-height: 1.455;
+
+    @include mq(pc) {
+      font-size: rem(32);
+      line-height: 1.5;
+    }
+  }
+
+  // SP：キャッチの下にタグ（上下に少し余白） / PC：キャッチの横にタグ
+  &__meta {
+    display: flex;
+    flex-direction: column;
+    gap: svw(12);
+    padding-bottom: svw(8);
+
+    @include mq(pc) {
+      flex-flow: row wrap;
+      gap: 10px 24px;
+      align-items: center;
+      padding-bottom: 0;
+    }
+  }
+
+  &__lead {
+    font-size: sfont(14);
+    line-height: 1.571;
+
+    @include mq(pc) {
+      font-size: rem(16);
+      line-height: 1.6875;
+    }
+  }
+
+  &__more {
+    display: flex;
+    gap: svw(20);
+    align-items: center;
+    justify-content: space-between;
+    padding-top: svw(12);
+    font-size: sfont(14);
+    font-weight: 700;
+    color: $color-main;
+    border-top: 1px solid $color-line;
+
+    @include mq(pc) {
+      flex-shrink: 0;
+      gap: 20px;
+      padding-top: 0;
+      font-size: rem(16);
+      border-top: 0;
+    }
+  }
+
+  &__icon {
+    width: svw(34);
+    background: #fff;
+    border-color: $color-line;
+    transition:
+      color 0.3s,
+      background-color 0.3s,
+      border-color 0.3s;
+
+    @include mq(pc) {
+      width: 40px;
+    }
+  }
+}

@@ -1,7 +1,7 @@
 <%#
   応募・面談の大きな CTA ボタン（スタイル：scss/component/_cta-btn.scss）
-    include('partials/_cta-btn', { variant: 'entry', href: site.entry.form, label: '応募フォーム', en: 'ENTRY' })
-    include('partials/_cta-btn', { variant: 'casual', href: site.entry.casual, label: 'カジュアル面談' })
+    include('partials/_cta-btn', { variant: 'entry', href: root + site.entry.form, label: '応募フォーム', en: 'ENTRY' })
+    include('partials/_cta-btn', { variant: 'casual', href: root + site.entry.casual, label: 'カジュアル面談' })
   引数
     variant … 'entry'（グレー → ホバーで黒＋白線）/ 'casual'（白 → ホバーで紺に反転）
     href    … リンク先

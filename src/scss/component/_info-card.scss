@@ -1,0 +1,98 @@
+@use "../foundation" as *;
+
+// ================================================================
+// グレー地の説明カード（菱形付き見出し＋説明＋項目表）。partials/_info-card.ejs
+//  - 並べるときは c-info-card-list で包む（SP 縦積み / PC 横並び）
+//  - 外側の余白は使う側で指定する
+//  Figma：職場見学・カジュアル面談 PC 744:989 / SP 753:897
+// ================================================================
+.c-info-card-list {
+  display: grid;
+  gap: svw(12);
+
+  @include mq(pc) {
+    grid-auto-columns: 1fr;
+    grid-auto-flow: column;
+    gap: 24px;
+  }
+}
+
+.c-info-card {
+  padding: svw(24) svw(20) svw(20);
+  background: $color-bg-gray;
+  border-radius: svw(4);
+
+  @include mq(pc) {
+    padding: 40px;
+    border-radius: 3px;
+  }
+
+  &__ttl {
+    display: flex;
+    gap: svw(8);
+    align-items: center;
+    font-size: sfont(20);
+    font-weight: 700;
+    line-height: 1.45;
+    color: $color-main;
+
+    @include mq(pc) {
+      gap: 10px;
+      font-size: rem(24);
+    }
+
+    &::before {
+      @include diamond-mark;
+    }
+  }
+
+  &__txt {
+    margin-top: svw(10);
+    font-size: sfont(14);
+    line-height: 1.71;
+
+    @include mq(pc) {
+      margin-top: 16px;
+      font-size: rem(16);
+      line-height: 1.875;
+    }
+  }
+
+  // 項目表（各行の上に線）
+  &__list {
+    margin-top: svw(14);
+    font-size: sfont(13);
+    line-height: 1.45;
+
+    @include mq(pc) {
+      margin-top: 24px;
+      font-size: rem(14);
+    }
+
+    div {
+      display: flex;
+      gap: svw(16);
+      padding: svw(10) 0;
+      border-top: 1px solid $color-line;
+
+      @include mq(pc) {
+        gap: 24px;
+        padding: 14px 0;
+      }
+    }
+
+    dt {
+      flex-shrink: 0;
+      width: svw(70);
+      font-weight: 700;
+
+      @include mq(pc) {
+        width: 90px;
+      }
+    }
+
+    dd {
+      min-width: 0;
+    }
+  }
+}

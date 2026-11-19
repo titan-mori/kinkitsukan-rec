@@ -1,0 +1,208 @@
+<% const page = { name: 'entry', title: '応募フォーム', bodyClass: 'page-entry', heroHeader: true }; %>
+<%- include('partials/_head', { page }) %>
+<%- include('partials/_header', { page }) %>
+<%
+  // 希望職種：募集要項（カスタム投稿 job01〜04）のうち「募集中」のものだけを出す。
+  //   WP 化時は CF7 のフィルター（wpcf7_form_tag）で、募集中フラグ（Secure Custom Fields の true/false フィールド）が立った投稿から選択肢を作る
+  //   初期状態は先頭を選択。募集要項詳細の応募ボタンから来たとき（?job_id=投稿 ID）はその職種を選択
+  //     静的版：main.js initEntryJob が data-job-id と照合する（id は仮の値）
+  //     WP 化時：同じフィルターの中で $_GET['job_id'] の投稿を初期選択にする（サーバー側で処理するので JS 不要）
+  const jobs = [
+    { id: 1, name: '港湾倉庫作業員', open: true },
+    { id: 2, name: '貿易事務', open: true },
+    { id: 3, name: '営業', open: true },
+    { id: 4, name: '通関士', open: true },
+  ].filter((job) => job.open);
+
+  // 採用区分（CF7 のフォームテンプレートに直接書く）。初期状態は先頭を選択
+  const types = ['新卒', '中途'];
+
+  // 生年月日の年：ビルドした年から 15〜70 年前（新しい順）。
+  // WP 化時は CF7 のフィルター（wpcf7_form_tag）で表示時の年から作る
+  const thisYear = new Date().getFullYear();
+  const years = Array.from({ length: 56 }, (_, i) => thisYear - 15 - i);
+%>
+
+<main class="l-main p-entry">
+  <%- include('partials/_page-hero', { page, en: 'ENTRY' }) %>
+
+  <div class="l-page-body">
+    <%# ===== 導入 ===== %>
+    <section class="p-entry-intro" aria-labelledby="entry-ttl">
+      <div class="p-entry__inner">
+        <div class="c-intro">
+          <div class="c-ttl">
+            <p class="c-ttl__label"><span class="c-ttl__en">ENTRY</span><span class="c-ttl__ja">／ 応募フォーム</span></p>
+            <h2 class="c-ttl__main" id="entry-ttl">あなたからの応募を、<br>お待ちしています。</h2>
+          </div>
+          <div class="c-intro__txt">
+            <p>必要事項をご入力のうえ、送信してください。内容を確認し、採用担当より面接日程などについてご連絡します。</p>
+          </div>
+        </div>
+
+        <div class="p-entry-intro__cross">
+          <%- include('partials/_cross-link', { sub: 'まずは話を聞いてみたい方へ', label: '職場見学・カジュアル面談のお申し込みはこちら', href: root + site.entry.casual }) %>
+        </div>
+      </div>
+    </section>
+
+    <%# ===== フォーム（静的版は送信しない。WP 化時は Contact Form 7 に置き換え、送信後に entry/thanks/ へ移動） ===== %>
+    <section class="p-entry-form" aria-label="応募フォーム">
+      <div class="p-entry__inner">
+        <form class="c-form" action="#" method="post" enctype="multipart/form-data">
+          <p class="c-form__note"><span class="c-form-badge">必須</span>は入力必須の項目です。</p>
+
+          <div class="c-form__fields">
+            <%# 希望職種 %>
+            <div class="c-form__row c-form__row--choice" role="radiogroup" aria-labelledby="entry-job-label" aria-required="true">
+              <div class="c-form__head">
+                <span class="c-form__label" id="entry-job-label">希望職種</span><span class="c-form-badge">必須</span>
+              </div>
+              <div class="c-form__body">
+                <div class="c-form__options" data-entry-job>
+                  <% jobs.forEach((job, i) => { %>
+                    <label class="c-form__choice"><input type="radio" name="job" value="<%= job.name %>" data-job-id="<%= job.id %>" required<%= i === 0 ? ' checked' : '' %>><span><%= job.name %></span></label>
+                  <% }) %>
+                </div>
+              </div>
+            </div>
+
+            <%# 採用区分 %>
+            <div class="c-form__row c-form__row--choice" role="radiogroup" aria-labelledby="entry-type-label" aria-required="true">
+              <div class="c-form__head">
+                <span class="c-form__label" id="entry-type-label">採用区分</span><span class="c-form-badge">必須</span>
+              </div>
+              <div class="c-form__body">
+                <div class="c-form__options">
+                  <% types.forEach((type, i) => { %>
+                    <label class="c-form__choice"><input type="radio" name="type" value="<%= type %>" required<%= i === 0 ? ' checked' : '' %>><span><%= type %></span></label>
+                  <% }) %>
+                </div>
+              </div>
+            </div>
+
+            <%# お名前 %>
+            <div class="c-form__row" role="group" aria-labelledby="entry-name-label">
+              <div class="c-form__head">
+                <span class="c-form__label" id="entry-name-label">お名前</span><span class="c-form-badge">必須</span>
+              </div>
+              <div class="c-form__body">
+                <div class="c-form__inputs">
+                  <input class="c-form__input" type="text" name="last-name" placeholder="姓（例：近畿）" aria-label="姓" autocomplete="family-name" required>
+                  <input class="c-form__input" type="text" name="first-name" placeholder="名（例：太郎）" aria-label="名" autocomplete="given-name" required>
+                </div>
+              </div>
+            </div>
+
+            <%# ふりがな %>
+            <div class="c-form__row" role="group" aria-labelledby="entry-kana-label">
+              <div class="c-form__head">
+                <span class="c-form__label" id="entry-kana-label">ふりがな</span><span class="c-form-badge">必須</span>
+              </div>
+              <div class="c-form__body">
+                <div class="c-form__inputs">
+                  <input class="c-form__input" type="text" name="last-kana" placeholder="せい（きんき）" aria-label="せい" required>
+                  <input class="c-form__input" type="text" name="first-kana" placeholder="めい（たろう）" aria-label="めい" required>
+                </div>
+              </div>
+            </div>
+
+            <%# 生年月日 %>
+            <div class="c-form__row" role="group" aria-labelledby="entry-birth-label">
+              <div class="c-form__head">
+                <span class="c-form__label" id="entry-birth-label">生年月日</span><span class="c-form-badge">必須</span>
+              </div>
+              <div class="c-form__body">
+                <div class="c-form__date">
+                  <span class="c-form__select">
+                    <select name="birth-year" aria-label="年" autocomplete="bday-year" required>
+                      <option value="">選択</option>
+                      <% years.forEach((y) => { %><option value="<%= y %>"><%= y %></option><% }) %>
+                    </select>
+                  </span>
+                  <span class="c-form__date-unit" aria-hidden="true">年</span>
+                  <span class="c-form__select">
+                    <select name="birth-month" aria-label="月" autocomplete="bday-month" required>
+                      <option value="">選択</option>
+                      <% for (let m = 1; m <= 12; m++) { %><option value="<%= m %>"><%= m %></option><% } %>
+                    </select>
+                  </span>
+                  <span class="c-form__date-unit" aria-hidden="true">月</span>
+                  <span class="c-form__select">
+                    <select name="birth-day" aria-label="日" autocomplete="bday-day" required>
+                      <option value="">選択</option>
+                      <% for (let d = 1; d <= 31; d++) { %><option value="<%= d %>"><%= d %></option><% } %>
+                    </select>
+                  </span>
+                  <span class="c-form__date-unit" aria-hidden="true">日</span>
+                </div>
+              </div>
+            </div>
+
+            <%# 電話番号 %>
+            <div class="c-form__row">
+              <div class="c-form__head">
+                <label class="c-form__label" for="entry-tel">電話番号</label><span class="c-form-badge">必須</span>
+              </div>
+              <div class="c-form__body">
+                <input class="c-form__input c-form__input--md" id="entry-tel" type="tel" name="tel" placeholder="例：09012345678" autocomplete="tel" inputmode="tel" required>
+              </div>
+            </div>
+
+            <%# メールアドレス %>
+            <div class="c-form__row">
+              <div class="c-form__head">
+                <label class="c-form__label" for="entry-email">メールアドレス</label><span class="c-form-badge">必須</span>
+              </div>
+              <div class="c-form__body">
+                <input class="c-form__input" id="entry-email" type="email" name="email" placeholder="例：info@example.com" autocomplete="email" required>
+              </div>
+            </div>
+
+            <%# 履歴書・職務経歴書 %>
+            <div class="c-form__row">
+              <div class="c-form__head">
+                <label class="c-form__label" for="entry-file">履歴書・<br class="c-form__br-pc">職務経歴書</label><span class="c-form-badge c-form-badge--optional">任意</span>
+              </div>
+              <div class="c-form__body">
+                <label class="c-form__file" data-file>
+                  <input id="entry-file" type="file" name="resume" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" aria-describedby="entry-file-hint">
+                  <span class="c-form__file-btn" aria-hidden="true">ファイルを選択</span>
+                  <span class="c-form__file-name" data-file-name aria-live="polite">選択されていません</span>
+                </label>
+                <p class="c-form__hint" id="entry-file-hint">PDF・Word・画像　1ファイル5MBまで。面接時のお持ち込みでも構いません。</p>
+              </div>
+            </div>
+
+            <%# ご質問など %>
+            <div class="c-form__row">
+              <div class="c-form__head">
+                <label class="c-form__label" for="entry-message">ご質問など</label><span class="c-form-badge c-form-badge--optional">任意</span>
+              </div>
+              <div class="c-form__body">
+                <textarea class="c-form__textarea" id="entry-message" name="message" placeholder="ご自由にご記入ください"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="c-form__submit">
+            <p class="c-form__privacy">個人情報の取り扱いについては、<a href="#" target="_blank" rel="noopener">個人情報保護方針<span class="u-visually-hidden">（新しいウィンドウで開きます）</span></a> をご確認ください。</p>
+            <div class="c-form__agree">
+              <label class="c-form__choice"><input type="checkbox" name="agree" value="1" required><span>個人情報保護方針に同意する</span></label>
+              <span class="c-form-badge">必須</span>
+            </div>
+            <%# Cloudflare Turnstile は WP 化時にプラグインがここへ出力する %>
+            <div class="c-form__btn">
+              <button class="c-link-btn c-link-btn--lg" type="submit">
+                <span class="c-link-btn__ja">応募する</span>
+                <span class="c-circle-arrow c-link-btn__icon" aria-hidden="true"><%- include('partials/_arrow') %></span>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+  </div>
+</main>
+
+<%- include('partials/_footer', { page }) %>

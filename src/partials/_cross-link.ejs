@@ -1,0 +1,17 @@
+<%#
+  枠線付きの横長リンク（スタイル：scss/component/_cross-link.scss）
+  フォーム同士の行き来（応募フォーム ⇔ 職場見学・カジュアル面談）などに使う
+    include('partials/_cross-link', { sub: 'まずは話を聞いてみたい方へ', label: '職場見学・カジュアル面談のお申し込みはこちら', href: root + site.entry.casual })
+  引数
+    label … 大きい文言（紺・太字）
+    href  … リンク先
+    sub   … 前に添える小さい文言。省略可
+%>
+<% const crossSub = typeof sub !== 'undefined' ? sub : ''; %>
+<a class="c-cross-link" href="<%= href %>">
+  <span class="c-cross-link__txt">
+    <% if (crossSub) { %><span class="c-cross-link__sub"><%= crossSub %></span><% } %>
+    <span class="c-cross-link__label"><%= label %></span>
+  </span>
+  <span class="c-circle-arrow c-cross-link__icon" aria-hidden="true"><%- include('_arrow') %></span>
+</a>

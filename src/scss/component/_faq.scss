@@ -96,7 +96,8 @@
     }
   }
 
-  &__item[open] &__icon::after {
+  // 閉じるアニメーション中（is-closing）は open が残っているので、先に＋へ戻す（main.js initFaq）
+  &__item[open]:not(.is-closing) &__icon::after {
     transform: rotate(0);
   }
 

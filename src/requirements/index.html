@@ -1,0 +1,74 @@
+<% const page = { name: 'requirements', title: '募集要項', bodyClass: 'page-requirements', heroHeader: true }; %>
+<%- include('partials/_head', { page }) %>
+<%- include('partials/_header', { page }) %>
+<%
+  // 募集中の職種（WP 化時はカスタム投稿 job01〜04 のループに置き換える）
+  //   href は詳細ページ（job01 以外は未作成のため '#'）
+  const jobs = [
+    { name: '港湾倉庫作業員', lead: '世界と日本をつなぐ現場の仕事', tags: ['正社員', '中途', '未経験歓迎'], href: 'job01/' },
+    { name: '貿易事務', lead: '輸出入の手続きを支える', tags: ['正社員', '新卒', '中途'], href: '#' },
+    { name: '営業', lead: '物流の課題を提案で解決する', tags: ['正社員', '新卒', '中途'], href: '#' },
+    { name: '通関士', lead: '貿易の関門を担う国家資格職', tags: ['正社員', '中途', '資格者'], href: '#' },
+  ];
+
+  // 選考の流れ
+  const steps = [
+    ['エントリー', '応募フォームから必要事項を送信'],
+    ['書類選考', '内容を確認し、結果をご連絡'],
+    ['一次面接', '本社にて実施'],
+    ['筆記試験・<br class="c-step-flow__br-pc">適性検査', '職種によって実施しない場合があります'],
+    ['二次面接', '役員面接'],
+    ['内定', '入社日などをご相談'],
+  ];
+%>
+
+<main class="l-main p-requirements">
+  <%- include('partials/_page-hero', { page, en: 'REQUIREMENTS' }) %>
+
+  <div class="l-page-body">
+    <%# ===== POSITIONS / 募集中の職種 ===== %>
+    <section class="p-requirements-positions" aria-labelledby="positions-ttl">
+      <div class="p-requirements__inner">
+        <div class="c-intro">
+          <div class="c-ttl">
+            <p class="c-ttl__label"><span class="c-ttl__en">POSITIONS</span><span class="c-ttl__ja">／ 募集中の職種</span></p>
+            <h2 class="c-ttl__main" id="positions-ttl">一緒に働く仲間を、<br>募集しています。</h2>
+          </div>
+          <div class="c-intro__txt">
+            <p>港の現場から、書類・手続き、お客様との窓口まで。近畿通関で一緒に働く仲間を募集しています。気になる職種を選んで、仕事内容や働く条件をご確認ください。</p>
+          </div>
+        </div>
+
+        <ul class="c-job-list p-requirements-positions__list">
+          <% jobs.forEach((job, i) => { %>
+            <li><%- include('partials/_job-card', { ...job, num: String(i + 1).padStart(2, '0') }) %></li>
+          <% }) %>
+        </ul>
+      </div>
+    </section>
+
+    <%# ===== FLOW / 選考の流れ ===== %>
+    <section class="p-requirements-flow" aria-labelledby="flow-ttl">
+      <div class="p-requirements__inner">
+        <div class="c-intro">
+          <div class="c-ttl">
+            <p class="c-ttl__label"><span class="c-ttl__en">FLOW</span><span class="c-ttl__ja">／ 選考の流れ</span></p>
+            <h2 class="c-ttl__main" id="flow-ttl">応募から内定まで。</h2>
+          </div>
+          <div class="c-intro__txt">
+            <p>エントリー後、書類選考を経て面接へ進みます。いきなりの応募に迷う方は、職場見学・カジュアル面談からのスタートも可能です。</p>
+          </div>
+        </div>
+
+        <div class="p-requirements-flow__steps">
+          <%- include('partials/_step-flow', {
+            steps,
+            note: '※筆記試験・適性検査は、職種によって実施しない場合があります。そのほか、選考の内容や回数は職種・採用区分によって異なることがあります。',
+          }) %>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<%- include('partials/_footer', { page }) %>

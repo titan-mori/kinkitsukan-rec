@@ -1,0 +1,633 @@
+@use "../foundation" as *;
+
+// ================================================================
+// フォーム（応募フォーム・カジュアル面談フォームで共用）
+// WP 化時は Contact Form 7 で出力する。CF7 のタグに class:c-form__input などを付け、
+// 選択肢・ファイル選択はフォームテンプレート側で同じ外枠（c-form__options / c-form__file など）を書く。
+// CF7 が足す span（.wpcf7-form-control-wrap / .wpcf7-list-item）は下の「CF7 の出力への対応」で吸収する
+//
+//   <form class="c-form">
+//     <p class="c-form__note"><span class="c-form-badge">必須</span>は入力必須の項目です。</p>
+//     <div class="c-form__fields">
+//       <div class="c-form__row">
+//         <div class="c-form__head"><label class="c-form__label" for="...">項目名</label><span class="c-form-badge">必須</span></div>
+//         <div class="c-form__body">（入力欄）</div>
+//       </div>
+//     </div>
+//     <div class="c-form__submit">...</div>
+//   </form>
+//
+//  Figma：応募フォーム PC 742:735 / SP 753:704
+// ================================================================
+.c-form {
+  padding: svw(28) svw(16) svw(32);
+  background: #fff;
+  border-radius: svw(4);
+
+  @include mq(pc) {
+    padding: 56px 72px 72px;
+    border-radius: 3px;
+  }
+
+  // ---- 冒頭の注記（「必須」は入力必須の項目です。）
+  &__note {
+    display: flex;
+    gap: svw(8);
+    align-items: center;
+    padding-bottom: svw(8);
+    font-size: sfont(12);
+    color: $color-meta;
+
+    @include mq(pc) {
+      gap: 8px;
+      padding-bottom: 24px;
+      font-size: rem(14);
+    }
+  }
+
+  // ---- 項目（SP：見出しの下に入力欄 / PC：見出し 240px ＋入力欄）
+  &__fields {
+    border-top: 1px solid $color-line;
+  }
+
+  &__row {
+    display: grid;
+    gap: svw(12);
+    padding: svw(20) 0;
+    border-bottom: 1px solid $color-line;
+
+    @include mq(pc) {
+      grid-template-columns: 240px 1fr;
+      gap: 40px;
+      align-items: start;
+      padding: 30px 0;
+    }
+  }
+
+  // PC は入力欄（高さ 60）の中央に見出しを合わせる。選択肢の行（--choice）はラジオの高さに合わせる
+  &__head {
+    display: flex;
+    gap: svw(10);
+    align-items: center;
+
+    @include mq(pc) {
+      gap: 12px;
+      min-height: 60px;
+    }
+  }
+
+  &__row--choice &__head {
+    @include mq(pc) {
+      min-height: 22px;
+    }
+  }
+
+  &__label {
+    font-size: sfont(15);
+    font-weight: 700;
+    line-height: 1.4;
+
+    @include mq(pc) {
+      font-size: rem(16);
+    }
+  }
+
+  // PC だけで改行（履歴書・<br>職務経歴書）
+  &__br-pc {
+    display: none;
+
+    @include mq(pc) {
+      display: inline;
+    }
+  }
+
+  &__body {
+    min-width: 0;
+  }
+
+  // ---- テキスト入力・テキストエリア・セレクト
+  // SP の文字は 16px 以上（iOS は 16px 未満の入力欄にフォーカスすると画面を拡大するため。デザインは 14px）
+  &__input,
+  &__textarea,
+  &__select select {
+    width: 100%;
+    font-size: sfont(16, 16);
+    color: $color-txt;
+    background: $color-bg-gray;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    transition: border-color 0.3s, background-color 0.3s;
+
+    @include mq(pc) {
+      font-size: rem(15);
+    }
+
+    &::placeholder {
+      color: $color-meta;
+      opacity: 1;
+    }
+
+    &:focus {
+      background: #fff;
+      border-color: $color-main;
+      outline: none;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $color-accent;
+      outline-offset: 2px;
+    }
+  }
+
+  &__input,
+  &__select select {
+    height: svw(52);
+    padding: 0 svw(16);
+
+    @include mq(pc) {
+      height: 60px;
+      padding: 0 20px;
+    }
+  }
+
+  &__textarea {
+    display: block;
+    height: svw(140);
+    padding: svw(14) svw(16);
+    line-height: 1.6;
+    resize: vertical;
+
+    @include mq(pc) {
+      height: 180px;
+      padding: 16px 20px;
+    }
+  }
+
+  // 低いテキストエリア（カジュアル面談の「ご質問など」）
+  &__textarea--sm {
+    height: svw(120);
+
+    @include mq(pc) {
+      height: 140px;
+    }
+  }
+
+  // PC の幅（指定がなければ入力欄いっぱい）
+  &__input--md {
+    @include mq(pc) {
+      max-width: 340px;
+    }
+  }
+
+  // ---- 横に並べる入力欄（姓・名 など。SP は2等分、PC は 240px ずつ）
+  &__inputs {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: svw(9);
+
+    @include mq(pc) {
+      grid-template-columns: repeat(2, 240px);
+      gap: 16px;
+    }
+  }
+
+  // ---- セレクト（外枠の ::after で下向きの矢印を描く）
+  &__select {
+    position: relative;
+    display: block;
+
+    &::after {
+      position: absolute;
+      top: 50%;
+      right: svw(16);
+      width: svw(7);
+      height: svw(7);
+      pointer-events: none;
+      content: "";
+      border-right: 1.5px solid $color-txt;
+      border-bottom: 1.5px solid $color-txt;
+      transform: translateY(-75%) rotate(45deg);
+
+      @include mq(pc) {
+        right: 20px;
+        width: 7px;
+        height: 7px;
+      }
+    }
+
+    select {
+      padding-right: svw(30);
+      appearance: none;
+      cursor: pointer;
+
+      @include mq(pc) {
+        padding-right: 36px;
+      }
+
+      // 未選択（先頭の「選択」＝ value=""）はプレースホルダの色
+      &:invalid,
+      &:has(option[value=""]:checked) {
+        color: $color-meta;
+      }
+    }
+  }
+
+  // ---- 生年月日（セレクト＋「年」「月」「日」）
+  &__date {
+    display: flex;
+    gap: svw(5);
+    align-items: center;
+    font-size: sfont(13);
+
+    @include mq(pc) {
+      gap: 12px;
+      font-size: rem(15);
+    }
+
+    > .c-form__select,
+    > .wpcf7-form-control-wrap {
+      width: svw(64);
+
+      @include mq(pc) {
+        width: 120px;
+      }
+    }
+
+    // 年だけ広く
+    > :first-child {
+      width: svw(90);
+
+      @include mq(pc) {
+        width: 170px;
+      }
+    }
+  }
+
+  // SP は月・日の幅が 64 しかないので、「選択」が収まるよう左右の余白と矢印の位置を詰める
+  &__date .c-form__select {
+    &::after {
+      right: svw(8);
+
+      @include mq(pc) {
+        right: 20px;
+      }
+    }
+
+    select {
+      padding: 0 svw(18) 0 svw(8);
+
+      @include mq(pc) {
+        padding: 0 36px 0 20px;
+      }
+    }
+  }
+
+  &__date-unit {
+    flex-shrink: 0;
+  }
+
+  // ---- ラジオ・チェックボックスの並び
+  &__options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: svw(14) svw(20);
+
+    @include mq(pc) {
+      gap: 16px 36px;
+      min-height: 22px;
+    }
+  }
+
+  // ラジオ・チェックボックス 1つ分（input ＋文言を label で包む）
+  &__choice {
+    display: inline-flex;
+    gap: svw(8);
+    align-items: center;
+    font-size: sfont(14);
+    line-height: 1.4;
+    cursor: pointer;
+
+    @include mq(pc) {
+      gap: 10px;
+      font-size: rem(15);
+    }
+  }
+
+  // ---- ファイル選択（本物の input は見えなくし、label 全体でファイル選択を開く）
+  &__file {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: svw(10);
+    align-items: flex-start;
+    padding: svw(16);
+    cursor: pointer;
+    border: 1px dashed $color-form-border;
+    border-radius: 3px;
+
+    @include mq(pc) {
+      flex-direction: row;
+      gap: 20px;
+      align-items: center;
+      padding: 20px 24px;
+    }
+
+    input[type="file"] {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      opacity: 0;
+    }
+
+    // input は見えないので、フォーカス時は枠全体に表示
+    &:has(input:focus-visible) {
+      outline: 2px solid $color-accent;
+      outline-offset: 2px;
+    }
+
+    @include hover {
+      .c-form__file-btn {
+        color: #fff;
+        background: $color-main;
+      }
+    }
+  }
+
+  &__file-btn {
+    flex-shrink: 0;
+    padding: svw(10) svw(18);
+    font-size: sfont(13);
+    font-weight: 700;
+    line-height: 1.4;
+    color: $color-main;
+    background: #fff;
+    border: 1px solid $color-main;
+    border-radius: 3px;
+    transition: color 0.3s, background-color 0.3s;
+
+    @include mq(pc) {
+      padding: 12px 22px;
+      font-size: rem(14);
+    }
+  }
+
+  &__file-name {
+    min-width: 0;
+    font-size: sfont(13);
+    line-height: 1.4;
+    color: $color-meta;
+    overflow-wrap: anywhere;
+
+    @include mq(pc) {
+      font-size: rem(14);
+    }
+
+    &.is-selected {
+      color: $color-txt;
+    }
+  }
+
+  // ---- 希望日時（第1〜第3希望：見出し＋日付＋時間帯）
+  //   SP：見出しの下に日付・時間帯を縦積み / PC：72px ＋日付 250px ＋時間帯 300px を横並び
+  &__schedule {
+    display: grid;
+    gap: svw(16);
+
+    @include mq(pc) {
+      gap: 14px;
+    }
+  }
+
+  &__schedule-row {
+    display: grid;
+    gap: svw(8);
+
+    @include mq(pc) {
+      grid-template-columns: 72px minmax(0, 250px) minmax(0, 300px);
+      gap: 16px;
+      align-items: center;
+    }
+  }
+
+  &__schedule-label {
+    font-size: sfont(14);
+    font-weight: 700;
+    line-height: 1.4;
+
+    @include mq(pc) {
+      font-size: rem(15);
+    }
+  }
+
+  // ---- 日付（input type="date"。WP 化時は CF7 の [date] タグ＋class:c-form__input）
+  // ブラウザ標準のカレンダーを使い、カレンダーボタンのアイコンだけデザインのもの（枠＋上部の線）に差し替える
+  // （Firefox はアイコンを差し替えられないので標準のまま。SVG の色 %23094a88 は $color-main）
+  input[type="date"] {
+    cursor: pointer;
+
+    &::-webkit-calendar-picker-indicator {
+      width: svw(16);
+      height: svw(16);
+      padding: 0;
+      margin: 0;
+      cursor: pointer;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'%3E%3Cg fill='none' stroke='%23094a88' stroke-width='1.5'%3E%3Crect x='.75' y='2.75' width='16.5' height='14.5' rx='1.25'/%3E%3Cpath d='M0 7.75h18'/%3E%3C/g%3E%3C/svg%3E") center / contain no-repeat;
+
+      @include mq(pc) {
+        width: 18px;
+        height: 18px;
+      }
+    }
+
+    // iOS Safari は日付を中央に寄せるので左揃えに
+    &::-webkit-date-and-time-value {
+      text-align: left;
+    }
+  }
+
+  // ---- 入力欄の下の補足
+  &__hint {
+    margin-top: svw(12);
+    font-size: sfont(12);
+    line-height: 1.67;
+    color: $color-meta;
+
+    @include mq(pc) {
+      margin-top: 12px;
+      font-size: rem(13);
+      line-height: 1.7;
+    }
+  }
+
+  // ---- 送信エリア（個人情報の同意・Turnstile・送信ボタン）
+  &__submit {
+    display: flex;
+    flex-direction: column;
+    gap: svw(20);
+    align-items: center;
+    padding-top: svw(32);
+
+    @include mq(pc) {
+      gap: 24px;
+      padding-top: 48px;
+    }
+  }
+
+  &__privacy {
+    width: 100%;
+    font-size: sfont(13);
+    line-height: 1.7;
+
+    @include mq(pc) {
+      width: auto;
+      font-size: rem(14);
+      text-align: center;
+    }
+
+    a {
+      font-weight: 700;
+      color: $color-main;
+      text-decoration: underline;
+
+      @include hover {
+        text-decoration: none;
+      }
+    }
+  }
+
+  &__agree {
+    display: flex;
+    gap: svw(10);
+    align-items: center;
+
+    @include mq(pc) {
+      gap: 12px;
+    }
+  }
+
+  &__btn {
+    width: 100%;
+
+    @include mq(pc) {
+      width: 350px;
+    }
+
+    .c-link-btn {
+      width: 100%;
+    }
+  }
+
+  // ---- ラジオ・チェックボックス本体（ブラウザ標準の見た目を消して描き直す）
+  input[type="radio"],
+  input[type="checkbox"] {
+    flex-shrink: 0;
+    width: svw(20);
+    height: svw(20);
+    margin: 0;
+    appearance: none;
+    cursor: pointer;
+    background: #fff;
+    border: 1.5px solid $color-form-border;
+    transition: border-color 0.2s, background-color 0.2s;
+
+    @include mq(pc) {
+      width: 22px;
+      height: 22px;
+    }
+
+    &:focus-visible {
+      outline: 2px solid $color-accent;
+      outline-offset: 2px;
+    }
+  }
+
+  input[type="radio"] {
+    border-radius: 50%;
+
+    &:checked {
+      background: radial-gradient(circle, $color-main 0 36%, #fff calc(36% + 0.5px));
+      border-color: $color-main;
+    }
+  }
+
+  input[type="checkbox"] {
+    border-radius: 3px;
+
+    // チェック印は白固定なので SVG を直書き
+    &:checked {
+      background: $color-main url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 9'%3E%3Cpath d='M1 4.5 4.5 8 11 1' fill='none' stroke='%23fff' stroke-width='1.8'/%3E%3C/svg%3E") center / 60% no-repeat;
+      border-color: $color-main;
+    }
+  }
+
+  // ---- CF7 の出力への対応（静的版では使わない）
+  // 入力欄を包む span をブロックに
+  .wpcf7-form-control-wrap {
+    display: block;
+  }
+
+  // 選択肢を包む span を外して、各項目を c-form__options の並びに直接入れる
+  &__options .wpcf7-form-control-wrap,
+  &__options .wpcf7-form-control,
+  &__agree .wpcf7-form-control-wrap,
+  &__agree .wpcf7-form-control {
+    display: contents;
+  }
+
+  .wpcf7-list-item {
+    margin: 0;
+
+    > label {
+      display: inline-flex;
+      gap: svw(8);
+      align-items: center;
+      font-size: sfont(14);
+      line-height: 1.4;
+      cursor: pointer;
+
+      @include mq(pc) {
+        gap: 10px;
+        font-size: rem(15);
+      }
+    }
+  }
+
+  .wpcf7-not-valid-tip {
+    margin-top: svw(6);
+    font-size: sfont(12);
+    color: $color-mark;
+
+    @include mq(pc) {
+      margin-top: 8px;
+      font-size: rem(13);
+    }
+  }
+}
+
+// ================================================================
+// 必須・任意のバッジ（--optional で任意）
+// ================================================================
+.c-form-badge {
+  flex-shrink: 0;
+  padding: svw(2) svw(7);
+  font-size: sfont(10, 10);
+  font-weight: 700;
+  line-height: 1.45;
+  color: #fff;
+  background: $color-mark;
+  border: 1px solid $color-mark;
+  border-radius: 2px;
+
+  @include mq(pc) {
+    padding: 2px 8px;
+    font-size: rem(11);
+  }
+
+  &--optional {
+    color: $color-meta;
+    background: #fff;
+    border-color: $color-form-border;
+  }
+}

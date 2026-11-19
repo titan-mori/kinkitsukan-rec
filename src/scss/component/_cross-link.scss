@@ -1,0 +1,96 @@
+@use "../foundation" as *;
+
+// ================================================================
+// 枠線付きの横長リンク（小さい文言＋紺の太字＋丸囲み矢印）。partials/_cross-link.ejs
+//  - SP は文言を縦積み、PC は横並び（高さ 100）
+//  - ホバーで紺塗りに反転（c-link-btn--white と同じ）
+//  Figma：応募フォーム PC 742:725 / SP 753:697
+// ================================================================
+.c-cross-link {
+  display: flex;
+  gap: svw(12);
+  align-items: center;
+  justify-content: space-between;
+  padding: svw(16) svw(20);
+  background: #fff;
+  border: 1px solid $color-line;
+  border-radius: svw(4);
+  transition: color 0.3s, background-color 0.3s, border-color 0.3s;
+
+  @include mq(pc) {
+    min-height: 100px;
+    padding: 20px 30px 20px 40px;
+    border-radius: 3px;
+  }
+
+  .c-arrow {
+    transition: transform 0.3s;
+  }
+
+  @include hover {
+    background: $color-main;
+    border-color: $color-main;
+
+    .c-cross-link__sub,
+    .c-cross-link__label {
+      color: #fff;
+    }
+
+    .c-cross-link__icon {
+      color: #fff;
+      border-color: #fff;
+    }
+
+    .c-arrow {
+      transform: translateX(svw(3));
+    }
+  }
+
+  &__txt {
+    display: flex;
+    flex-direction: column;
+    gap: svw(4);
+
+    @include mq(pc) {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 4px 24px;
+      align-items: center;
+    }
+  }
+
+  &__sub {
+    font-size: sfont(12);
+    line-height: 1.4;
+    color: $color-meta;
+    transition: color 0.3s;
+
+    @include mq(pc) {
+      font-size: rem(14);
+    }
+  }
+
+  &__label {
+    font-size: sfont(15);
+    font-weight: 700;
+    line-height: 1.46;
+    color: $color-main;
+    transition: color 0.3s;
+
+    @include mq(pc) {
+      font-size: rem(18);
+      line-height: 1.4;
+    }
+  }
+
+  &__icon {
+    width: svw(34);
+    color: $color-main;
+    border-color: $color-line;
+    transition: color 0.3s, border-color 0.3s;
+
+    @include mq(pc) {
+      width: 40px;
+    }
+  }
+}

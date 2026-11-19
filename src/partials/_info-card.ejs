@@ -1,0 +1,27 @@
+<%#
+  グレー地の説明カード（菱形付き見出し＋説明＋項目表）（スタイル：scss/component/_info-card.scss）
+  職場見学・カジュアル面談の内容紹介などに使う。並べるときは外側を c-info-card-list で包む
+    include('partials/_info-card', { ttl: '職場見学', txt: '...', rows: [['所要時間', '約60分'], ['場所', '...']] })
+  引数
+    ttl  … 見出し（h3）
+    txt  … 説明文。省略可
+    rows … 項目表 [[項目名, 内容], ...]。省略可
+%>
+<%
+  const cardTxt = typeof txt !== 'undefined' ? txt : '';
+  const cardRows = typeof rows !== 'undefined' ? rows : [];
+%>
+<div class="c-info-card">
+  <h3 class="c-info-card__ttl"><%= ttl %></h3>
+  <% if (cardTxt) { %><p class="c-info-card__txt"><%- cardTxt %></p><% } %>
+  <% if (cardRows.length) { %>
+    <dl class="c-info-card__list">
+      <% cardRows.forEach(([dt, dd]) => { %>
+        <div>
+          <dt><%= dt %></dt>
+          <dd><%- dd %></dd>
+        </div>
+      <% }) %>
+    </dl>
+  <% } %>
+</div>

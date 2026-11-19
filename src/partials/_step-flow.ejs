@@ -1,0 +1,25 @@
+<%#
+  選考の流れ（スタイル：scss/component/_step-flow.scss）。最後のステップは紺地で強調
+  PC は横並び（ステップ数で等分）、SP は「STEP 01」を左に置いた横長カードを縦に並べる
+    include('partials/_step-flow', { steps: [['エントリー', '応募フォームから必要事項を送信'], ...], note: '※…' })
+  引数
+    steps … [見出し, 説明] の配列。見出しは HTML 可（PC だけ改行したいときは <br class="c-step-flow__br-pc">）
+    note  … 下の注記。省略可
+%>
+<% const flowNote = typeof note !== 'undefined' ? note : ''; %>
+<div class="c-step-flow">
+  <ol class="c-step-flow__list">
+    <% steps.forEach(([ttl, txt], i) => { %>
+      <li class="c-step-flow__item">
+        <p class="c-step-flow__num">STEP <span><%= String(i + 1).padStart(2, '0') %></span></p>
+        <div class="c-step-flow__txt">
+          <p class="c-step-flow__ttl"><%- ttl %></p>
+          <p class="c-step-flow__desc"><%= txt %></p>
+        </div>
+      </li>
+    <% }) %>
+  </ol>
+  <% if (flowNote) { %>
+    <p class="c-step-flow__note"><%= flowNote %></p>
+  <% } %>
+</div>

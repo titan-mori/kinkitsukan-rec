@@ -143,3 +143,24 @@
     border-color: $color-line;
   }
 }
+
+// ================================================================
+// c-link-btn を並べる枠（SP は縦積み、PC は 350px 幅で横並び・中央揃え）
+//   <ul class="c-link-btn-list"><li>（_link-btn）</li>...</ul>
+//  Figma：募集要項詳細 PC 739:781 / SP 753:557
+// ================================================================
+.c-link-btn-list {
+  display: grid;
+  gap: svw(10);
+
+  @include mq(pc) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 26px;
+    justify-content: center;
+
+    > li {
+      width: 350px;
+    }
+  }
+}

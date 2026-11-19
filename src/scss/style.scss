@@ -19,7 +19,14 @@
 @use "component/intro";
 @use "component/faq";
 @use "component/chip";
+@use "component/tag";
+@use "component/job-card";
+@use "component/spec-table";
+@use "component/step-flow";
 @use "component/def-list";
+@use "component/cross-link";
+@use "component/info-card";
+@use "component/form";
 @use "component/anchor-nav";
 @use "component/people-link";
 @use "component/interview-card";
@@ -36,3 +43,7 @@
 @use "page/special";
 @use "page/interview";
 @use "page/intrviewpage";
+@use "page/requirements";
+@use "page/requirements-detail";
+@use "page/entry";
+@use "page/casual";

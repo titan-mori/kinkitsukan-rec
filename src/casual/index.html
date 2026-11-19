@@ -1,0 +1,219 @@
+<% const page = { name: 'casual', title: '職場見学・カジュアル面談', bodyClass: 'page-casual', heroHeader: true }; %>
+<%- include('partials/_head', { page }) %>
+<%- include('partials/_header', { page }) %>
+<%
+  // ご希望の内容（CF7 のフォームテンプレートに直接書く）。初期状態はデザインどおり「カジュアル面談」を選択
+  const purposes = ['職場見学', 'カジュアル面談', 'どちらも'];
+  const purposeDefault = 1;
+
+  // 興味のある職種（任意・複数選択）。WP 化時は応募フォームの希望職種と同じく、
+  // CF7 のフィルター（wpcf7_form_tag）で募集要項カスタム投稿から選択肢を作るかを相談
+  const jobs = ['港湾倉庫作業員', '貿易事務', '営業', '通関士'];
+
+  // 生年月日の年：ビルドした年から 15〜70 年前（応募フォームと同じ。WP 化時は CF7 のフィルターで表示時の年から作る）
+  const thisYear = new Date().getFullYear();
+  const years = Array.from({ length: 56 }, (_, i) => thisYear - 15 - i);
+
+  // ご希望の日時：第1希望は必須、第2・第3は任意。日付は CF7 の [date]（ブラウザ標準のカレンダー）、時間帯は [select]
+  const schedules = [
+    { no: 1, required: true },
+    { no: 2, required: false },
+    { no: 3, required: false },
+  ];
+  const times = ['09:00 - 12:00 のうち1時間', '13:00 - 15:00 のうち1時間', '15:00 - 17:00 のうち1時間'];
+%>
+
+<main class="l-main p-entry p-casual">
+  <%- include('partials/_page-hero', { page, en: 'CASUAL VISIT', ttl: '職場見学・<br class="p-casual__br-sp">カジュアル面談' }) %>
+
+  <div class="l-page-body">
+    <%# ===== 導入 ===== %>
+    <section class="p-casual-intro" aria-labelledby="casual-ttl">
+      <div class="p-entry__inner">
+        <div class="c-intro">
+          <div class="c-ttl">
+            <p class="c-ttl__label"><span class="c-ttl__en">CASUAL VISIT</span><span class="c-ttl__ja">／ 職場見学・カジュアル面談</span></p>
+            <h2 class="c-ttl__main" id="casual-ttl">まずは、見て・話して<br>みませんか。</h2>
+          </div>
+          <div class="c-intro__txt">
+            <p>応募の前に、働く場所を見たり、社員と話したりできます。選考とは関係ありませんので、気軽にお申し込みください。</p>
+          </div>
+        </div>
+
+        <div class="c-info-card-list p-casual-intro__cards">
+          <%- include('partials/_info-card', {
+            ttl: '職場見学',
+            txt: '実際に働く倉庫やオフィスを、社員の案内で見学できます。',
+            rows: [['所要時間', '約60分'], ['場所', '南港物流センター ほか'], ['服装', '自由']],
+          }) %>
+          <%- include('partials/_info-card', {
+            ttl: 'カジュアル面談',
+            txt: '仕事内容や働き方について、社員に気軽に質問できます。',
+            rows: [['所要時間', '約60分'], ['場所', '本社 または オンライン'], ['服装', '自由']],
+          }) %>
+        </div>
+
+        <p class="p-casual-intro__note">※どちらも選考とは関係ありません。お申し込み後、採用担当から日程確定のご連絡をします。</p>
+      </div>
+    </section>
+
+    <%# ===== フォーム（静的版は送信しない。WP 化時は Contact Form 7 に置き換え） ===== %>
+    <section class="p-entry-form" aria-label="職場見学・カジュアル面談の申し込みフォーム">
+      <div class="p-entry__inner">
+        <form class="c-form" action="#" method="post">
+          <p class="c-form__note"><span class="c-form-badge">必須</span>は入力必須の項目です。</p>
+
+          <div class="c-form__fields">
+            <%# ご希望の内容 %>
+            <div class="c-form__row c-form__row--choice" role="radiogroup" aria-labelledby="casual-purpose-label" aria-required="true">
+              <div class="c-form__head">
+                <span class="c-form__label" id="casual-purpose-label">ご希望の内容</span><span class="c-form-badge">必須</span>
+              </div>
+              <div class="c-form__body">
+                <div class="c-form__options">
+                  <% purposes.forEach((purpose, i) => { %>
+                    <label class="c-form__choice"><input type="radio" name="purpose" value="<%= purpose %>" required<%= i === purposeDefault ? ' checked' : '' %>><span><%= purpose %></span></label>
+                  <% }) %>
+                </div>
+              </div>
+            </div>
+
+            <%# 興味のある職種 %>
+            <div class="c-form__row c-form__row--choice" role="group" aria-labelledby="casual-job-label">
+              <div class="c-form__head">
+                <span class="c-form__label" id="casual-job-label">興味のある職種</span><span class="c-form-badge c-form-badge--optional">任意</span>
+              </div>
+              <div class="c-form__body">
+                <div class="c-form__options">
+                  <% jobs.forEach((job) => { %>
+                    <label class="c-form__choice"><input type="checkbox" name="job[]" value="<%= job %>"><span><%= job %></span></label>
+                  <% }) %>
+                </div>
+              </div>
+            </div>
+
+            <%# お名前 %>
+            <div class="c-form__row" role="group" aria-labelledby="casual-name-label">
+              <div class="c-form__head">
+                <span class="c-form__label" id="casual-name-label">お名前</span><span class="c-form-badge">必須</span>
+              </div>
+              <div class="c-form__body">
+                <div class="c-form__inputs">
+                  <input class="c-form__input" type="text" name="last-name" placeholder="姓（例：近畿）" aria-label="姓" autocomplete="family-name" required>
+                  <input class="c-form__input" type="text" name="first-name" placeholder="名（例：太郎）" aria-label="名" autocomplete="given-name" required>
+                </div>
+              </div>
+            </div>
+
+            <%# 生年月日 %>
+            <div class="c-form__row" role="group" aria-labelledby="casual-birth-label">
+              <div class="c-form__head">
+                <span class="c-form__label" id="casual-birth-label">生年月日</span><span class="c-form-badge">必須</span>
+              </div>
+              <div class="c-form__body">
+                <div class="c-form__date">
+                  <span class="c-form__select">
+                    <select name="birth-year" aria-label="年" autocomplete="bday-year" required>
+                      <option value="">選択</option>
+                      <% years.forEach((y) => { %><option value="<%= y %>"><%= y %></option><% }) %>
+                    </select>
+                  </span>
+                  <span class="c-form__date-unit" aria-hidden="true">年</span>
+                  <span class="c-form__select">
+                    <select name="birth-month" aria-label="月" autocomplete="bday-month" required>
+                      <option value="">選択</option>
+                      <% for (let m = 1; m <= 12; m++) { %><option value="<%= m %>"><%= m %></option><% } %>
+                    </select>
+                  </span>
+                  <span class="c-form__date-unit" aria-hidden="true">月</span>
+                  <span class="c-form__select">
+                    <select name="birth-day" aria-label="日" autocomplete="bday-day" required>
+                      <option value="">選択</option>
+                      <% for (let d = 1; d <= 31; d++) { %><option value="<%= d %>"><%= d %></option><% } %>
+                    </select>
+                  </span>
+                  <span class="c-form__date-unit" aria-hidden="true">日</span>
+                </div>
+              </div>
+            </div>
+
+            <%# 電話番号 %>
+            <div class="c-form__row">
+              <div class="c-form__head">
+                <label class="c-form__label" for="casual-tel">電話番号</label><span class="c-form-badge">必須</span>
+              </div>
+              <div class="c-form__body">
+                <input class="c-form__input c-form__input--md" id="casual-tel" type="tel" name="tel" placeholder="例：09012345678" autocomplete="tel" inputmode="tel" required>
+              </div>
+            </div>
+
+            <%# メールアドレス %>
+            <div class="c-form__row">
+              <div class="c-form__head">
+                <label class="c-form__label" for="casual-email">メールアドレス</label><span class="c-form-badge">必須</span>
+              </div>
+              <div class="c-form__body">
+                <input class="c-form__input" id="casual-email" type="email" name="email" placeholder="例：info@example.com" autocomplete="email" required>
+              </div>
+            </div>
+
+            <%# ご希望の日時 %>
+            <div class="c-form__row" role="group" aria-labelledby="casual-schedule-label">
+              <div class="c-form__head">
+                <span class="c-form__label" id="casual-schedule-label">ご希望の日時</span><span class="c-form-badge">必須</span>
+              </div>
+              <div class="c-form__body">
+                <div class="c-form__schedule">
+                  <% schedules.forEach(({ no, required }) => { %>
+                    <div class="c-form__schedule-row" role="group" aria-labelledby="casual-schedule-<%= no %>">
+                      <span class="c-form__schedule-label" id="casual-schedule-<%= no %>">第<%= no %>希望</span>
+                      <input class="c-form__input" type="date" name="date-<%= no %>" aria-label="第<%= no %>希望の日付" aria-describedby="casual-schedule-hint"<%= required ? ' required' : '' %>>
+                      <span class="c-form__select">
+                        <select name="time-<%= no %>" aria-label="第<%= no %>希望の時間帯"<%= required ? ' required' : '' %>>
+                          <option value="">時間帯を選択</option>
+                          <% times.forEach((time) => { %><option value="<%= time %>"><%= time %></option><% }) %>
+                        </select>
+                      </span>
+                    </div>
+                  <% }) %>
+                </div>
+                <p class="c-form__hint" id="casual-schedule-hint">第1希望は必須、第2・第3希望は任意です。<br>※土日祝は休業日のため、お受けできません。また、年末年始・夏季休暇など当社の休業日は、お受けできない場合があります。<br>日程は採用担当から確定のご連絡をします。</p>
+              </div>
+            </div>
+
+            <%# ご質問など %>
+            <div class="c-form__row">
+              <div class="c-form__head">
+                <label class="c-form__label" for="casual-message">ご質問など</label><span class="c-form-badge c-form-badge--optional">任意</span>
+              </div>
+              <div class="c-form__body">
+                <textarea class="c-form__textarea c-form__textarea--sm" id="casual-message" name="message" placeholder="聞いてみたいことがあればご記入ください"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="c-form__submit">
+            <p class="c-form__privacy">個人情報の取り扱いについては、<a href="#" target="_blank" rel="noopener">個人情報保護方針<span class="u-visually-hidden">（新しいウィンドウで開きます）</span></a> をご確認ください。</p>
+            <div class="c-form__agree">
+              <label class="c-form__choice"><input type="checkbox" name="agree" value="1" required><span>個人情報保護方針に同意する</span></label>
+              <span class="c-form-badge">必須</span>
+            </div>
+            <%# Cloudflare Turnstile は WP 化時にプラグインがここへ出力する %>
+            <div class="c-form__btn">
+              <button class="c-link-btn c-link-btn--lg" type="submit">
+                <span class="c-link-btn__ja">この内容で申し込む</span>
+                <span class="c-circle-arrow c-link-btn__icon" aria-hidden="true"><%- include('partials/_arrow') %></span>
+              </button>
+            </div>
+          </div>
+        </form>
+
+        <div class="p-casual-form__cross">
+          <%- include('partials/_cross-link', { sub: '選考に進みたい方へ', label: '応募フォームはこちら', href: root + site.entry.form }) %>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<%- include('partials/_footer', { page }) %>

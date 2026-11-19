@@ -1,0 +1,57 @@
+@use "../foundation" as *;
+
+// ================================================================
+// 職場見学・カジュアル面談（Figma PC 744:757 / SP 753:880）
+// 内側の幅（p-entry__inner）とフォームのグレー背景（p-entry-form）は応募フォームと共用
+// フォーム本体は c-form、説明カードは c-info-card、応募フォームへの導線は c-cross-link
+// ================================================================
+.p-casual {
+  &__br-sp {
+    @include mq(pc) {
+      display: none;
+    }
+  }
+}
+
+// ================================================================
+// 導入（見出し＋リード＋説明カード＋注記）
+// ================================================================
+.p-casual-intro {
+  padding: svw(38) 0 svw(40);
+
+  @include mq(pc) {
+    padding: fluid(110) 0 fluid(90);
+  }
+
+  &__cards {
+    margin-top: svw(24);
+
+    @include mq(pc) {
+      margin-top: 40px;
+    }
+  }
+
+  &__note {
+    margin-top: svw(12);
+    font-size: sfont(12);
+    line-height: 1.67;
+    color: $color-meta;
+
+    @include mq(pc) {
+      margin-top: 40px;
+      font-size: rem(13);
+      line-height: 1.5;
+    }
+  }
+}
+
+// ================================================================
+// フォームの下の応募フォームへの導線
+// ================================================================
+.p-casual-form__cross {
+  margin-top: svw(20);
+
+  @include mq(pc) {
+    margin-top: 32px;
+  }
+}

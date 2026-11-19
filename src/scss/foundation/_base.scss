@@ -21,6 +21,14 @@ html {
   }
 }
 
+// Lenis を使わない端末（スマホ・タブレット）でも、ページ内リンクをなめらかにスクロールさせる
+// （Lenis 動作中は html に .lenis が付く。ネイティブの smooth と二重にならないよう除外。視差効果を減らす設定の人には付けない）
+@media (prefers-reduced-motion: no-preference) {
+  html:not(.lenis) {
+    scroll-behavior: smooth;
+  }
+}
+
 body {
   font-family: $font-base;
   font-weight: 500;

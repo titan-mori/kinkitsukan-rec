@@ -7,20 +7,24 @@
     page    … 見出しとパンくずの現在地に page.title を使う
     ttl     … 見出しを page.title と変えたいとき（改行タグなど HTML 可）。省略可
     en      … 右下の大きな英字（装飾）
-    img     … PC 画像（1536×532）。assets/img/ からのパス
+    img     … PC 画像（1536×532）。assets/img/ からのパス。
+              省略すると写真なしの青グラデーション版（l-page-hero--grad。募集要項など）
     imgSp   … SP 画像（375×300）。省略時は img を使う
     parents … パンくずの中間階層 [{ label, href }]（href は root からのパス）。省略可
 %>
 <%
   const heroParents = typeof parents !== 'undefined' ? parents : [];
-  const heroImgSp = typeof imgSp !== 'undefined' ? imgSp : img;
+  const heroImg = typeof img !== 'undefined' ? img : '';
+  const heroImgSp = typeof imgSp !== 'undefined' ? imgSp : heroImg;
   const heroTtl = typeof ttl !== 'undefined' ? ttl : page.title;
 %>
-<div class="l-page-hero">
-  <picture class="l-page-hero__img">
-    <source media="(min-width: 897px)" srcset="<%= assets %>img/<%= img %>" width="1536" height="532">
-    <img src="<%= assets %>img/<%= heroImgSp %>" alt="" width="375" height="300">
-  </picture>
+<div class="l-page-hero<%= heroImg ? '' : ' l-page-hero--grad' %>">
+  <% if (heroImg) { %>
+    <picture class="l-page-hero__img">
+      <source media="(min-width: 897px)" srcset="<%= assets %>img/<%= heroImg %>" width="1536" height="532">
+      <img src="<%= assets %>img/<%= heroImgSp %>" alt="" width="375" height="300">
+    </picture>
+  <% } %>
   <div class="l-page-hero__body">
     <h1 class="l-page-hero__ttl"><%- heroTtl %></h1>
     <nav class="l-page-hero__bread" aria-label="パンくずリスト">

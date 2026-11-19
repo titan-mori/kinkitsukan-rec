@@ -1,0 +1,132 @@
+<% const page = { name: 'requirements', title: '港湾倉庫作業員', bodyClass: 'page-requirements-detail', heroHeader: true }; %>
+<%- include('partials/_head', { page }) %>
+<%- include('partials/_header', { page }) %>
+<%
+  // 募集要項詳細（WP 化時はカスタム投稿 job01〜04 の single テンプレートに置き換える）
+  //   job … 投稿のタイトル・番号・キャッチ・タグ・リード（一覧の _job-card と共通の項目＋リード）
+  //   specs … 募集要項の表（Secure Custom Fields の繰り返しフィールドを想定）
+  const job = {
+    id: 1, // 投稿 ID（静的版は仮の値。応募フォームへのリンクに使う）
+    num: '01',
+    name: '港湾倉庫作業員',
+    tags: ['正社員', '中途', '未経験歓迎'],
+    lead: '港の倉庫で輸出入の貨物を受け入れ、次の工程へ送り出す仕事です。フォークリフトの作業と目と手での確認を組み合わせ、チームで動かします。',
+  };
+
+  const specs = [
+    {
+      ttl: '仕事について',
+      rows: [
+        ['職種', '港湾倉庫作業員'],
+        ['仕事内容', '港湾倉庫での貨物の受け入れ・仕分け・保管・出荷準備。フォークリフトを使った荷役作業 など'],
+        ['応募資格（必須）', '〇〇〇〇'],
+        ['歓迎する経験・資格', 'フォークリフト運転技能講習修了 など'],
+        ['求める人物像', '〇〇〇〇'],
+      ],
+    },
+    {
+      ttl: '勤務条件',
+      rows: [
+        ['雇用形態', '正社員（期間の定めなし）'],
+        ['試用期間', '2ヶ月（期間中の条件変更：なし／〇〇）'],
+        ['勤務地', '南港物流センター、夢洲物流センター'],
+        ['就業場所・業務の変更の範囲', '就業場所：会社の定める事業所／業務：会社の定める業務'],
+        ['勤務時間（休憩時間）', '〇:〇〇〜〇:〇〇（休憩〇分）'],
+        ['時間外労働', 'あり（月平均〇時間）'],
+        ['休日・休暇', '〇〇、年末年始休暇、夏季休暇（年間休日〇日）'],
+        ['有給休暇', '法定通り（取得率〇％）'],
+      ],
+    },
+    {
+      ttl: '給与・待遇',
+      rows: [
+        ['給与（月額）', '〇〇〇,〇〇〇円〜（経験・能力を考慮）'],
+        ['昇給・賞与', '昇給 年〇回／賞与 年〇回'],
+        ['諸手当', '通勤手当（実費支給・上限33,000円）、資格手当 など'],
+        ['加入保険', '雇用保険・労災保険・健康保険・厚生年金保険'],
+        ['福利厚生', '退職金制度（勤続3年以上）、団体3大疾病保険 など'],
+        ['受動喫煙防止措置', '屋内禁煙'],
+      ],
+    },
+    {
+      ttl: '応募・選考',
+      rows: [
+        ['選考方法', '書類選考 → 面接（2回）<br>※筆記試験・適性検査は、職種によって実施しない場合があります。'],
+        ['応募方法', '応募フォームより受付'],
+        ['面接場所', '本社（大阪市港区波除6-5-18）'],
+      ],
+    },
+  ];
+
+  // そのほかの募集職種（WP 化時は表示中の投稿を除いたループ。詳細未作成のため href は '#'）
+  const others = [
+    { num: '02', name: '貿易事務', lead: '輸出入の手続きを支える', tags: ['正社員', '新卒', '中途'], href: '#' },
+    { num: '03', name: '営業', lead: '物流の課題を提案で解決する', tags: ['正社員', '新卒', '中途'], href: '#' },
+    { num: '04', name: '通関士', lead: '貿易の関門を担う国家資格職', tags: ['正社員', '中途', '資格者'], href: '#' },
+  ];
+
+  // 応募ボタン：応募フォームの希望職種をこの職種で選んだ状態にする（?job_id=投稿 ID）
+  //   WP 化時は add_query_arg( 'job_id', get_the_ID(), 応募フォームの URL )
+  const applyBtn = { label: 'この職種に応募する', href: `${root}${site.entry.form}?job_id=${job.id}`, size: 'lg' };
+%>
+
+<main class="l-main p-requirements p-requirements-detail">
+  <%- include('partials/_page-hero', { page, ttl: '募集要項', en: 'REQUIREMENTS', parents: [{ label: '募集要項', href: 'requirements/' }] }) %>
+
+  <div class="l-page-body">
+    <%# ===== 職種紹介 ===== %>
+    <section class="p-requirements-detail-intro" aria-labelledby="job-ttl">
+      <div class="p-requirements__inner">
+        <div class="c-intro">
+          <div>
+            <div class="c-ttl">
+              <p class="c-ttl__label"><span class="c-ttl__en">JOBS <%= job.num %></span><span class="c-ttl__ja">／ 募集要項</span></p>
+              <h2 class="c-ttl__main" id="job-ttl"><%= job.name %></h2>
+            </div>
+            <ul class="c-tag-list p-requirements-detail-intro__tags">
+              <% job.tags.forEach((tag) => { %><li class="c-tag"><%= tag %></li><% }) %>
+            </ul>
+          </div>
+          <div class="c-intro__txt">
+            <p><%= job.lead %></p>
+            <div class="p-requirements-detail-intro__btn">
+              <%- include('partials/_link-btn', applyBtn) %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <%# ===== 募集要項 ===== %>
+    <section class="p-requirements-detail-spec" aria-label="<%= job.name %>の募集要項">
+      <div class="p-requirements__inner">
+        <div class="p-requirements-detail-spec__panel">
+          <%- include('partials/_spec-table', { groups: specs }) %>
+        </div>
+
+        <ul class="c-link-btn-list p-requirements-detail-spec__btns">
+          <li><%- include('partials/_link-btn', applyBtn) %></li>
+          <li><%- include('partials/_link-btn', { label: '募集要項一覧へ戻る', href: root + 'requirements/', variant: 'white', size: 'lg' }) %></li>
+        </ul>
+      </div>
+    </section>
+
+    <%# ===== OTHER POSITIONS / そのほかの募集職種 ===== %>
+    <section class="p-requirements-detail-others" aria-labelledby="others-ttl">
+      <div class="p-requirements__inner">
+        <div class="c-ttl">
+          <p class="c-ttl__label"><span class="c-ttl__en">OTHER POSITIONS</span><span class="c-ttl__ja">／ そのほかの募集職種</span></p>
+          <h2 class="c-ttl__main" id="others-ttl">ほかの職種も見る</h2>
+        </div>
+
+        <ul class="c-job-list p-requirements-detail-others__list">
+          <% others.forEach((other) => { %>
+            <li><%- include('partials/_job-card', other) %></li>
+          <% }) %>
+        </ul>
+      </div>
+    </section>
+  </div>
+</main>
+
+<%- include('partials/_footer', { page }) %>

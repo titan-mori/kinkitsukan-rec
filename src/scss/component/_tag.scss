@@ -1,0 +1,28 @@
+@use "../foundation" as *;
+
+// ================================================================
+// 紺の枠線タグ（正社員・中途 など）。並べるときは c-tag-list
+//   <span class="c-tag-list"><span class="c-tag">正社員</span>...</span>
+//  Figma：募集要項 PC 735:672 / SP 750:396
+// ================================================================
+.c-tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: svw(6);
+}
+
+.c-tag {
+  padding: svw(4) svw(10);
+  font-size: sfont(11, 11);
+  font-weight: 700;
+  line-height: 1.45;
+  color: $color-main;
+  background: #fff;
+  border: 1px solid $color-main;
+  border-radius: 2px;
+
+  @include mq(pc) {
+    padding: 5px 12px;
+    font-size: rem(12);
+  }
+}

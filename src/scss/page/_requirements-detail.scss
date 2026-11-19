@@ -1,0 +1,94 @@
+@use "../foundation" as *;
+
+// ================================================================
+// 募集要項詳細（Figma PC 739:657 / SP 753:440）
+// カスタム投稿（募集要項 job01〜04）の詳細テンプレートの元
+// 左右の余白は募集要項一覧の .p-requirements__inner を共用
+// ================================================================
+
+// ================================================================
+// 職種紹介
+// ================================================================
+.p-requirements-detail-intro {
+  padding: svw(38) 0 svw(48);
+
+  @include mq(pc) {
+    padding: fluid(110) 0 fluid(100);
+  }
+
+  &__tags {
+    margin-top: svw(14);
+
+    @include mq(pc) {
+      margin-top: 25px;
+    }
+  }
+
+  // SP はタグとリードの間を 14px に（c-intro__txt の SP 既定は 12px）
+  .c-intro__txt {
+    margin-top: svw(14);
+
+    @include mq(pc) {
+      margin-top: 43px;
+    }
+  }
+
+  &__btn {
+    margin-top: svw(14);
+
+    @include mq(pc) {
+      width: 350px;
+      margin-top: 32px;
+    }
+  }
+}
+
+// ================================================================
+// 募集要項（白パネルの表＋ボタン）
+// ================================================================
+.p-requirements-detail-spec {
+  padding: svw(48) 0 svw(56);
+  background: $color-bg-gray;
+
+  @include mq(pc) {
+    padding: fluid(100) 0 fluid(110);
+  }
+
+  &__panel {
+    padding: svw(28) svw(20) svw(32);
+    background: #fff;
+    border-radius: svw(4);
+
+    @include mq(pc) {
+      padding: 64px 72px 72px;
+      border-radius: 3px;
+    }
+  }
+
+  &__btns {
+    margin-top: svw(24);
+
+    @include mq(pc) {
+      margin-top: 48px;
+    }
+  }
+}
+
+// ================================================================
+// OTHER POSITIONS / そのほかの募集職種
+// ================================================================
+.p-requirements-detail-others {
+  padding: svw(48) 0 svw(56);
+
+  @include mq(pc) {
+    padding: fluid(120) 0 fluid(140);
+  }
+
+  &__list {
+    margin-top: svw(28);
+
+    @include mq(pc) {
+      margin-top: 56px;
+    }
+  }
+}

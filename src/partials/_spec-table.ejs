@@ -1,0 +1,26 @@
+<%#
+  小見出し付きの項目表（スタイル：scss/component/_spec-table.scss）
+  募集要項詳細で使用。WP 化時は Secure Custom Fields の繰り返しフィールド（グループ → 行）に置き換える想定
+    include('partials/_spec-table', { groups: [{ ttl: '仕事について', rows: [['職種', '港湾倉庫作業員'], ...] }] })
+  引数
+    groups  … [{ ttl, rows }] の配列
+      ttl   … グループの小見出し
+      rows  … [項目名, 内容] の配列。内容は HTML 可（改行は <br>）
+    level   … 小見出しの見出しレベル（既定 3）
+%>
+<% const specLevel = typeof level !== 'undefined' ? level : 3; %>
+<div class="c-spec-table">
+  <% groups.forEach((group) => { %>
+    <div class="c-spec-table__group">
+      <h<%= specLevel %> class="c-subttl c-spec-table__ttl"><%= group.ttl %></h<%= specLevel %>>
+      <dl class="c-spec-table__list">
+        <% group.rows.forEach(([dt, dd]) => { %>
+          <div class="c-spec-table__row">
+            <dt><%= dt %></dt>
+            <dd><%- dd %></dd>
+          </div>
+        <% }) %>
+      </dl>
+    </div>
+  <% }) %>
+</div>

@@ -1,0 +1,59 @@
+@use "../foundation" as *;
+
+// ================================================================
+// 募集要項（Figma PC 735:607 / SP 750:372）
+// 一覧はカスタム投稿（募集要項 job01〜04）のループを想定
+// ================================================================
+.p-requirements {
+  // SP は左右 20px（他の下層ページは 15px）
+  &__inner {
+    max-width: calc(#{$inner-width} + #{svw(40)});
+    padding: 0 svw(20);
+    margin: 0 auto;
+
+    @include mq(pc) {
+      max-width: calc(#{$inner-width} + 40px);
+      padding: 0 20px;
+    }
+  }
+}
+
+// ================================================================
+// POSITIONS / 募集中の職種
+// ================================================================
+.p-requirements-positions {
+  padding: svw(38) 0 svw(56);
+
+  @include mq(pc) {
+    padding: fluid(120) 0 fluid(140);
+  }
+
+  // 並びは c-job-list
+  &__list {
+    margin-top: svw(28);
+
+    @include mq(pc) {
+      margin-top: 64px;
+    }
+  }
+}
+
+// ================================================================
+// FLOW / 選考の流れ
+// ================================================================
+.p-requirements-flow {
+  padding: svw(48) 0 svw(56);
+  background: $color-bg-gray;
+
+  @include mq(pc) {
+    padding: fluid(120) 0 fluid(140);
+  }
+
+  &__steps {
+    margin-top: svw(28);
+
+    @include mq(pc) {
+      margin-top: 56px;
+    }
+  }
+}

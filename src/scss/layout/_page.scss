@@ -147,6 +147,34 @@ $page-body-overlap-pc: 80px;
       line-height: 150px;
     }
   }
+
+  // 写真なしの青グラデーション版（img 省略時）。Figma：募集要項 PC 735:608 / SP 750:373
+  //  PC は白いパネルが重なった後に見える高さが 360px（ヘッダー下）になるよう、重なり分を足す
+  &--grad {
+    background: linear-gradient(158deg, $color-grad-blue-1 13%, $color-grad-blue-2 65%, $color-grad-blue-3 144%);
+
+    @include mq(pc) {
+      height: $header-height + 360px + $page-body-overlap-pc;
+      background: linear-gradient(173deg, $color-grad-blue-1 13%, $color-grad-blue-2 65%, $color-grad-blue-3 144%);
+    }
+
+    &::after {
+      content: none;
+    }
+  }
+
+  // 左右位置は写真版と同じ。文字の下端が白いパネルに少しかかる高さに置く
+  &--grad &__en {
+    top: svw(248);
+    font-size: sfont(44);
+    color: rgb(255 255 255 / 25%);
+
+    @include mq(pc) {
+      top: $header-height + 246px;
+      font-size: fluid(120, 72); // SP の 44px 指定の方が詳細度が高いので、写真版と同じ値を書き直す
+      color: color.change($color-bg-gray, $alpha: 0.3);
+    }
+  }
 }
 
 // ヘッダー切り替えの目印（data-mv）。ヒーローの直後（通常の流れ）に置き、

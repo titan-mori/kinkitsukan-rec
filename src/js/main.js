@@ -206,6 +206,84 @@ function initPeopleLinkSwiper() {
 }
 
 /**
+ * よくある質問（c-faq）：<details> の開閉に高さのアニメーションを付ける
+ *  - summary のクリック（Enter / Space も click になる）で既定の開閉を止め、details の高さを動かす
+ *  - 開く：open を付けてから「質問だけの高さ → 全体の高さ」。閉じる：逆に動かしてから open を外す
+ *  - 動きを減らす設定のときはアニメーションなし（ブラウザ標準の開閉）
+ */
+function initFaq() {
+  const duration = 400;
+  const easing = 'cubic-bezier(0.25, 0.8, 0.25, 1)';
+
+  document.querySelectorAll('.c-faq__item').forEach((item) => {
+    const summary = item.querySelector('summary');
+    let anim = null;
+
+    const animate = (from, to, onFinish) => {
+      anim?.cancel();
+      item.style.overflow = 'hidden';
+      anim = item.animate({ height: [`${from}px`, `${to}px`] }, { duration, easing });
+      anim.onfinish = () => {
+        anim = null;
+        item.style.overflow = '';
+        onFinish?.();
+      };
+    };
+
+    summary.addEventListener('click', (e) => {
+      if (reducedMotion.matches) return;
+      e.preventDefault();
+      const start = item.offsetHeight; // アニメーション途中で押されたら、今の高さから動かす
+      anim?.cancel(); // 行き先の高さを測る前に、動いている途中のアニメーションを外す
+
+      if (!item.open || item.classList.contains('is-closing')) {
+        item.classList.remove('is-closing');
+        item.open = true;
+        animate(start, item.offsetHeight);
+      } else {
+        item.classList.add('is-closing');
+        animate(start, summary.offsetHeight, () => {
+          item.open = false;
+          item.classList.remove('is-closing');
+        });
+      }
+    });
+  });
+}
+
+/**
+ * フォームのファイル選択：選んだファイル名を表示する（c-form__file）
+ */
+function initFileInput() {
+  document.querySelectorAll('[data-file]').forEach((wrap) => {
+    const input = wrap.querySelector('input[type="file"]');
+    const name = wrap.querySelector('[data-file-name]');
+    if (!input || !name) return;
+    const empty = name.textContent;
+
+    input.addEventListener('change', () => {
+      const files = [...input.files].map((file) => file.name);
+      name.textContent = files.length ? files.join('、') : empty;
+      name.classList.toggle('is-selected', files.length > 0);
+    });
+  });
+}
+
+/**
+ * 応募フォーム（静的版）：募集要項詳細から来たとき（?job_id=投稿 ID）、その職種を選んだ状態にする
+ *  - radio の data-job-id と照合。該当がない（募集終了など）ときは初期状態（先頭を選択）のまま
+ *  - WP 化後は CF7 のフィルターでサーバー側から初期選択するので、この処理は使わない
+ */
+function initEntryJob() {
+  const group = document.querySelector('[data-entry-job]');
+  const id = new URLSearchParams(location.search).get('job_id');
+  if (!group || !id) return;
+
+  const radio = group.querySelector(`input[type="radio"][data-job-id="${CSS.escape(id)}"]`);
+  if (radio) radio.checked = true;
+}
+
+/**
  * タブ（WAI-ARIA tablist）。物流を知る：輸出 / 輸入
  *  - クリック・←→・Home・End で切り替え（フォーカス移動と同時に選択）
  */
@@ -352,6 +430,9 @@ document.addEventListener('DOMContentLoaded', () => {
   initModal();
   initPeopleSwiper();
   initPeopleLinkSwiper();
+  initFaq();
   initTabs();
   initJobsNav();
+  initFileInput();
+  initEntryJob();
 });
