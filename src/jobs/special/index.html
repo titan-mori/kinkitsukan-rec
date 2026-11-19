@@ -93,7 +93,7 @@
           <% steps.forEach((step, i) => { %>
             <li class="p-special-step">
               <div class="p-special-step__img">
-                <img src="<%= assets %>img/special/guide_<%= pad(i + 1) %>.webp" alt="" width="500" height="330" loading="lazy">
+                <img src="<%= assets %>img/special/guide_<%= pad(i + 1) %>.webp" alt="<%= step.ttl %>" width="500" height="330" loading="lazy">
               </div>
               <div class="p-special-step__body">
                 <p class="p-special-step__num" aria-hidden="true"><%= pad(i + 1) %></p>
@@ -109,7 +109,7 @@
         <ul class="p-special-tools" aria-label="現場で使う道具">
           <% tools.forEach((tool, i) => { %>
             <li class="p-special-tool">
-              <img class="p-special-tool__icon" src="<%= assets %>img/special/tool_<%= pad(i + 1) %>.svg" alt="" width="110" height="80" loading="lazy">
+              <img class="p-special-tool__icon" src="<%= assets %>img/special/tool_<%= pad(i + 1) %>.svg" alt="<%= tool.name %>" width="110" height="80" loading="lazy">
               <h3 class="p-special-tool__name"><%= tool.name %></h3>
               <p class="p-special-tool__txt"><%- tool.txt %></p>
             </li>
@@ -137,7 +137,7 @@
               <div class="p-special-card p-special-count">
                 <h3 class="p-special-card__ttl"><%- item.label %></h3>
                 <p class="p-special-count__num"><span class="p-special-count__big"><%= item.num %></span><span class="p-special-count__unit">人</span><span class="p-special-count__total">/ 10人中</span></p>
-                <img class="p-special-count__icon p-special-count__icon--<%= i + 1 %>" src="<%= assets %>img/special/survey_icon_<%= pad(i + 1) %>.svg" alt="" width="110" height="100" loading="lazy">
+                <img class="p-special-count__icon p-special-count__icon--<%= i + 1 %>" src="<%= assets %>img/special/survey_icon_<%= pad(i + 1) %>.svg" alt="アイコン" width="110" height="100" loading="lazy">
               </div>
             <% }) %>
           </div>
@@ -195,7 +195,7 @@
             <ul class="p-special-fits__list">
               <% fits.forEach((fit) => { %><li><%= fit %></li><% }) %>
             </ul>
-            <img class="p-special-fits__icon" src="<%= assets %>img/special/survey_icon_04.svg" alt="" width="126" height="138" loading="lazy">
+            <img class="p-special-fits__icon" src="<%= assets %>img/special/survey_icon_04.svg" alt="アイコン" width="126" height="138" loading="lazy">
           </div>
         </div>
       </div>
@@ -209,7 +209,7 @@
             <li class="p-special-quote">
               <blockquote class="p-special-quote__txt"><p><%= voice.txt %></p></blockquote>
               <p class="p-special-quote__meta"><%= voice.meta %></p>
-              <img class="p-special-quote__img" src="<%= assets %>img/special/voice_<%= pad(i + 1) %>.webp" alt="" width="96" height="97" loading="lazy">
+              <img class="p-special-quote__img" src="<%= assets %>img/special/voice_<%= pad(i + 1) %>.webp" alt="人物画像" width="96" height="97" loading="lazy">
             </li>
           <% }) %>
         </ul>

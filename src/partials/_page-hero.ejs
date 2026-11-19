@@ -22,7 +22,7 @@
   <% if (heroImg) { %>
     <picture class="l-page-hero__img">
       <source media="(min-width: 897px)" srcset="<%= assets %>img/<%= heroImg %>" width="1536" height="532">
-      <img src="<%= assets %>img/<%= heroImgSp %>" alt="" width="375" height="300">
+      <img src="<%= assets %>img/<%= heroImgSp %>" alt="<%- heroTtl %>ヘッダー背景画像" width="375" height="300">
     </picture>
   <% } %>
   <div class="l-page-hero__body">

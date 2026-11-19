@@ -24,13 +24,13 @@
   </div>
   <%# PC：1枚画像（SP では非表示。loading="lazy" なので SP では読み込まれない） %>
   <div class="c-people-link__photos">
-    <img src="<%= assets %>img/<%= img %>" alt="" width="650" height="393" loading="lazy">
+    <img src="<%= assets %>img/<%= img %>" alt="画像" width="650" height="393" loading="lazy">
   </div>
   <%# SP：写真のスライダー（装飾なので読み上げ対象外） %>
   <div class="swiper c-people-link__slider" data-people-link-swiper aria-hidden="true">
     <ul class="swiper-wrapper">
       <% imgsSp.forEach((src) => { %>
-        <li class="swiper-slide c-people-link__slide"><img src="<%= assets %>img/<%= src %>" alt="" width="146" height="184" loading="lazy"></li>
+        <li class="swiper-slide c-people-link__slide"><img src="<%= assets %>img/<%= src %>" alt="画像" width="146" height="184" loading="lazy"></li>
       <% }) %>
     </ul>
   </div>

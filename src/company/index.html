@@ -54,7 +54,7 @@
 <% const numCard = (item) => { %>
   <li class="p-company-num<%= item.size ? ` p-company-num--${item.size}` : '' %>">
     <% if (item.icon) { %>
-      <img class="p-company-num__icon" src="<%= assets %>img/<%= item.icon.src %>" alt="" width="<%= item.icon.w %>" height="<%= item.icon.h %>" style="<%= iconStyle(item.icon) %>" loading="lazy">
+      <img class="p-company-num__icon" src="<%= assets %>img/<%= item.icon.src %>" alt="アイコン" width="<%= item.icon.w %>" height="<%= item.icon.h %>" style="<%= iconStyle(item.icon) %>" loading="lazy">
     <% } %>
     <h3 class="p-company-num__label"><span><%- item.label %></span></h3>
     <p class="p-company-num__value"><span class="p-company-num__digit"><%= item.value %></span><span class="p-company-num__unit"><%= item.unit %></span></p>
@@ -127,13 +127,13 @@
           </li>
 
           <li class="p-company-num p-company-num--overtime">
-            <img class="p-company-num__icon" src="<%= assets %>img/company/icon_overtime.svg" alt="" width="110" height="110" style="<%= iconStyle({ w: 110, r: 37, b: 25, sp: [72, 11, 11] }) %>" loading="lazy">
+            <img class="p-company-num__icon" src="<%= assets %>img/company/icon_overtime.svg" alt="アイコン" width="110" height="110" style="<%= iconStyle({ w: 110, r: 37, b: 25, sp: [72, 11, 11] }) %>" loading="lazy">
             <h3 class="p-company-num__label">残業代</h3>
             <p class="p-company-num__value"><span class="p-company-num__digit p-company-num__digit--word">全額</span><span class="p-company-num__unit p-company-num__unit--word">支給</span></p>
           </li>
 
           <li class="p-company-num">
-            <img class="p-company-num__icon" src="<%= assets %>img/company/icon_holiday.svg" alt="" width="109" height="100" style="<%= iconStyle({ w: 109, r: 32, b: 28, sp: [72, 18, 11] }) %>" loading="lazy">
+            <img class="p-company-num__icon" src="<%= assets %>img/company/icon_holiday.svg" alt="アイコン" width="109" height="100" style="<%= iconStyle({ w: 109, r: 32, b: 28, sp: [72, 18, 11] }) %>" loading="lazy">
             <h3 class="p-company-num__label">有給休暇取得率</h3>
             <p class="p-company-num__value"><span class="p-company-num__digit">00</span><span class="p-company-num__unit">%</span></p>
           </li>
@@ -154,7 +154,7 @@
           <% supports.forEach((item) => { %>
             <li class="p-company-support__card">
               <h3 class="p-company-support__ttl">
-                <img src="<%= assets %>img/<%= item.icon %>" alt="" width="<%= item.w %>" height="<%= item.h %>" style="--h-sp: <%= item.hSp || 38 %>" loading="lazy">
+                <img src="<%= assets %>img/<%= item.icon %>" alt="アイコン" width="<%= item.w %>" height="<%= item.h %>" style="--h-sp: <%= item.hSp || 38 %>" loading="lazy">
                 <%= item.ttl %>
               </h3>
               <p class="p-company-support__txt"><%= item.txt %></p>
@@ -181,7 +181,7 @@
             <p class="p-company-challenge__person">2022年入社 / <span>A. K</span></p>
           </div>
           <div class="p-company-challenge__img p-company-challenge__img--main">
-            <img src="<%= assets %>img/company/challenge_01.webp" alt="" width="439" height="310" loading="lazy">
+            <img src="<%= assets %>img/company/challenge_01.webp" alt="社員の挑戦画像" width="439" height="310" loading="lazy">
           </div>
         </div>
 
@@ -199,10 +199,10 @@
           </div>
           <div class="p-company-challenge__imgs">
             <div class="p-company-challenge__img">
-              <img src="<%= assets %>img/company/challenge_02.webp" alt="" width="313" height="216" loading="lazy">
+              <img src="<%= assets %>img/company/challenge_02.webp" alt="画像" width="313" height="216" loading="lazy">
             </div>
             <div class="p-company-challenge__img">
-              <img src="<%= assets %>img/company/challenge_03.webp" alt="" width="313" height="216" loading="lazy">
+              <img src="<%= assets %>img/company/challenge_03.webp" alt="画像" width="313" height="216" loading="lazy">
             </div>
           </div>
         </div>

@@ -71,7 +71,7 @@
         <p class="p-intrviewpage-hero__meta"><%= profile.year %> / <span class="p-intrviewpage-hero__name"><%= profile.name %></span></p>
       </div>
       <div class="p-intrviewpage-hero__img">
-        <img src="<%= assets %>img/interviewpage/main.webp" alt="" width="729" height="500">
+        <img src="<%= assets %>img/interviewpage/main.webp" alt="メイン画像" width="729" height="500">
       </div>
       <nav class="p-intrviewpage-hero__bread" aria-label="パンくずリスト">
         <ol class="p-intrviewpage-bread">
@@ -110,7 +110,7 @@
         <%- qaBlock(qa[1], 1) %>
       </div>
       <div class="p-intrviewpage-qa__img">
-        <img src="<%= assets %>img/interviewpage/photo_01.webp" alt="" width="713" height="369" loading="lazy">
+        <img src="<%= assets %>img/interviewpage/photo_01.webp" alt="画像1" width="713" height="369" loading="lazy">
       </div>
     </div>
     <div class="p-intrviewpage-qa__row p-intrviewpage-qa__row--rev">
@@ -118,7 +118,7 @@
         <%- qaBlock(qa[2], 2) %>
       </div>
       <div class="p-intrviewpage-qa__img">
-        <img src="<%= assets %>img/interviewpage/photo_02.webp" alt="" width="722" height="369" loading="lazy">
+        <img src="<%= assets %>img/interviewpage/photo_02.webp" alt="画像2" width="722" height="369" loading="lazy">
       </div>
     </div>
   </section>
@@ -153,7 +153,7 @@
       </div>
       <%# Figma はグレーの仮枠（「休日お写真支給」） %>
       <div class="p-intrviewpage-dayoff__img">
-        <img src="<%= assets %>img/interviewpage/dayoff.webp" alt="" width="450" height="285" loading="lazy">
+        <img src="<%= assets %>img/interviewpage/dayoff.webp" alt="休日の写真" width="450" height="285" loading="lazy">
       </div>
     </div>
   </section>
@@ -161,7 +161,7 @@
   <%# ===== MESSAGE / 求職者の皆様へ（PC：写真に重ねる / SP：見出しの下に写真、英字ラベルなし） ===== %>
   <section class="p-intrviewpage-message">
     <div class="p-intrviewpage-message__img">
-      <img src="<%= assets %>img/interviewpage/message.webp" alt="" width="1536" height="428" loading="lazy">
+      <img src="<%= assets %>img/interviewpage/message.webp" alt="求職者の皆様へ" width="1536" height="428" loading="lazy">
     </div>
     <div class="p-intrviewpage__inner p-intrviewpage-message__inner">
       <div class="c-ttl">
@@ -189,7 +189,7 @@
           <li>
             <a class="p-intrviewpage-card" href="#">
               <div class="p-intrviewpage-card__img">
-                <img src="<%= assets %>img/<%= item.img %>" alt="" width="340" height="428" loading="lazy">
+                <img src="<%= assets %>img/<%= item.img %>" alt="画像" width="340" height="428" loading="lazy">
                 <span class="p-intrviewpage-card__job"><%= item.job %></span>
               </div>
               <p class="p-intrviewpage-card__txt"><%= item.txt %></p>
