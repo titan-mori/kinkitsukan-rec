@@ -1,6 +1,10 @@
 import Swiper from 'swiper';
 import { Autoplay } from 'swiper/modules';
 import 'swiper/css';
+import flatpickr from 'flatpickr';
+import { Japanese } from 'flatpickr/dist/l10n/ja.js';
+import 'flatpickr/dist/flatpickr.css';
+import JapaneseHolidays from 'japanese-holidays';
 import '../scss/style.scss';
 import { lenis } from './lenis.js';
 
@@ -284,6 +288,50 @@ function initEntryJob() {
 }
 
 /**
+ * フォームの日付選択（flatpickr）：職場見学・カジュアル面談の希望日
+ *  - 選べるのは「今日から7日後以降」の平日だけ（土日・祝日はカレンダー上でグレーアウト）
+ *    祝日は japanese-holidays で計算（振替休日・国民の休日を含む。法改正・臨時の祝日はパッケージ更新で反映）
+ *  - 元の input（CF7 の [date]）は hidden にして Y-m-d で送り、表示用の欄に「2026年12月3日（木）」を出す
+ *  - スマホも同じカレンダーを使う（標準のカレンダーだと土日を選べてしまうため）
+ *  - 年末年始・お盆などの会社の休業日は未対応（WP 化時に管理画面で指定できるようにする予定）
+ *  - 送信時の土日・祝日・日付チェックは WP 化時に CF7 のフィルターでも行う
+ */
+function initDatepicker() {
+  const inputs = document.querySelectorAll('[data-datepicker]');
+  if (!inputs.length) return;
+
+  const minDate = new Date();
+  minDate.setHours(0, 0, 0, 0);
+  minDate.setDate(minDate.getDate() + 7);
+
+  inputs.forEach((input) => {
+    flatpickr(input, {
+      locale: Japanese,
+      dateFormat: 'Y-m-d',
+      altInput: true,
+      altFormat: 'Y年n月j日（D）',
+      altInputClass: `${input.className} c-form__datepicker`,
+      minDate,
+      disable: [(date) => date.getDay() === 0 || date.getDay() === 6 || Boolean(JapaneseHolidays.isHoliday(date))],
+      disableMobile: true,
+      onReady(_dates, _str, fp) {
+        const alt = fp.altInput;
+        // 読み上げ用のラベル・補足を表示用の欄へ移す
+        ['aria-label', 'aria-describedby'].forEach((attr) => {
+          if (input.hasAttribute(attr)) alt.setAttribute(attr, input.getAttribute(attr));
+        });
+        // readonly だとブラウザの必須チェックが効かないので外し、代わりに文字入力を止める
+        alt.readOnly = false;
+        alt.inputMode = 'none';
+        alt.autocomplete = 'off';
+        alt.addEventListener('beforeinput', (e) => e.preventDefault());
+        alt.addEventListener('paste', (e) => e.preventDefault());
+      },
+    });
+  });
+}
+
+/**
  * タブ（WAI-ARIA tablist）。物流を知る：輸出 / 輸入
  *  - クリック・←→・Home・End で切り替え（フォーカス移動と同時に選択）
  */
@@ -435,4 +483,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initJobsNav();
   initFileInput();
   initEntryJob();
+  initDatepicker();
 });

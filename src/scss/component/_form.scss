@@ -1,5 +1,8 @@
 @use "../foundation" as *;
 
+// カレンダーアイコン（日付の入力欄・flatpickr の表示欄で共用）
+$calendar-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'%3E%3Cg fill='none' stroke='%23094a88' stroke-width='1.5'%3E%3Crect x='.75' y='2.75' width='16.5' height='14.5' rx='1.25'/%3E%3Cpath d='M0 7.75h18'/%3E%3C/g%3E%3C/svg%3E") ;
+
 // ================================================================
 // フォーム（応募フォーム・カジュアル面談フォームで共用）
 // WP 化時は Contact Form 7 で出力する。CF7 のタグに class:c-form__input などを付け、
@@ -421,9 +424,27 @@
     }
   }
 
-  // ---- 日付（input type="date"。WP 化時は CF7 の [date] タグ＋class:c-form__input）
-  // ブラウザ標準のカレンダーを使い、カレンダーボタンのアイコンだけデザインのもの（枠＋上部の線）に差し替える
-  // （Firefox はアイコンを差し替えられないので標準のまま。SVG の色 %23094a88 は $color-main）
+  // ---- 日付（WP 化時は CF7 の [date] タグ＋class:c-form__input ＋ data-datepicker）
+  // main.js initDatepicker（flatpickr）が元の input を hidden にし、表示用の欄（.c-form__datepicker）を作る
+  // 表示用の欄の右にカレンダーアイコン（Figma の Calendar Icon：枠＋上部の線。SVG の色 %23094a88 は $color-main）
+  &__datepicker,
+  &__datepicker:focus {
+    padding-right: svw(44);
+    cursor: pointer;
+    caret-color: transparent;
+    background-image: $calendar-icon;
+    background-repeat: no-repeat;
+    background-position: right svw(16) center;
+    background-size: svw(16);
+
+    @include mq(pc) {
+      padding-right: 50px;
+      background-position: right 20px center;
+      background-size: 18px;
+    }
+  }
+
+  // JS が動かないときはブラウザ標準の日付入力。カレンダーボタンのアイコンだけ差し替える（Firefox は標準のまま）
   input[type="date"] {
     cursor: pointer;
 
@@ -433,7 +454,7 @@
       padding: 0;
       margin: 0;
       cursor: pointer;
-      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'%3E%3Cg fill='none' stroke='%23094a88' stroke-width='1.5'%3E%3Crect x='.75' y='2.75' width='16.5' height='14.5' rx='1.25'/%3E%3Cpath d='M0 7.75h18'/%3E%3C/g%3E%3C/svg%3E") center / contain no-repeat;
+      background: $calendar-icon center / contain no-repeat;
 
       @include mq(pc) {
         width: 18px;

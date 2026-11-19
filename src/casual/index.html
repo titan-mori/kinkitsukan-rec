@@ -14,7 +14,7 @@
   const thisYear = new Date().getFullYear();
   const years = Array.from({ length: 56 }, (_, i) => thisYear - 15 - i);
 
-  // ご希望の日時：第1希望は必須、第2・第3は任意。日付は CF7 の [date]（ブラウザ標準のカレンダー）、時間帯は [select]
+  // ご希望の日時：第1希望は必須、第2・第3は任意。日付は CF7 の [date] に main.js initDatepicker（flatpickr）を付け、7日後以降の平日だけ選べるようにする。時間帯は [select]
   const schedules = [
     { no: 1, required: true },
     { no: 2, required: false },
@@ -167,7 +167,7 @@
                   <% schedules.forEach(({ no, required }) => { %>
                     <div class="c-form__schedule-row" role="group" aria-labelledby="casual-schedule-<%= no %>">
                       <span class="c-form__schedule-label" id="casual-schedule-<%= no %>">第<%= no %>希望</span>
-                      <input class="c-form__input" type="date" name="date-<%= no %>" aria-label="第<%= no %>希望の日付" aria-describedby="casual-schedule-hint"<%= required ? ' required' : '' %>>
+                      <input class="c-form__input" type="date" name="date-<%= no %>" placeholder="日付を選択" data-datepicker aria-label="第<%= no %>希望の日付" aria-describedby="casual-schedule-hint"<%= required ? ' required' : '' %>>
                       <span class="c-form__select">
                         <select name="time-<%= no %>" aria-label="第<%= no %>希望の時間帯"<%= required ? ' required' : '' %>>
                           <option value="">時間帯を選択</option>

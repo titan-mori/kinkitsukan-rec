@@ -1,0 +1,69 @@
+@use "../foundation" as *;
+
+// ================================================================
+// 日付選択のカレンダー（flatpickr。main.js initDatepicker）
+// ライブラリの CSS（flatpickr/dist/flatpickr.css）は main.js で読み込み、ここでは色・角丸だけサイトに合わせる
+// カレンダーは body の直下に出力される
+// ================================================================
+.flatpickr-calendar {
+  font-family: inherit;
+  border-radius: 3px;
+  box-shadow: 0 4px 20px rgb(0 0 0 / 12%);
+
+  // 年月・曜日
+  .flatpickr-months .flatpickr-month,
+  .flatpickr-current-month input.cur-year,
+  span.flatpickr-weekday {
+    color: $color-txt;
+  }
+
+  span.flatpickr-weekday {
+    font-weight: 700;
+  }
+
+  .flatpickr-months .flatpickr-prev-month,
+  .flatpickr-months .flatpickr-next-month {
+    color: $color-main;
+    fill: $color-main;
+
+    @include hover {
+      svg {
+        fill: $color-accent;
+      }
+    }
+  }
+
+  // 日付
+  .flatpickr-day {
+    color: $color-txt;
+    border-radius: 3px;
+
+    &:hover,
+    &:focus {
+      background: $color-bg-gray;
+      border-color: $color-bg-gray;
+    }
+
+    &.today {
+      border-color: $color-form-border;
+    }
+
+    &.selected,
+    &.selected:hover,
+    &.selected:focus {
+      color: #fff;
+      background: $color-main;
+      border-color: $color-main;
+    }
+
+    // 選べない日（7日後より前・土日）と前後の月の日
+    &.flatpickr-disabled,
+    &.flatpickr-disabled:hover,
+    &.prevMonthDay,
+    &.nextMonthDay {
+      color: $color-form-border;
+      background: transparent;
+      border-color: transparent;
+    }
+  }
+}
