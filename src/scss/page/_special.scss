@@ -71,15 +71,6 @@
       top: 338px;
     }
   }
-
-  // 締めの赤いボタン（英字つき）は SP 高さ 76（Figma SP closing cbtn）
-  .l-page-closing .c-link-btn--red {
-    height: svw(76);
-
-    @include mq(pc) {
-      height: 90px;
-    }
-  }
 }
 
 // アンケートの「8人」などの数字（数字＋小さい「人」）
