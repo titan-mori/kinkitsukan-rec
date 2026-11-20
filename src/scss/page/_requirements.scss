@@ -36,6 +36,18 @@
       margin-top: 64px;
     }
   }
+
+  //募集職種が無い場合の表示
+  &__empty {
+    text-align: center;
+    font-size: svw(16);
+    color: $color-gray;
+    margin-top: svw(28);
+    
+    @include mq(pc) {
+      margin-top: 64px;
+    }
+  }
 }
 
 // ================================================================

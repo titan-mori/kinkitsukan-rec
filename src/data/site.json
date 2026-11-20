@@ -21,10 +21,9 @@
       "href": "interview/",
       "children": [
         { "label": "社員インタビュー", "href": "interview/" },
-        { "label": "港湾倉庫作業員", "href": "interview/" },
-        { "label": "貿易事務", "href": "interview/" },
-        { "label": "営業職", "href": "interview/" },
-        { "label": "通関士", "href": "interview/" }
+        { "label": "港湾倉庫作業員", "href": "interview/interview01/" },
+        { "label": "貿易事務", "href": "interview/interview03/" },
+        { "label": "通関士", "href": "interview/interview02/" }
       ]
     },
     {

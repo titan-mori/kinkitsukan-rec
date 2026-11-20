@@ -57,6 +57,23 @@
   @include mq(pc) {
     padding: fluid(100) 0 fluid(120);
   }
+
+  // 募集中の職種が無いとき（フォームの代わりに表示。白いカードはフォームと同じ見た目）
+  &__empty {
+    padding: svw(40) svw(16);
+    font-size: sfont(15);
+    font-weight: 700;
+    line-height: 1.8;
+    text-align: center;
+    background: #fff;
+    border-radius: svw(4);
+
+    @include mq(pc) {
+      padding: 80px 72px;
+      font-size: rem(18);
+      border-radius: 3px;
+    }
+  }
 }
 
 // ================================================================

@@ -11,7 +11,7 @@ import wpReload from './plugins/vite-plugin-wp-reload.js';
 // 環境ごとの設定（ここだけ書き換えればOK）
 // ================================================================
 const DEV_ORIGIN = 'http://localhost:5173';            // Vite 開発サーバー
-const WP_ORIGIN = 'http://kinkitsukan-test.net';       // Local のサイトURL（SSL化したら https に）
+const WP_ORIGIN = 'https://kinkitsukan-rec.net';       // Local のサイトURL
 const WP_THEME_DIR = 'wp/themes/kinkirec';              // テーマ（Local へシンボリックリンク）
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));

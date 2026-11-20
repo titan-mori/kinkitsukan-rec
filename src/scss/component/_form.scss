@@ -201,7 +201,9 @@ $calendar-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg
 
     &::after {
       position: absolute;
-      top: 50%;
+      // エラー文はセレクトの中（.wpcf7-form-control-wrap）に入る。
+      // top: 50% だと親の高さに追従して矢印が入力欄の中央から外れるので、セレクトの高さの半分に固定する（SP 52 / PC 60）
+      top: svw(26);
       right: svw(16);
       width: svw(7);
       height: svw(7);
@@ -212,6 +214,7 @@ $calendar-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg
       transform: translateY(-75%) rotate(45deg);
 
       @include mq(pc) {
+        top: 30px;
         right: 20px;
         width: 7px;
         height: 7px;
@@ -239,7 +242,7 @@ $calendar-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg
   &__date {
     display: flex;
     gap: svw(5);
-    align-items: center;
+    align-items: flex-start;
     font-size: sfont(13);
 
     @include mq(pc) {
@@ -285,8 +288,16 @@ $calendar-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg
     }
   }
 
+  // セレクトと同じ高さにして文字を中央に置く。エラー文で行が伸びても「年」「月」「日」が下にずれない
   &__date-unit {
+    display: flex;
     flex-shrink: 0;
+    align-items: center;
+    height: svw(52);
+
+    @include mq(pc) {
+      height: 60px;
+    }
   }
 
   // ---- ラジオ・チェックボックスの並び
@@ -410,7 +421,7 @@ $calendar-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg
     @include mq(pc) {
       grid-template-columns: 72px minmax(0, 250px) minmax(0, 300px);
       gap: 16px;
-      align-items: center;
+      align-items: start;
     }
   }
 
@@ -420,6 +431,9 @@ $calendar-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg
     line-height: 1.4;
 
     @include mq(pc) {
+      display: flex;
+      align-items: center;
+      height: 60px;
       font-size: rem(15);
     }
   }
@@ -597,7 +611,14 @@ $calendar-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg
     display: contents;
   }
 
+  // ファイル選択：input を包む span を外す（span が並びに入ると、ボタンの前に余白ができる）
+  &__file > .wpcf7-form-control-wrap {
+    display: contents;
+  }
+
+  // flex にして、行の高さを選択肢の高さに合わせる（inline-block だと本文の行の高さぶん広がる）
   .wpcf7-list-item {
+    display: flex;
     margin: 0;
 
     > label {
@@ -615,15 +636,27 @@ $calendar-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg
     }
   }
 
+  // CF7 の CSS が選択肢の文字の前後に入れる空白を消す（間隔は label の gap で取る）
+  .wpcf7-list-item-label::before,
+  .wpcf7-list-item-label::after {
+    content: none;
+  }
+
   .wpcf7-not-valid-tip {
     margin-top: svw(6);
     font-size: sfont(12);
+    font-weight: 700;
     color: $color-mark;
 
     @include mq(pc) {
       margin-top: 8px;
       font-size: rem(13);
     }
+  }
+
+  // フォーム末尾のエラー（「入力内容に問題があります」など）。CF7 の標準は font-weight: normal
+  .wpcf7-response-output {
+    font-weight: 700;
   }
 }
 
