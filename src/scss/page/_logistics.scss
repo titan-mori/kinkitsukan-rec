@@ -342,6 +342,11 @@
       width: 210px;
     }
 
+    picture {
+      display: block;
+      height: 100%;
+    }
+
     img {
       @extend %img-cover;
     }

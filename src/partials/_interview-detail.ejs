@@ -1,0 +1,173 @@
+<%#
+  社員インタビュー詳細ページの本文（スタイル：scss/page/_intrviewpage.scss）
+  interview/interview01〜04/index.html から、ページごとの原稿 d を渡して読み込む
+    include('partials/_interview-detail', { page, d })
+  画像は img/<d.slug>/ に main・photo_01・photo_02・dayoff・message（.webp）
+  サムネイル・職種・入社年・イニシャル・見出し（catchCopy）・一言（copy）は site.json の interviews
+  d の中身
+    slug      … 'interview01'（site.json の interviews と同じ）。画像フォルダ名にも使う
+    lead      … { ttl, txt: [段落] }。ttl の改行は <br class="p-intrviewpage__br-sp|pc">
+    summary   … [{ ttl, txt }] ×4
+    qa        … [{ q, a: [段落] }] ×3（写真の配置上、1・2問目が1行目、3問目が2行目）
+    schedule  … [{ time, ttl, txt }]
+    dayoff    … { ttl, txt }
+    message   … 見出し
+    special   … 締めの赤ボタン（SPECIAL CONTENT）。省略時は「仕事を知る」の紺ボタン（jobs/#jobXX）
+%>
+<%
+  const me = site.interviews.find((item) => item.slug === d.slug);
+  const others = site.interviews.filter((item) => item.slug !== d.slug);
+  const imgDir = `${assets}img/${d.slug}/`;
+  const jobAnchors = { '港湾倉庫作業員': 'job01', '通関士': 'job02', '貿易事務': 'job03', '営業': 'job04' };
+  const firstBtn = d.special
+    ? { ...d.special, en: 'SPECIAL CONTENT', variant: 'red', size: 'lg' }
+    : { label: '仕事を知る', href: `${root}jobs/#${jobAnchors[me.job] || ''}`, size: 'lg' };
+  const qaBlock = (item, i) => `
+    <div class="p-intrviewpage-qa__item">
+      <h3 class="p-intrviewpage-qa__q"><span class="p-intrviewpage-qa__num">Q${i + 1}</span><span>${item.q}</span></h3>
+      <div class="p-intrviewpage-qa__a">${item.a.map((p) => `<p>${p}</p>`).join('')}</div>
+    </div>`;
+%>
+<main class="l-main p-intrviewpage">
+  <%# ===== 導入（キャッチ・プロフィール・写真） ===== %>
+  <div class="p-intrviewpage-hero">
+    <div class="p-intrviewpage__inner p-intrviewpage-hero__inner">
+      <div class="p-intrviewpage-hero__body">
+        <div class="c-ttl">
+          <p class="c-ttl__label"><span class="c-ttl__en">INTERVIEWS</span><span class="c-ttl__ja p-intrviewpage__ttl-ja">／ 社員インタビュー</span></p>
+          <h1 class="c-ttl__main"><%- me.catchCopy %></h1>
+        </div>
+        <p class="p-intrviewpage-hero__job"><%= me.job %></p>
+        <p class="p-intrviewpage-hero__meta"><%= me.year %> / <span class="p-intrviewpage-hero__name"><%= me.name %></span></p>
+      </div>
+      <div class="p-intrviewpage-hero__img">
+        <img src="<%= imgDir %>main.webp" alt="メイン画像" width="729" height="500">
+      </div>
+      <nav class="p-intrviewpage-hero__bread" aria-label="パンくずリスト">
+        <ol class="p-intrviewpage-bread">
+          <li><a href="<%= root %>">採用トップ</a></li>
+          <li><a href="<%= root %>interview/">人を知る</a></li>
+          <li aria-current="page"><%= me.job %></li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+  <%# ===== リード・プロフィール概要 ===== %>
+  <section class="p-intrviewpage-lead">
+    <div class="p-intrviewpage__inner">
+      <h2 class="p-intrviewpage-lead__ttl"><%- d.lead.ttl %></h2>
+      <div class="p-intrviewpage-lead__txt">
+        <% d.lead.txt.forEach((p) => { %><p><%- p %></p><% }) %>
+      </div>
+      <dl class="p-intrviewpage-summary">
+        <% d.summary.forEach((item) => { %>
+          <div class="p-intrviewpage-summary__item">
+            <dt class="p-intrviewpage-summary__ttl"><%= item.ttl %></dt>
+            <dd class="p-intrviewpage-summary__txt"><%= item.txt %></dd>
+          </div>
+        <% }) %>
+      </dl>
+    </div>
+  </section>
+
+  <%# ===== Q&A（写真は画面端まで） ===== %>
+  <section class="p-intrviewpage-qa" aria-label="インタビュー">
+    <div class="p-intrviewpage-qa__row">
+      <div class="p-intrviewpage-qa__body">
+        <%- qaBlock(d.qa[0], 0) %>
+        <%- qaBlock(d.qa[1], 1) %>
+      </div>
+      <div class="p-intrviewpage-qa__img">
+        <img src="<%= imgDir %>photo_01.webp" alt="画像1" width="713" height="369" loading="lazy">
+      </div>
+    </div>
+    <div class="p-intrviewpage-qa__row p-intrviewpage-qa__row--rev">
+      <div class="p-intrviewpage-qa__body">
+        <%- qaBlock(d.qa[2], 2) %>
+      </div>
+      <div class="p-intrviewpage-qa__img">
+        <img src="<%= imgDir %>photo_02.webp" alt="画像2" width="722" height="369" loading="lazy">
+      </div>
+    </div>
+  </section>
+
+  <%# ===== ONE DAY / ある一日の流れ ===== %>
+  <section class="p-intrviewpage-oneday">
+    <div class="p-intrviewpage__inner p-intrviewpage__inner--narrow">
+      <div class="p-intrviewpage-oneday__box">
+        <h2 class="c-ttl__label"><span class="c-ttl__en">ONE DAY</span><span class="c-ttl__ja p-intrviewpage__ttl-ja">／ ある一日の流れ</span></h2>
+        <ol class="p-intrviewpage-schedule">
+          <% d.schedule.forEach((item) => { %>
+            <li class="p-intrviewpage-schedule__item">
+              <span class="p-intrviewpage-schedule__time"><%= item.time %></span>
+              <span class="p-intrviewpage-schedule__ttl"><%= item.ttl %></span>
+              <span class="p-intrviewpage-schedule__txt"><%= item.txt %></span>
+            </li>
+          <% }) %>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <%# ===== DAY OFF / 休日の写真 ===== %>
+  <section class="p-intrviewpage-dayoff">
+    <div class="p-intrviewpage__inner p-intrviewpage__inner--narrow p-intrviewpage-dayoff__inner">
+      <div class="p-intrviewpage-dayoff__body">
+        <div class="c-ttl">
+          <p class="c-ttl__label"><span class="c-ttl__en">DAY OFF</span><span class="c-ttl__ja p-intrviewpage__ttl-ja">／ 休日の写真</span></p>
+          <h2 class="p-intrviewpage__ttl"><%- d.dayoff.ttl %></h2>
+        </div>
+        <p class="p-intrviewpage-dayoff__txt"><%- d.dayoff.txt %></p>
+      </div>
+      <%# Figma はグレーの仮枠（「休日お写真支給」） %>
+      <div class="p-intrviewpage-dayoff__img">
+        <img src="<%= imgDir %>dayoff.webp" alt="休日の写真" width="450" height="285" loading="lazy">
+      </div>
+    </div>
+  </section>
+
+  <%# ===== MESSAGE / 求職者の皆様へ（PC：写真に重ねる / SP：見出しの下に写真、英字ラベルなし） ===== %>
+  <section class="p-intrviewpage-message">
+    <div class="p-intrviewpage-message__img">
+      <img src="<%= imgDir %>message.webp" alt="求職者の皆様へ" width="1536" height="428" loading="lazy">
+    </div>
+    <div class="p-intrviewpage__inner p-intrviewpage-message__inner">
+      <div class="c-ttl">
+        <p class="c-ttl__label"><span class="c-ttl__en">MESSAGE</span><span class="c-ttl__ja p-intrviewpage__ttl-ja">／ 求職者の皆様へ</span></p>
+        <h2 class="p-intrviewpage__ttl"><%- d.message %></h2>
+      </div>
+    </div>
+  </section>
+
+  <%# ===== 関連リンク ===== %>
+  <div class="p-intrviewpage-links">
+    <ul class="p-intrviewpage__inner p-intrviewpage__inner--btns p-intrviewpage-links__list">
+      <li><%- include('partials/_link-btn', firstBtn) %></li>
+      <li><%- include('partials/_link-btn', { label: '社員インタビュー', href: root + 'interview/', variant: 'white', size: 'lg' }) %></li>
+      <li><%- include('partials/_link-btn', { label: '募集要項を見る', href: root + 'requirements/', variant: 'white', size: 'lg' }) %></li>
+    </ul>
+  </div>
+
+  <%# ===== ほかの社員（自分以外の3人） ===== %>
+  <section class="p-intrviewpage-others">
+    <div class="p-intrviewpage__inner p-intrviewpage__inner--btns">
+      <h2 class="p-intrviewpage-others__ttl">ほかの社員をもっと見る</h2>
+      <ul class="p-intrviewpage-others__list">
+        <% others.forEach((item) => { %>
+          <li>
+            <a class="p-intrviewpage-card" href="<%= root %>interview/<%= item.slug %>/">
+              <div class="p-intrviewpage-card__img">
+                <img src="<%= assets %>img/<%= item.img %>" alt="画像" width="340" height="428" loading="lazy">
+                <img class="p-intrviewpage-card__hvr" src="<%= assets %>img/<%= item.img.replace('.webp', 'hvr.webp') %>" alt="" width="340" height="428" loading="lazy">
+                <span class="p-intrviewpage-card__job"><%= item.job %></span>
+              </div>
+              <p class="p-intrviewpage-card__txt"><%= item.copy %></p>
+              <p class="p-intrviewpage-card__meta"><%= item.year %> / <%= item.name %></p>
+            </a>
+          </li>
+        <% }) %>
+      </ul>
+    </div>
+  </section>
+</main>

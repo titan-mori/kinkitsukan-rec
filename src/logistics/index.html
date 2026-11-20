@@ -10,11 +10,11 @@
       desc: '日本から海外へ送り出す',
       lead: '荷主から預かった貨物を、<br class="p-logistics__br-sp">コンテナに積んで送り出すまで',
       steps: [
-        { ttl: '貨物の受け入れ・検品', txt: '荷主から届いた貨物を受け入れ、個数と外装の状態を確認します。', tags: ['港湾倉庫作業員'], img: 'flow_export_01' },
-        { ttl: '保管', txt: '出荷の日まで、倉庫の決められた場所で保管します。', tags: ['港湾倉庫作業員'], img: 'flow_export_02' },
-        { ttl: 'ピッキング・荷造り', txt: '指示された貨物を取り出し、届け先に合わせて荷造りします。', tags: ['港湾倉庫作業員'], img: 'flow_export_03' },
-        { ttl: '輸出通関手続き', txt: '書類を作成し、税関へ輸出申告して許可を受けます。', tags: ['通関士', '貿易事務'], img: 'flow_export_04' },
-        { ttl: 'コンテナに積む', txt: '許可を受けた貨物を、コンテナへ積み込みます（バンニング）。', tags: ['港湾倉庫作業員'], img: 'flow_export_05' },
+        { ttl: '貨物の受け入れ・検品', txt: '荷主から届いた貨物を受け入れ、個数と外装の状態を確認します。', tags: ['港湾倉庫作業員'], img: 'flow_export_01', imgSp: 'flow_export_01sp' },
+        { ttl: '保管', txt: '出荷の日まで、倉庫の決められた場所で保管します。', tags: ['港湾倉庫作業員'], img: 'flow_export_02', imgSp: 'flow_export_02sp' },
+        { ttl: 'ピッキング・荷造り', txt: '指示された貨物を取り出し、届け先に合わせて荷造りします。', tags: ['港湾倉庫作業員'], img: 'flow_export_03', imgSp: 'flow_export_03sp' },
+        { ttl: '輸出通関手続き', txt: '書類を作成し、税関へ輸出申告して許可を受けます。', tags: ['通関士', '貿易事務'], img: 'flow_export_04', imgSp: 'flow_export_04sp' },
+        { ttl: 'コンテナに積む', txt: '許可を受けた貨物を、コンテナへ積み込みます（バンニング）。', tags: ['港湾倉庫作業員'], img: 'flow_export_05', imgSp: 'flow_export_05sp' },
         { other: true, ttl: '本船への積み込み', txt: '港湾倉庫作業員が担当する<br class="p-logistics__br-sp">工程です。' },
       ],
     },
@@ -99,7 +99,14 @@
                       </ul>
                     </div>
                     <div class="p-logistics-step__img">
-                      <img src="<%= assets %>img/logistics/<%= step.img %>.webp" alt="<%= step.ttl %>" width="420" height="280" loading="lazy">
+                      <% if (step.imgSp) { %>
+                        <picture>
+                          <source media="(min-width: 897px)" srcset="<%= assets %>img/logistics/<%= step.img %>.webp" width="420" height="280">
+                          <img src="<%= assets %>img/logistics/<%= step.imgSp %>.webp" alt="<%= step.ttl %>" width="375" height="140" loading="lazy">
+                        </picture>
+                      <% } else { %>
+                        <img src="<%= assets %>img/logistics/<%= step.img %>.webp" alt="<%= step.ttl %>" width="420" height="280" loading="lazy">
+                      <% } %>
                     </div>
                   </li>
                 <% } %>
@@ -113,7 +120,10 @@
     <%# ===== BEHIND THE FLOW / 流れを支える業務 ===== %>
     <section class="p-logistics-behind">
       <div class="p-logistics-behind__img">
-        <img src="<%= assets %>img/logistics/behind.webp" alt="画像" width="1536" height="737" loading="lazy">
+        <picture>
+          <source srcset="<%= assets %>img/logistics/behind.webp" media="(min-width: 768px)">
+          <img src="<%= assets %>img/logistics/behindsp.webp" alt="画像" width="375" height="184" loading="lazy">
+        </picture>
       </div>
       <div class="p-logistics__inner p-logistics-behind__inner">
         <div class="p-logistics-behind__head">

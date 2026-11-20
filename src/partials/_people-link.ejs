@@ -2,16 +2,17 @@
   社員インタビューへの導線（スタイル：scss/component/_people-link.scss、SP スライダー：main.js initPeopleLinkSwiper）
   PC：左に見出し・リード・ボタン、右に写真（斜めに並べた写真を1枚に書き出したもの）
   SP：見出し・リード・ボタンの下に、縦長の写真を横に並べたスライダー（スワイプのみ・ループなし）
-    include('partials/_people-link', { img: 'special/interviewbtn.webp', imgsSp: ['top/people_01.webp', …], lead: '…' })
+    include('partials/_people-link', { img: 'special/interviewbtn.webp', lead: '…' })
   引数
     img    … PC の写真（650×393。書き出しは 2 倍の 1300×786）。assets/img/ からのパス
-    imgsSp … SP スライダーの写真の配列（146×184 で切り抜き）。assets/img/ からのパス
+    imgsSp … SP スライダーの写真の配列（146×184 で切り抜き）。省略時は site.json の interviews のサムネイル
     lead   … リード文。省略可
     href   … ボタンのリンク先。省略時は interview/
 %>
 <%
   const plLead = typeof lead !== 'undefined' ? lead : '働く人の、本当の声を聞いてみました。';
   const plHref = typeof href !== 'undefined' ? href : root + 'interview/';
+  const plImgs = typeof imgsSp !== 'undefined' ? imgsSp : site.interviews.map((item) => item.img);
 %>
 <section class="c-people-link">
   <div class="c-people-link__body">
@@ -29,7 +30,7 @@
   <%# SP：写真のスライダー（装飾なので読み上げ対象外） %>
   <div class="swiper c-people-link__slider" data-people-link-swiper aria-hidden="true">
     <ul class="swiper-wrapper">
-      <% imgsSp.forEach((src) => { %>
+      <% plImgs.forEach((src) => { %>
         <li class="swiper-slide c-people-link__slide"><img src="<%= assets %>img/<%= src %>" alt="画像" width="146" height="184" loading="lazy"></li>
       <% }) %>
     </ul>

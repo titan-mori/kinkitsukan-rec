@@ -15,12 +15,8 @@
     { name: '営業', lead: '物流の課題を提案で解決する', icon: 'top/job_icon_04.svg', href: 'jobs/#job04' },
   ];
 
-  const people = [
-    { job: '通関士', copy: '全員が活躍できる場所があり、それぞれの強みがかけ合わさる会社', meta: '2022年入社 / A. K', src: 'top/people_01.webp' },
-    { job: '貿易事務', copy: '全員が活躍できる場所があり、それぞれの強みがかけ合わさる会社', meta: '2022年入社 / A. K', src: 'top/people_02.webp' },
-    { job: '港湾倉庫作業員', copy: '全員が活躍できる場所があり、それぞれの強みがかけ合わさる会社', meta: '2022年入社 / A. K', src: 'top/people_03.webp' },
-    { job: '営業', copy: '全員が活躍できる場所があり、それぞれの強みがかけ合わさる会社', meta: '2022年入社 / A. K', src: 'top/people_04.webp' },
-  ];
+  // 社員インタビュー（サムネイル・職種・入社年・イニシャル・一言は site.json の interviews）
+  const people = site.interviews;
 
   // 会社を知るページ内の各セクションへ（site.json のナビと同じリンク先）
   const companyLinks = site.nav.find((n) => n.key === 'company').children;
@@ -200,14 +196,14 @@
         <% for (let set = 0; set < 3; set++) { %>
           <% people.forEach((p) => { %>
             <li class="swiper-slide p-top-people__item"<%- set ? ' aria-hidden="true"' : '' %>>
-              <a class="p-top-person" href="<%= root %>interview/"<%- set ? ' tabindex="-1"' : '' %>>
+              <a class="p-top-person" href="<%= root %>interview/<%= p.slug %>/"<%- set ? ' tabindex="-1"' : '' %>>
                 <span class="p-top-person__photo">
-                  <img src="<%= assets %>img/<%= p.src %>" alt="人物画像" width="436" height="550" loading="lazy">
-                  <img class="p-top-person__hvr" src="<%= assets %>img/<%= p.src.replace('.webp', 'hvr.webp') %>" alt="人物画像" width="436" height="550" loading="lazy">
+                  <img src="<%= assets %>img/<%= p.img %>" alt="人物画像" width="436" height="550" loading="lazy">
+                  <img class="p-top-person__hvr" src="<%= assets %>img/<%= p.img.replace('.webp', 'hvr.webp') %>" alt="" width="436" height="550" loading="lazy">
                   <span class="p-top-person__job"><%= p.job %></span>
                 </span>
                 <span class="p-top-person__copy"><%= p.copy %></span>
-                <span class="p-top-person__meta"><%= p.meta %></span>
+                <span class="p-top-person__meta"><%= p.year %> / <%= p.name %></span>
               </a>
             </li>
           <% }) %>
@@ -267,6 +263,7 @@
         </div>
         <a class="c-btn p-top-req__btn" href="<%= root %>requirements/">募集要項を見る<%- include('partials/_arrow') %></a>
       </div>
+      <% if (false) { %>
       <ul class="p-top-req__list">
         <% reqs.forEach((r) => { %>
           <li>
@@ -280,6 +277,7 @@
           </li>
         <% }) %>
       </ul>
+      <% } %>
     </div>
   </section>
 

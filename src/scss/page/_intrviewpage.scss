@@ -784,9 +784,14 @@
 .p-intrviewpage-card {
   display: block;
 
+  // ホバー：写真を拡大しつつ、ホバー用の写真にふわっと切り替え（一覧カードと同じ）
   @include hover {
     .p-intrviewpage-card__img img {
       transform: scale(1.05);
+    }
+
+    .p-intrviewpage-card__hvr {
+      opacity: 1;
     }
   }
 
@@ -805,13 +810,21 @@
       height: 100%;
       object-fit: cover;
       background: $color-placeholder;
-      transition: transform 0.5s;
+      transition: transform 0.5s, opacity 0.5s;
     }
+  }
+
+  // ホバー用の写真（通常写真の上に重ね、普段は透明。職種タグは手前に残す）
+  &__hvr {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
   }
 
   // SP：紺の四角（文字幅）/ PC：青の角丸タブ（幅 100）
   &__job {
     position: absolute;
+    z-index: 1;
     bottom: 0;
     left: 0;
     display: grid;
