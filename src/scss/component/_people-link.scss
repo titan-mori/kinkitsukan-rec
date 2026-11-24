@@ -7,6 +7,10 @@
 //  Figma：港湾倉庫作業員という仕事 PC 309:3326 / SP 690:4420
 // ================================================================
 
+// PC の写真の2列：写真と写真の間・1周（写真4枚分）にかける時間
+$people-link-gap: 24px;
+$people-link-duration: 30s;
+
 .c-people-link {
   position: relative;
   overflow: hidden;
@@ -72,7 +76,9 @@
     }
   }
 
-  // PC の写真（カード右側 650×393）。SP は下のスライダーを使う
+  // PC の写真エリア（カード右側 650×393）。人物サムネイルの2列を 20°傾けて置き、
+  // 左の列は上へ・右の列は下へ一定の速さで流し続ける（Figma 309:3326 の写真の並びに合わせた傾き・位置）
+  // SP では非表示（下のスライダーを使う）
   &__photos {
     display: none;
 
@@ -82,14 +88,50 @@
       right: 0;
       display: block;
       width: 650px;
-      aspect-ratio: 1300 / 786;
+      height: 100%;
+      overflow: hidden;
     }
+  }
 
-    // 写真の間は白地を見せるので下地色は敷かない
+  // 2列のまとまり。写真エリアの (345, 195) を中心に 20°回転
+  &__cols {
+    position: absolute;
+    top: 195px;
+    left: 345px;
+    display: flex;
+    gap: $people-link-gap;
+    height: 1200px;
+    transform: translate(-50%, -50%) rotate(20deg);
+  }
+
+  &__col {
+    width: 220px;
+    overflow: hidden;
+  }
+
+  // 同じ並びを2回出力しているので、半分（1周分）動かしたら先頭に戻すとつなぎ目が出ない
+  &__track {
+    display: flex;
+    flex-direction: column;
+    gap: $people-link-gap;
+    padding-bottom: $people-link-gap; // 1周分の長さ＝ちょうど半分になるよう、末尾にも間をとる
+    animation: c-people-link-up $people-link-duration linear infinite;
+  }
+
+  &__col--down &__track {
+    animation-name: c-people-link-down;
+  }
+
+  &__thumb {
+    aspect-ratio: 220 / 270;
+    overflow: hidden;
+    border-radius: 4px;
+
     img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      background: $color-placeholder;
     }
   }
 
@@ -116,5 +158,25 @@
       object-fit: cover;
       background: $color-placeholder;
     }
+  }
+}
+
+@keyframes c-people-link-up {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(-50%);
+  }
+}
+
+@keyframes c-people-link-down {
+  from {
+    transform: translateY(-50%);
+  }
+
+  to {
+    transform: translateY(0);
   }
 }

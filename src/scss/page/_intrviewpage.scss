@@ -31,21 +31,6 @@
     }
   }
 
-  // SP / PC だけの改行
-  &__br-sp {
-    @include mq(pc) {
-      display: none;
-    }
-  }
-
-  &__br-pc {
-    display: none;
-
-    @include mq(pc) {
-      display: inline;
-    }
-  }
-
   // 見出し横の和文サブ。SP は c-ttl__ja のまま、PC は小さく薄く
   &__ttl-ja {
     @include mq(pc) {

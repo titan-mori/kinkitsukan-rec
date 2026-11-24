@@ -3,7 +3,7 @@
   PC は横並び（ステップ数で等分）、SP は「STEP 01」を左に置いた横長カードを縦に並べる
     include('partials/_step-flow', { steps: [['エントリー', '応募フォームから必要事項を送信'], ...], note: '※…' })
   引数
-    steps … [見出し, 説明] の配列。見出しは HTML 可（PC だけ改行したいときは <br class="c-step-flow__br-pc">）
+    steps … [見出し, 説明] の配列。見出しは HTML 可（PC だけ改行したいときは <br class="u-pc-only">）
     note  … 下の注記。省略可
 %>
 <% const flowNote = typeof note !== 'undefined' ? note : ''; %>

@@ -2,10 +2,14 @@
   const page = { name: 'top', title: '', bodyClass: 'page-top' };
 
   const gallery = [
-    { src: 'top/gallery_01.webp', alt: '海を進むコンテナ船' },
-    { src: 'top/gallery_02.webp', alt: '会議をする社員' },
-    { src: 'top/gallery_03.webp', alt: '倉庫のフォークリフト' },
-    { src: 'top/gallery_04.webp', alt: '倉庫で作業する社員' },
+    { src: 'top/gallery_01.webp', alt: 'ギャラリー01' },
+    { src: 'top/gallery_02.webp', alt: 'ギャラリー02' },
+    { src: 'top/gallery_03.webp', alt: 'ギャラリー03' },
+    { src: 'top/gallery_04.webp', alt: 'ギャラリー04' },
+    { src: 'top/gallery_05.webp', alt: 'ギャラリー05' },
+    { src: 'top/gallery_06.webp', alt: 'ギャラリー06' },
+    { src: 'top/gallery_07.webp', alt: 'ギャラリー07' },
+    { src: 'top/gallery_08.webp', alt: 'ギャラリー08' },
   ];
 
   const jobs = [
@@ -56,7 +60,7 @@
     </div>
     <div class="p-top-mv__body">
       <h1 class="p-top-mv__ttl">世界は、<br>四角い。</h1>
-      <p class="p-top-mv__lead">世界中のモノは<br class="p-top-mv__br">コンテナに積まれ、港へ届く。<br>その「世界の入口」で働く。</p>
+      <p class="p-top-mv__lead">世界中のモノは<br class="u-sp-only">コンテナに積まれ、港へ届く。<br>その「世界の入口」で働く。</p>
     </div>
     <div class="p-top-mv__scroll" aria-hidden="true">
       <span class="p-top-mv__scroll-txt">SCROLL</span>
@@ -103,8 +107,8 @@
         <h2 class="c-ttl__main">物流という仕事の魅力を、<br>知ってもらう。</h2>
       </div>
       <div class="p-top-about__txt">
-        <p>港湾・通関・貿易という仕事は、まだ広く知られていません。<br class="p-top-about__br">だからこそ、会社説明より先に「この仕事、面白そう」という<br class="p-top-about__br">感情を生み出したい。</p>
-        <p>私たちは、世界と日本をつなぐ物流の最前線で、<br class="p-top-about__br">社会のインフラを支えています。</p>
+        <p>港湾・通関・貿易という仕事は、まだ広く知られていません。<br class="u-pc-only">だからこそ、会社説明より先に「この仕事、面白そう」という<br class="u-pc-only">感情を生み出したい。</p>
+        <p>私たちは、世界と日本をつなぐ物流の最前線で、<br class="u-pc-only">社会のインフラを支えています。</p>
       </div>
     </div>
     <div class="c-marquee p-top-gallery" style="--marquee-duration: 50s;">
@@ -245,7 +249,7 @@
       <div class="p-top-special__body">
         <div class="c-ttl c-ttl--white c-ttl--center">
           <p class="c-ttl__label"><span class="c-ttl__en">SPECIAL CONTENT</span></p>
-          <h2 class="c-ttl__main p-top-special__ttl">港湾倉庫作業員<br class="p-top-special__br">という仕事</h2>
+          <h2 class="c-ttl__main p-top-special__ttl">港湾倉庫作業員<br class="u-sp-only">という仕事</h2>
         </div>
         <p class="p-top-special__txt">一日の流れ・現場・必要資格・フォークリフト取得支援・港湾労働の魅力・社員インタビュー・FAQ。<br>特設サイトとして詳しく紹介。</p>
         <a class="c-btn c-btn--white p-top-special__btn" href="<%= root %>jobs/special/">特設ページを見る<%- include('partials/_arrow') %></a>

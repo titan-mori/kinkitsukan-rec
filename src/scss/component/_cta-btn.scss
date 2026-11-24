@@ -53,7 +53,8 @@
     }
   }
 
-  // グレー → ホバーで黒（フッターの黒地と同化しないよう白線を出す）。丸の中の矢印は右へ
+  // グレー地に白文字 → ホバーで白地にグレー文字へ反転（Figma 840:1511）。
+  // 丸アイコン・矢印は currentColor なので文字と一緒にグレーになる。丸の中の矢印は右へ
   &--entry {
     color: #fff;
     background: $color-dark-sub;
@@ -63,8 +64,8 @@
     }
 
     @include hover {
-      background: $color-dark;
-      border-color: #fff;
+      color: $color-dark-sub;
+      background: #fff;
 
       .c-arrow {
         transform: translateX(28%);

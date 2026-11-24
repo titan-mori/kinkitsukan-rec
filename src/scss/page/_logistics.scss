@@ -38,20 +38,6 @@
       font-size: fluid(40, 30);
     }
   }
-
-  &__br-sp {
-    @include mq(pc) {
-      display: none;
-    }
-  }
-
-  &__br-pc {
-    display: none;
-
-    @include mq(pc) {
-      display: inline;
-    }
-  }
 }
 
 // ================================================================

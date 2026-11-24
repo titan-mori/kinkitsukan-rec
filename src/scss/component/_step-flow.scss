@@ -98,14 +98,6 @@
     }
   }
 
-  &__br-pc {
-    display: none;
-
-    @include mq(pc) {
-      display: inline;
-    }
-  }
-
   &__note {
     margin-top: svw(16);
     font-size: sfont(12);

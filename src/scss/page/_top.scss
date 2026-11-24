@@ -210,12 +210,6 @@
     }
   }
 
-  &__br {
-    @include mq(pc) {
-      display: none;
-    }
-  }
-
   // ---- SCROLL（縦書き文字＋線を下る点）
   &__scroll {
     position: absolute;
@@ -471,14 +465,6 @@
       line-height: 1.875;
     }
   }
-
-  &__br {
-    display: none;
-
-    @include mq(pc) {
-      display: inline;
-    }
-  }
 }
 
 // 写真ギャラリー（横に流れる）
@@ -549,13 +535,48 @@
     }
 
     &:nth-child(4) {
-      width: svw(104);
+      height: svw(120);
+      margin-top: svw(4);
+
+      @include mq(pc) {
+        height: 299px;
+        margin-top: 60px;
+      }
+    }
+    &:nth-child(5) {
       height: svw(120);
       margin-top: svw(4);
 
       @include mq(pc) {
         width: 336px;
-        height: 298px;
+        height: 299px;
+        margin-top: 0px;
+      }
+    }
+    &:nth-child(6) {
+      height: svw(120);
+      margin-top: svw(4);
+
+      @include mq(pc) {
+        height: 326px;
+        margin-top: 60px;
+      }
+    }
+    &:nth-child(7) {
+      height: svw(120);
+      margin-top: svw(4);
+
+      @include mq(pc) {
+        height: 266px;
+        margin-top: 0px;
+      }
+    }
+    &:nth-child(8) {
+      height: svw(120);
+      margin-top: svw(4);
+
+      @include mq(pc) {
+        height: 299px;
         margin-top: 60px;
       }
     }
@@ -1309,12 +1330,6 @@
   // 見出し横の菱形を白に（写真＋青オーバーレイの上なので赤だと沈むため。このセクションだけ）
   .c-ttl__en::before {
     background: #fff;
-  }
-
-  &__br {
-    @include mq(pc) {
-      display: none;
-    }
   }
 
   &__txt {

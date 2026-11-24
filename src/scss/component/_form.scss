@@ -95,15 +95,6 @@ $calendar-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg
     }
   }
 
-  // PC だけで改行（履歴書・<br>職務経歴書）
-  &__br-pc {
-    display: none;
-
-    @include mq(pc) {
-      display: inline;
-    }
-  }
-
   &__body {
     min-width: 0;
   }

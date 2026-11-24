@@ -63,6 +63,22 @@ a {
   border: 0;
 }
 
+// PC のみ表示・SP のみ表示（境目は本文の PC レイアウトと同じ $bp-pc＝897px）
+//   <br class="u-sp-only"> / <span class="u-pc-only">…</span> など。要素の種類を問わず使える
+//   PC のみの方は「SP で隠す」書き方にしているので、PC での表示形式（inline / block / flex など）は元のまま
+//   ヘッダーのナビの切り替え（$bp-nav＝1024px）とは境目が違うので、ヘッダー内では使わない
+.u-sp-only {
+  @include mq(pc) {
+    display: none !important;
+  }
+}
+
+.u-pc-only {
+  @media (max-width: #{$bp-pc - 0.02px}) {
+    display: none !important;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

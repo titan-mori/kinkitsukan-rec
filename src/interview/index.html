@@ -10,7 +10,7 @@
 %>
 
 <main class="l-main p-interview">
-  <%- include('partials/_page-hero', { page, en: 'PEOPLE', img: 'interview/mv.webp' }) %>
+  <%- include('partials/_page-hero', { page, en: 'PEOPLE', img: 'interview/mv.webp', imgSp: 'interview/mvsp.webp' }) %>
 
   <div class="l-page-body">
     <%# ===== INTERVIEWS / 社員インタビュー ===== %>
@@ -38,7 +38,7 @@
 
     <%- include('partials/_page-closing', {
       img: 'common/closing.webp',
-      ttl: '人を知ったら、仕事をもっと知る。',
+      ttl: '人を知ったら、<br class="u-sp-only">仕事をもっと知る。',
       txt: 'それぞれの社員が担う仕事や、必要な力、入社後の成長について、職種ごとに紹介しています。',
       btns: [
         { label: '仕事を知る', href: root + 'jobs/' },

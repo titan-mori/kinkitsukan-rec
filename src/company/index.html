@@ -9,7 +9,7 @@
   //  並び順は SP の表示順（1行目の4枚 → 男女比 → 平均年齢・資格 → 新卒中途 → 残業・有給）。
   //  PC は男女比を CSS で左列2行ぶち抜きに置く
   const numbersTop = [
-    { label: '設立', value: '1957', unit: '年', note: '通関を主力に、長年貿易と<br class="p-company__br-pc">物流を支えてきた。', size: 'sm' },
+    { label: '設立', value: '1957', unit: '年', note: '通関を主力に、長年貿易と<br class="u-pc-only">物流を支えてきた。', size: 'sm' },
     { label: '従業員数', value: '108', unit: '名', note: 'グループ会社を含む。', size: 'sm',
       icon: { src: 'company/icon_employees.svg', w: 137, h: 71, r: 17, b: 18, sp: [88, 11, 11] } },
     { label: '拠点数', value: '5', unit: '拠点', size: 'sm',
@@ -18,7 +18,7 @@
       icon: { src: 'company/icon_years.svg', w: 87, h: 83, r: 26, b: 19, sp: [77, 14, 11] } },
   ];
   const numbersMid = [
-    { label: '直近2年以内の採用者<br class="p-company__br-sp">の平均年齢', value: '35', unit: '歳',
+    { label: '直近2年以内の採用者<br class="u-sp-only">の平均年齢', value: '35', unit: '歳',
       icon: { src: 'company/icon_age.svg', w: 114, h: 89, r: 15, b: 24, sp: [82, 8, 11] } },
     { label: '資格保有者数', value: '18', unit: '人',
       icon: { src: 'company/icon_license.svg', w: 95, h: 110, r: 37, b: 23, sp: [57, 12, 11] } },
@@ -57,13 +57,13 @@
       <img class="p-company-num__icon" src="<%= assets %>img/<%= item.icon.src %>" alt="アイコン" width="<%= item.icon.w %>" height="<%= item.icon.h %>" style="<%= iconStyle(item.icon) %>" loading="lazy">
     <% } %>
     <h3 class="p-company-num__label"><span><%- item.label %></span></h3>
-    <p class="p-company-num__value"><span class="p-company-num__digit"><%= item.value %></span><span class="p-company-num__unit"><%= item.unit %></span></p>
+    <p class="p-company-num__value"><span class="p-company-num__digit" data-count-up><%= item.value %></span><span class="p-company-num__unit"><%= item.unit %></span></p>
     <% if (item.note) { %><p class="p-company-num__note"><%- item.note %></p><% } %>
   </li>
 <% } %>
 
 <main class="l-main p-company">
-  <%- include('partials/_page-hero', { page, en: 'COMPANY', img: 'company/mv.webp' }) %>
+  <%- include('partials/_page-hero', { page, en: 'COMPANY', img: 'company/mv.webp', imgSp: 'company/mvsp.webp' }) %>
 
   <div class="l-page-body">
     <%# ===== ONE TEAM / トップメッセージ ===== %>
@@ -103,16 +103,16 @@
           </div>
         </div>
 
-        <ul class="p-company-numbers__list">
+        <ul class="p-company-numbers__list" data-count-up-trigger>
           <% numbersTop.forEach(numCard) %>
 
           <%# 男女比（人型を下から比率ぶん塗る。塗る高さは Figma の見た目に合わせた値） %>
           <li class="p-company-num p-company-num--gender">
             <h3 class="p-company-num__label">男女比</h3>
-            <p class="p-company-num__value p-company-num__value--ratio" aria-label="男性7、女性3"><span class="p-company-num__digit">7</span><span class="p-company-num__digit p-company-num__colon">：</span><span class="p-company-num__digit">3</span></p>
+            <p class="p-company-num__value p-company-num__value--ratio" aria-label="男性7、女性3"><span class="p-company-num__digit" data-count-up>7</span><span class="p-company-num__digit p-company-num__colon">：</span><span class="p-company-num__digit" data-count-up>3</span></p>
             <div class="p-company-num__figures" aria-hidden="true">
-              <span class="p-company-num__figure p-company-num__figure--male" style="--fill: 81%; -webkit-mask-image: url('<%= assets %>img/company/figure_male.svg'); mask-image: url('<%= assets %>img/company/figure_male.svg')"></span>
-              <span class="p-company-num__figure p-company-num__figure--female" style="--fill: 32%; -webkit-mask-image: url('<%= assets %>img/company/figure_female.svg'); mask-image: url('<%= assets %>img/company/figure_female.svg')"></span>
+              <span class="p-company-num__figure p-company-num__figure--male" data-fill-up style="--fill: 81%; -webkit-mask-image: url('<%= assets %>img/company/figure_male.svg'); mask-image: url('<%= assets %>img/company/figure_male.svg')"></span>
+              <span class="p-company-num__figure p-company-num__figure--female" data-fill-up style="--fill: 32%; -webkit-mask-image: url('<%= assets %>img/company/figure_female.svg'); mask-image: url('<%= assets %>img/company/figure_female.svg')"></span>
             </div>
           </li>
 
@@ -121,8 +121,8 @@
           <li class="p-company-num p-company-num--ratio">
             <h3 class="p-company-num__label">直近2年以内の採用者の新卒・中途比率</h3>
             <div class="p-company-num__pair">
-              <p class="p-company-num__value"><span class="p-company-num__sub">新卒</span><span class="p-company-num__digit">10</span><span class="p-company-num__unit">%</span></p>
-              <p class="p-company-num__value"><span class="p-company-num__sub">中途</span><span class="p-company-num__digit">90</span><span class="p-company-num__unit">%</span></p>
+              <p class="p-company-num__value"><span class="p-company-num__sub">新卒</span><span class="p-company-num__digit" data-count-up>10</span><span class="p-company-num__unit">%</span></p>
+              <p class="p-company-num__value"><span class="p-company-num__sub">中途</span><span class="p-company-num__digit" data-count-up>90</span><span class="p-company-num__unit">%</span></p>
             </div>
           </li>
 
@@ -135,7 +135,7 @@
           <li class="p-company-num">
             <img class="p-company-num__icon" src="<%= assets %>img/company/icon_holiday.svg" alt="アイコン" width="109" height="100" style="<%= iconStyle({ w: 109, r: 32, b: 28, sp: [72, 18, 11] }) %>" loading="lazy">
             <h3 class="p-company-num__label">有給休暇取得率</h3>
-            <p class="p-company-num__value"><span class="p-company-num__digit">00</span><span class="p-company-num__unit">%</span></p>
+            <p class="p-company-num__value"><span class="p-company-num__digit" data-count-up>00</span><span class="p-company-num__unit">%</span></p>
           </li>
         </ul>
       </div>
@@ -146,7 +146,7 @@
       <div class="p-company__inner p-company__inner--narrow">
         <div class="c-ttl">
           <p class="c-ttl__label"><span class="c-ttl__en">WORK SUPPORT</span><span class="c-ttl__ja">／ 働く環境・制度</span></p>
-          <h2 class="c-ttl__main">働く毎日と、<br class="p-company__br-sp">これからを支える。</h2>
+          <h2 class="c-ttl__main">働く毎日と、<br class="u-sp-only">これからを支える。</h2>
         </div>
         <p class="p-company-support__lead">安心して仕事を続け、新しい知識や資格にも挑戦できるよう、働き方、健康、成長、将来を支える制度を整えています。</p>
 
@@ -187,7 +187,7 @@
 
         <div class="p-company-challenge__detail">
           <div class="p-company-challenge__detail-body">
-            <p class="p-company-challenge__catch">仕事にも競技にも真剣に向き合えることが、<br class="p-company__br-pc">次の挑戦への力になっています。</p>
+            <p class="p-company-challenge__catch">仕事にも競技にも真剣に向き合えることが、<br class="u-pc-only">次の挑戦への力になっています。</p>
             <dl class="c-def-list p-company-challenge__points">
               <% challengePoints.forEach(([dt, dd]) => { %>
                 <div>
@@ -211,8 +211,8 @@
 
     <%- include('partials/_page-closing', {
       img: 'common/closing.webp',
-      ttl: '会社を知ったら、<br class="p-company__br-sp">働く人と仕事を見てみよう。',
-      txt: '近畿通関には、物流を動かすさまざまな仕事と、それぞれの場所で力を発揮する社員がいます。<br class="p-company__br-pc">気になる仕事や人の声から、働くイメージをもう少し具体的にしてみませんか。',
+      ttl: '会社を知ったら、<br class="u-sp-only">働く人と仕事を見てみよう。',
+      txt: '近畿通関には、物流を動かすさまざまな仕事と、それぞれの場所で力を発揮する社員がいます。<br class="u-pc-only">気になる仕事や人の声から、働くイメージをもう少し具体的にしてみませんか。',
       btns: [
         { label: '仕事を知る', href: root + 'jobs/' },
         { label: '人を知る', href: root + 'interview/' },

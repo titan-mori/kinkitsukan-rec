@@ -32,12 +32,6 @@
     }
   }
 
-  &__br-sp {
-    @include mq(pc) {
-      display: none;
-    }
-  }
-
   // ヒーロー：SP は見出しが2行なので高さ 320・行間 54（Figma SP phero）
   .l-page-hero {
     height: svw(320);
@@ -831,7 +825,7 @@
   }
 }
 
-// ---- 引用カード（SP：右に丸い顔写真 / PC：右下に人物写真）
+// ---- 引用カード（右に丸い顔写真。Figma PC 307:3157 / SP 690:4420）
 .p-special-quote {
   position: relative;
   min-height: svw(160);
@@ -840,8 +834,12 @@
   border-radius: svw(6);
 
   @include mq(pc) {
+    // 文章の行数が違っても高さ 185 に収まるよう、文章＋年次を上下中央に
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     min-height: 185px;
-    padding: 36px 90px 20px 44px;
+    padding: 32px 148px 14px 25px; // 上は引用符と重ならない分
     border-width: 4px;
     border-radius: 10px;
   }
@@ -858,7 +856,7 @@
     content: "“";
 
     @include mq(pc) {
-      top: 20px;
+      top: 14px;
       left: 19px;
       font-size: rem(40);
     }
@@ -882,8 +880,9 @@
     color: $color-meta;
 
     @include mq(pc) {
-      margin-top: 12px;
+      margin-top: 8px;
       font-size: rem(14);
+      line-height: 1.3;
     }
   }
 
@@ -898,12 +897,9 @@
     border-radius: 50%;
 
     @include mq(pc) {
-      top: auto;
-      right: 20px;
-      bottom: 0;
-      width: 96px;
-      aspect-ratio: 96 / 97;
-      border-radius: 0;
+      top: 34px;
+      right: 25px;
+      width: 116px;
     }
   }
 }

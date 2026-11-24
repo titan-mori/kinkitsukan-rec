@@ -104,14 +104,6 @@
     }
   }
 
-  &__br-pc {
-    display: none;
-
-    @include mq(pc) {
-      display: inline;
-    }
-  }
-
   &__btn {
     margin-top: svw(32);
 

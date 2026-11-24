@@ -10,8 +10,8 @@
       lead: '世界と日本をつなぐ現場の仕事',
       icon: 'top/job_icon_01.svg',
       map: '港の倉庫で貨物を<br>受け入れ、送り出す',
-      catch: '輸出も輸入も、<br class="p-jobs__br-sp">貨物は港の倉庫を通る。',
-      txt: '港の倉庫で輸出入の貨物を受け入れ、次の工程へ送り出す仕事です。<br class="p-jobs__br-pc">フォークリフトの作業と目と手での確認を組み合わせ、チームで動かします。',
+      catch: '輸出も輸入も、<br class="u-sp-only">貨物は港の倉庫を通る。',
+      txt: '港の倉庫で輸出入の貨物を受け入れ、次の工程へ送り出す仕事です。<br class="u-pc-only">フォークリフトの作業と目と手での確認を組み合わせ、チームで動かします。',
       works: ['貨物の受け入れ・検品', 'ピッキング・荷造り', '保管と在庫の管理', 'コンテナへの積み込み・取り出し'],
       points: [
         ['入社時の資格・経験', '必要な資格はありません。未経験から始められます。'],
@@ -30,7 +30,7 @@
       lead: '貿易の関門を担う国家資格職',
       icon: 'top/job_icon_02.svg',
       map: '輸出入の申告を行い、<br>許可を受ける',
-      catch: '輸出入の許可を、<br class="p-jobs__br-sp">専門知識で引き出す。',
+      catch: '輸出入の許可を、<br class="u-sp-only">専門知識で引き出す。',
       txt: '貨物と書類を確認し、税関へ申告して輸出入の許可を受ける仕事です。<br>許可が下りなければ貨物は動きません。倉庫や事務と連携し、流れを止めずにつなぎます。',
       works: ['貨物内容と書類の確認', '税関への申告', '輸出入申告書類の作成', '審査・検査への対応'],
       points: [
@@ -50,7 +50,7 @@
       lead: '輸出入の手続きを支える',
       icon: 'top/job_icon_03.svg',
       map: '書類と予定を管理し、<br>輸送を手配する',
-      catch: '書類と手配で、<br class="p-jobs__br-sp">物流を予定どおりに進める。',
+      catch: '書類と手配で、<br class="u-sp-only">物流を予定どおりに進める。',
       txt: '輸出入の書類と貨物情報を整え、船やトラックの手配を進める仕事です。<br>倉庫、通関、お客様の間で情報をつなぎ、貨物が予定どおり動くよう支えます。',
       works: ['輸出入関連書類の作成・確認', 'トラック手配・国内輸送の調整', '船の予約・スケジュール管理', '貨物情報の共有・関係先への連絡'],
       points: [
@@ -70,7 +70,7 @@
       lead: '物流の課題を提案で解決する',
       icon: 'top/job_icon_04.svg',
       map: '輸送方法を組み立て、<br>お客様をつなぐ',
-      catch: '世界へ運ぶ道筋を、<br class="p-jobs__br-sp">お客様と一緒に決める。',
+      catch: '世界へ運ぶ道筋を、<br class="u-sp-only">お客様と一緒に決める。',
       txt: '貨物や届け先、日程を確認し、輸送手段を組み合わせて提案する仕事です（フォワーディング業務）。<br>倉庫や通関、協力会社と連携し、必要な手配を一つの流れに組み立てます。',
       works: ['お客様の要望・課題の確認', '見積・輸送スペースの手配', '輸送手段・スケジュールの提案', '社内外の担当者との調整'],
       points: [
@@ -156,7 +156,10 @@
               <p class="p-jobs-job__catch"><%- job.catch %></p>
               <p class="p-jobs-job__txt"><%- job.txt %></p>
               <div class="p-jobs-job__img">
-                <img src="<%= assets %>img/jobs/job_<%= pad(i + 1) %>.webp" alt="画像" width="810" height="300" loading="lazy">
+                <picture>
+                  <source media="(min-width: 897px)" srcset="<%= assets %>img/jobs/job_<%= pad(i + 1) %>.webp" width="810" height="300">
+                  <img src="<%= assets %>img/jobs/job_<%= pad(i + 1) %>sp.webp" alt="画像" width="335" height="510" loading="lazy">
+                </picture>
               </div>
 
               <div class="p-jobs-job__box">

@@ -31,20 +31,6 @@
     }
   }
 
-  &__br-sp {
-    @include mq(pc) {
-      display: none;
-    }
-  }
-
-  &__br-pc {
-    display: none;
-
-    @include mq(pc) {
-      display: inline;
-    }
-  }
-
   // ---- 締め（SP は写真が高く、下余白が少ない）
   .l-page-closing {
     padding-bottom: svw(45);
@@ -55,7 +41,7 @@
   }
 
   .l-page-closing__img {
-    height: svw(260);
+    height: svw(220);
 
     @include mq(pc) {
       height: auto;
@@ -362,11 +348,12 @@
     }
   }
 
+  // PC の狭い画面（カード幅が縮む）でも1行に収まるよう、数字は fluid で縮める
   &--ratio &__digit {
     font-size: sfont(59);
 
     @include mq(pc) {
-      font-size: rem(70);
+      font-size: fluid(70, 50);
     }
   }
 
@@ -374,7 +361,7 @@
     font-size: sfont(25);
 
     @include mq(pc) {
-      font-size: rem(30);
+      font-size: fluid(30, 22);
     }
   }
 
@@ -382,6 +369,7 @@
   &__sub {
     font-size: sfont(13);
     color: $color-txt;
+    white-space: nowrap;
 
     @include mq(pc) {
       font-size: rem(16);

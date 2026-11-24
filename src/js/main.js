@@ -6,7 +6,7 @@ import { Japanese } from 'flatpickr/dist/l10n/ja.js';
 import 'flatpickr/dist/flatpickr.css';
 import JapaneseHolidays from 'japanese-holidays';
 import '../scss/style.scss';
-import { lenis } from './lenis.js';
+import { lenis, gsap } from './lenis.js';
 
 // ヘッダーのナビが横並びになる幅（$bp-nav）
 const navQuery = window.matchMedia('(min-width: 1024px)');
@@ -470,6 +470,76 @@ function initMvScenes() {
   if (!reducedMotion.matches) loadScene(nextOf(current));
 }
 
+// ================================================================
+// 数字のカウントアップ（[data-count-up]。会社を知る「数字で見る近畿通関」）
+//  - 親の [data-count-up-trigger]（なければ要素自身）の上端が画面の 80% まで来たら、
+//    0 → 書かれている値まで数える（1回だけ。まとめて同時に動く）
+//  - 小数（17.5）は小数の桁数を、"00" のような先頭ゼロは桁数を保つ
+//  - 数えている間に幅が変わって単位が動かないよう、最終値の幅を min-width（em）で確保して右揃え
+//  - 読み上げは最終値の隠しテキストで行い、動く数字は aria-hidden
+//  - 「視差効果を減らす」設定の人には何もしない（最初から最終値）
+// ================================================================
+function initCountUp() {
+  const els = document.querySelectorAll('[data-count-up]');
+  if (!els.length || reducedMotion.matches) return;
+
+  els.forEach((el) => {
+    const text = el.textContent.trim();
+    const target = parseFloat(text);
+    if (Number.isNaN(target)) return;
+
+    const decimals = (text.split('.')[1] || '').length;
+    const padLength = /^0\d/.test(text) ? text.length : 0; // "00" のように先頭ゼロがあるときだけ桁をそろえる
+    const format = (v) => (decimals ? v.toFixed(decimals) : String(Math.round(v)).padStart(padLength, '0'));
+
+    const sr = document.createElement('span');
+    sr.className = 'u-visually-hidden';
+    sr.textContent = text;
+    el.after(sr);
+    el.setAttribute('aria-hidden', 'true');
+
+    const fontSize = parseFloat(getComputedStyle(el).fontSize);
+    el.style.display = 'inline-block';
+    el.style.minWidth = `${el.getBoundingClientRect().width / fontSize}em`;
+    el.style.textAlign = 'right';
+    el.textContent = format(0);
+
+    const counter = { value: 0 };
+    gsap.to(counter, {
+      value: target,
+      duration: 1.6,
+      ease: 'power2.out',
+      onUpdate: () => {
+        el.textContent = format(counter.value);
+      },
+      scrollTrigger: { trigger: el.closest('[data-count-up-trigger]') || el, start: 'top 80%', once: true },
+    });
+  });
+}
+
+// ================================================================
+// 下から色が満ちる（[data-fill-up]。会社を知る 男女比の人型）
+//  - style の --fill（例：81%）を 0% → その値までアニメーション（背景グラデーションの境目）
+//  - 開始タイミング・時間はカウントアップと同じ（親の [data-count-up-trigger] が画面の 80% に来たら）
+//  - 「視差効果を減らす」設定の人には何もしない（最初から塗られた状態）
+// ================================================================
+function initFillUp() {
+  const els = document.querySelectorAll('[data-fill-up]');
+  if (!els.length || reducedMotion.matches) return;
+
+  els.forEach((el) => {
+    const target = el.style.getPropertyValue('--fill').trim();
+    if (!target) return;
+
+    gsap.fromTo(el, { '--fill': '0%' }, {
+      '--fill': target,
+      duration: 1.6,
+      ease: 'power2.out',
+      scrollTrigger: { trigger: el.closest('[data-count-up-trigger]') || el, start: 'top 80%', once: true },
+    });
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   document.documentElement.classList.add('is-loaded');
   initMvScenes();
@@ -484,4 +554,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initFileInput();
   initEntryJob();
   initDatepicker();
+  initCountUp();
+  initFillUp();
 });

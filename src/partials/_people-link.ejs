@@ -1,18 +1,19 @@
 <%#
   社員インタビューへの導線（スタイル：scss/component/_people-link.scss、SP スライダー：main.js initPeopleLinkSwiper）
-  PC：左に見出し・リード・ボタン、右に写真（斜めに並べた写真を1枚に書き出したもの）
+  PC：左に見出し・リード・ボタン、右に人物サムネイルの2列（左の列は上へ、右の列は下へ一定の速さで流れ続ける）
   SP：見出し・リード・ボタンの下に、縦長の写真を横に並べたスライダー（スワイプのみ・ループなし）
-    include('partials/_people-link', { img: 'special/interviewbtn.webp', lead: '…' })
+    include('partials/_people-link', { lead: '…' })
   引数
-    img    … PC の写真（650×393。書き出しは 2 倍の 1300×786）。assets/img/ からのパス
-    imgsSp … SP スライダーの写真の配列（146×184 で切り抜き）。省略時は site.json の interviews のサムネイル
+    imgs … 写真の配列（PC の2列・SP のスライダー共通）。assets/img/ からのパス。省略時は site.json の interviews のサムネイル（top/people_01〜04）
     lead   … リード文。省略可
     href   … ボタンのリンク先。省略時は interview/
 %>
 <%
   const plLead = typeof lead !== 'undefined' ? lead : '働く人の、本当の声を聞いてみました。';
   const plHref = typeof href !== 'undefined' ? href : root + 'interview/';
-  const plImgs = typeof imgsSp !== 'undefined' ? imgsSp : site.interviews.map((item) => item.img);
+  const plImgs = typeof imgs !== 'undefined' ? imgs : site.interviews.map((item) => item.img);
+  // PC 右の列は並びをずらし、左右で同じ人が横に並ばないようにする
+  const plCols = [plImgs, [...plImgs.slice(Math.ceil(plImgs.length / 2)), ...plImgs.slice(0, Math.ceil(plImgs.length / 2))]];
 %>
 <section class="c-people-link">
   <div class="c-people-link__body">
@@ -23,9 +24,19 @@
     <p class="c-people-link__lead"><%- plLead %></p>
     <a class="c-btn c-btn--wide c-people-link__btn" href="<%= plHref %>"><span><span class="c-people-link__btn-sp">社員</span><span class="c-people-link__btn-pc">すべての</span>インタビューを見る</span><%- include('partials/_arrow') %></a>
   </div>
-  <%# PC：1枚画像（SP では非表示。loading="lazy" なので SP では読み込まれない） %>
-  <div class="c-people-link__photos">
-    <img src="<%= assets %>img/<%= img %>" alt="画像" width="650" height="393" loading="lazy">
+  <%# PC：流れ続ける写真の2列（装飾なので読み上げ対象外）。つなぎ目なくループさせるため、各列は同じ並びを2回出力 %>
+  <div class="c-people-link__photos" aria-hidden="true">
+    <div class="c-people-link__cols">
+      <% plCols.forEach((col, i) => { %>
+        <div class="c-people-link__col c-people-link__col--<%= i === 0 ? 'up' : 'down' %>">
+          <ul class="c-people-link__track">
+            <% [...col, ...col].forEach((src) => { %>
+              <li class="c-people-link__thumb"><img src="<%= assets %>img/<%= src %>" alt="" width="220" height="270" loading="lazy"></li>
+            <% }) %>
+          </ul>
+        </div>
+      <% }) %>
+    </div>
   </div>
   <%# SP：写真のスライダー（装飾なので読み上げ対象外） %>
   <div class="swiper c-people-link__slider" data-people-link-swiper aria-hidden="true">
