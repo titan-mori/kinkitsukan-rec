@@ -185,7 +185,8 @@ function initPeopleLinkSwiper() {
   const el = document.querySelector('[data-people-link-swiper]');
   if (!el) return;
   const pcQuery = window.matchMedia('(min-width: 897px)');
-  const gap = () => 18 * Math.min(window.innerWidth / 375, 540 / 375);
+  // デザイン px を CSS の svw() と同じ比率に（375px で等倍、540px で拡大を止める）
+  const sp = (px) => px * Math.min(window.innerWidth / 375, 540 / 375);
   let swiper = null;
 
   const toggle = () => {
@@ -195,10 +196,15 @@ function initPeopleLinkSwiper() {
     } else if (!swiper) {
       swiper = new Swiper(el, {
         slidesPerView: 'auto',
-        spaceBetween: gap(),
+        spaceBetween: sp(18),
+        // 1枚目の左端・最後の右端を見出しと同じ 15px 内側にそろえる
+        slidesOffsetBefore: sp(15),
+        slidesOffsetAfter: sp(15),
         on: {
           beforeResize(s) {
-            s.params.spaceBetween = gap();
+            s.params.spaceBetween = sp(18);
+            s.params.slidesOffsetBefore = sp(15);
+            s.params.slidesOffsetAfter = sp(15);
           },
         },
       });

@@ -136,10 +136,9 @@ $people-link-duration: 30s;
   }
 
   // SP の写真スライダー（Figma SP 690:7087）
-  //  写真 146×184・間 18。1枚目はカードの左端で 22 切れた位置から始まる（Figma どおり左へずらす）
+  //  写真 146×184・間 18。1枚目は見出しと同じ左位置（15）から始め、スワイプするとカードの端まで流れる（左右の余白は main.js の slidesOffset）
   &__slider {
-    width: calc(100% + #{svw(22)});
-    margin: svw(24) 0 svw(38) svw(-22);
+    margin: svw(24) 0 svw(38);
 
     @include mq(pc) {
       display: none;
