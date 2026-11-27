@@ -19,7 +19,7 @@
     { name: '営業', lead: '物流の課題を提案で解決する', icon: 'top/job_icon_04.svg', href: 'jobs/#job04' },
   ];
 
-  // 社員インタビュー（サムネイル・職種・入社年・イニシャル・一言は site.json の interviews）
+  // 社員インタビュー（サムネイル・職種・入社年・イニシャル・見出し（catchCopy。カードでは改行を外して1文に）は site.json の interviews）
   const people = site.interviews;
 
   // 会社を知るページ内の各セクションへ（site.json のナビと同じリンク先）
@@ -206,7 +206,7 @@
                   <img class="p-top-person__hvr" src="<%= assets %>img/<%= p.img.replace('.webp', 'hvr.webp') %>" alt="" width="436" height="550" loading="lazy">
                   <span class="p-top-person__job"><%= p.job %></span>
                 </span>
-                <span class="p-top-person__copy"><%= p.copy %></span>
+                <span class="p-top-person__copy"><%= p.catchCopy.replace(/<br\s*\/?>/gi, '') %></span>
                 <span class="p-top-person__meta"><%= p.year %> / <%= p.name %></span>
               </a>
             </li>

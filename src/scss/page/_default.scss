@@ -1,0 +1,175 @@
+@use "../foundation" as *;
+
+// ================================================================
+// 汎用の固定ページ（WP の page.php。個人情報保護方針など、専用デザインの無いページ）
+// 静的版には対応するページなし。見出し＋パンくずは下層共通のヒーロー（l-page-hero--grad）
+// 本文（.p-default__content）はブロックエディターの出力にそのまま当てる
+// ================================================================
+.p-default {
+  &__body {
+    padding: svw(38) 0 svw(64);
+
+    @include mq(pc) {
+      padding: fluid(110) 0 fluid(140);
+    }
+  }
+
+  &__inner {
+    max-width: calc(880px + #{svw(40)});
+    padding: 0 svw(20);
+    margin: 0 auto;
+
+    @include mq(pc) {
+      max-width: 920px;
+      padding: 0 20px;
+    }
+  }
+
+  &__btn {
+    margin-top: svw(48);
+
+    @include mq(pc) {
+      margin-top: 80px;
+    }
+  }
+}
+
+// ---- 本文（ブロックエディターの出力）
+.p-default__content {
+  font-size: sfont(15);
+  line-height: 1.8;
+
+  @include mq(pc) {
+    font-size: rem(16);
+    line-height: 1.875;
+  }
+
+  > * + * {
+    margin-top: svw(16);
+
+    @include mq(pc) {
+      margin-top: 20px;
+    }
+  }
+
+  // 見出し 2：菱形付き＋下線（c-subttl と同じ菱形）
+  h2 {
+    display: flex;
+    gap: svw(9);
+    align-items: center;
+    padding-bottom: svw(10);
+    font-size: sfont(18);
+    font-weight: 700;
+    line-height: 1.5;
+    color: $color-main;
+    border-bottom: 1px solid $color-border;
+
+    @include mq(pc) {
+      gap: 12px;
+      padding-bottom: 14px;
+      font-size: rem(22);
+    }
+
+    &::before {
+      @include diamond-mark;
+    }
+  }
+
+  * + h2 {
+    margin-top: svw(40);
+
+    @include mq(pc) {
+      margin-top: 64px;
+    }
+  }
+
+  h3 {
+    font-size: sfont(16);
+    font-weight: 700;
+    line-height: 1.5;
+    color: $color-main;
+
+    @include mq(pc) {
+      font-size: rem(18);
+    }
+  }
+
+  * + h3 {
+    margin-top: svw(28);
+
+    @include mq(pc) {
+      margin-top: 40px;
+    }
+  }
+
+  h4 {
+    font-weight: 700;
+  }
+
+  ul,
+  ol {
+    padding-left: svw(24);
+
+    @include mq(pc) {
+      padding-left: 26px;
+    }
+  }
+
+  ul {
+    list-style: disc;
+  }
+
+  ol {
+    list-style: decimal;
+  }
+
+  li + li {
+    margin-top: svw(4);
+
+    @include mq(pc) {
+      margin-top: 6px;
+    }
+  }
+
+  a {
+    color: $color-accent;
+    text-decoration: underline;
+    text-underline-offset: 0.2em; // 文字の大きさに合わせる（意図して em）
+
+    @include hover {
+      text-decoration: none;
+    }
+  }
+
+  strong {
+    font-weight: 700;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  // 表（ブロックエディターの「テーブル」）
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  th,
+  td {
+    padding: svw(10) svw(12);
+    text-align: left;
+    vertical-align: top;
+    border: 1px solid $color-border;
+
+    @include mq(pc) {
+      padding: 14px 20px;
+    }
+  }
+
+  th {
+    font-weight: 700;
+    background: $color-bg-gray;
+  }
+}

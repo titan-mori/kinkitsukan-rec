@@ -1,7 +1,8 @@
 {
   "name": "近畿通関 採用サイト",
   "description": "近畿通関株式会社の採用サイトです。",
-  "corporateUrl": "#",
+  "corporateUrl": "https://www.kinkitsukan.jp/",
+  "privacyUrl": "https://www.kinkitsukan.jp/privacy-policy/",
   "nav": [
     { "key": "logistics", "label": "物流を知る", "href": "logistics/", "children": [] },
     {
@@ -45,10 +46,10 @@
     }
   ],
   "interviews": [
-    { "slug": "interview01", "job": "港湾倉庫作業員", "year": "2022年入社", "name": "A. K", "catchCopy": "港の仕事は、<br>一人では動かせない。", "copy": "全員が活躍できる場所があり、それぞれの強みがかけ合わさる会社", "img": "top/people_01.webp" },
-    { "slug": "interview02", "job": "通関士", "year": "2022年入社", "name": "A. K", "catchCopy": "未経験から、<br>任される範囲が広がった。", "copy": "全員が活躍できる場所があり、それぞれの強みがかけ合わさる会社", "img": "top/people_02.webp" },
-    { "slug": "interview03", "job": "貿易事務", "year": "2022年入社", "name": "A. K", "catchCopy": "正確な段取りが、<br>物流を前へ進める。", "copy": "全員が活躍できる場所があり、それぞれの強みがかけ合わさる会社", "img": "top/people_03.webp" },
-    { "slug": "interview04", "job": "貿易事務", "year": "2022年入社", "name": "A. K", "catchCopy": "学び続けるほど、<br>仕事の幅が広がる。", "copy": "全員が活躍できる場所があり、それぞれの強みがかけ合わさる会社", "img": "top/people_04.webp" }
+    { "slug": "interview01", "job": "港湾倉庫作業員", "year": "2014年入社", "name": "T. S", "catchCopy": "運ぶだけじゃない。<br>倉庫の空間を<br>組み立てる仕事。", "img": "top/people_01.webp" },
+    { "slug": "interview02", "job": "通関士", "year": "2022年入社", "name": "A. K", "catchCopy": "未経験から、<br>任される範囲が広がった。", "img": "top/people_02.webp" },
+    { "slug": "interview03", "job": "貿易事務", "year": "2022年入社", "name": "A. K", "catchCopy": "正確な段取りが、<br>物流を前へ進める。", "img": "top/people_03.webp" },
+    { "slug": "interview04", "job": "貿易事務", "year": "2022年入社", "name": "A. K", "catchCopy": "学び続けるほど、<br>仕事の幅が広がる。", "img": "top/people_04.webp" }
   ],
   "entry": { "form": "entry/", "casual": "casual/" }
 }

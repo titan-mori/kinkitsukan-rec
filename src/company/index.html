@@ -42,10 +42,11 @@
 
   // 社員の挑戦
   const challengePoints = [
-    ['始めたきっかけ', 'ボウリングを始めたきっかけを、本人の言葉で紹介します。'],
-    ['両立の方法', '勤務と練習・大会を、どう組み合わせているかを紹介します。'],
-    ['会社のサポート', '休暇の調整など、会社が行っている後押しを紹介します。'],
-    ['主な実績・目標', 'これまでの主な実績と、今後の目標を紹介します。'],
+    ['始めたきっかけ', '母と兄の影響で、小学5年生の頃からボウリング場に通い始めました。中学1年生で兄も所属していた競技団体に入り、本格的に競技をスタート。現在は大阪府ボウリング連盟に所属するアマチュア選手として活動しています。'],
+    ['両立の方法', '現場は隔週で土曜出勤があります。大会のある週は、現場と相談して出勤日を入れ替えてもらうなど調整し、有給休暇も活用しながら大会に出場しています。'],
+    ['会社のサポート', '2026年から、公式大会に出場する際の交通費・参加費・宿泊費を会社に支援してもらっています。ユニフォームには近畿通関のワッペンをつけて出場しています。ボールや遠征に費用がかかる競技なので、本当に助かっています。'],
+    ['主な実績・目標', '2018年のNHK杯で個人7位。第55回日本クラブ対抗選手権では、約80チームが出場する中、5人1チームで準優勝しました。目標は、全国大会での優勝です。'],
+    ['仕事とのつながり', 'ボウリングでは、目に見えないレーンのオイルの状態を読んで攻略法を考えます。倉庫で「この貨物をどこに置けば効率よく回るか」と空間を組み立てるのと、考え方が似ているのかもしれません。'],
   ];
 
   const iconStyle = (icon) => `--w: ${icon.w}; --r: ${icon.r}; --b: ${icon.b}; --w-sp: ${icon.sp[0]}; --r-sp: ${icon.sp[1]}; --b-sp: ${icon.sp[2]}`;
@@ -178,7 +179,7 @@
             </div>
             <p class="p-company-challenge__txt">近畿通関には、仕事と競技ボウリングの活動を両立している社員がいます。一人ひとりが大切にしている目標に向き合えるよう、会社もその挑戦を応援しています。</p>
             <p class="p-company-challenge__tag">競技ボウリング</p>
-            <p class="p-company-challenge__person">2022年入社 / <span>A. K</span></p>
+            <p class="p-company-challenge__person">2014年入社 / <span>T. S</span></p>
           </div>
           <div class="p-company-challenge__img p-company-challenge__img--main">
             <img src="<%= assets %>img/company/challenge_01.webp" alt="社員の挑戦画像" width="439" height="310" loading="lazy">
@@ -187,7 +188,7 @@
 
         <div class="p-company-challenge__detail">
           <div class="p-company-challenge__detail-body">
-            <p class="p-company-challenge__catch">仕事にも競技にも真剣に向き合えることが、<br class="u-pc-only">次の挑戦への力になっています。</p>
+            <p class="p-company-challenge__catch">両立できる環境に感謝しています。<br class="u-pc-only">だから、仕事も競技も全力で。</p>
             <dl class="c-def-list p-company-challenge__points">
               <% challengePoints.forEach(([dt, dd]) => { %>
                 <div>

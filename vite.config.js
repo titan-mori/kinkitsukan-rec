@@ -6,6 +6,7 @@ import * as sass from 'sass';
 import ejsPages from './plugins/vite-plugin-ejs.js';
 import images from './plugins/vite-plugin-images.js';
 import wpReload from './plugins/vite-plugin-wp-reload.js';
+import wpSync from './plugins/vite-plugin-wp-sync.js';
 
 // ================================================================
 // 環境ごとの設定（ここだけ書き換えればOK）
@@ -62,6 +63,8 @@ export default defineConfig(({ command, mode }) => {
         urlPrefix: '/assets/img/',
       }),
       wpReload({ dir: path.resolve(__dirname, WP_THEME_DIR) }),
+      // site.json・社員インタビュー原稿を WP テーマへ書き出す（scripts/wp-sync.mjs）
+      wpSync(),
     ],
     css: {
       devSourcemap: true,

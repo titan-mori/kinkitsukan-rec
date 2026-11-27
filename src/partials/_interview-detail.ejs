@@ -3,7 +3,7 @@
   interview/interview01〜04/index.html から、ページごとの原稿 d を渡して読み込む
     include('partials/_interview-detail', { page, d })
   画像は img/<d.slug>/ に main・photo_01・photo_02・dayoff・message（.webp）
-  サムネイル・職種・入社年・イニシャル・見出し（catchCopy）・一言（copy）は site.json の interviews
+  サムネイル・職種・入社年・イニシャル・見出し（catchCopy）は site.json の interviews
   d の中身
     slug      … 'interview01'（site.json の interviews と同じ）。画像フォルダ名にも使う
     lead      … { ttl, txt: [段落] }。ttl の改行は <br class="u-sp-only"> または <br class="u-pc-only">
@@ -162,7 +162,7 @@
                 <img class="p-intrviewpage-card__hvr" src="<%= assets %>img/<%= item.img.replace('.webp', 'hvr.webp') %>" alt="" width="340" height="428" loading="lazy">
                 <span class="p-intrviewpage-card__job"><%= item.job %></span>
               </div>
-              <p class="p-intrviewpage-card__txt"><%= item.copy %></p>
+              <p class="p-intrviewpage-card__txt"><%= item.catchCopy.replace(/<br\s*\/?>/gi, '') %></p>
               <p class="p-intrviewpage-card__meta"><%= item.year %> / <%= item.name %></p>
             </a>
           </li>

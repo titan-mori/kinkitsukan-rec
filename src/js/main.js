@@ -490,9 +490,10 @@ function initCountUp() {
   if (!els.length || reducedMotion.matches) return;
 
   els.forEach((el) => {
+    // 数字だけ（小数可）のときに限る。WP の入力欄（SCF）で「約100」「1,000」などが入ったら動かさずそのまま出す
     const text = el.textContent.trim();
+    if (!/^\d+(\.\d+)?$/.test(text)) return;
     const target = parseFloat(text);
-    if (Number.isNaN(target)) return;
 
     const decimals = (text.split('.')[1] || '').length;
     const padLength = /^0\d/.test(text) ? text.length : 0; // "00" のように先頭ゼロがあるときだけ桁をそろえる

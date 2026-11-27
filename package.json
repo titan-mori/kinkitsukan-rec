@@ -9,7 +9,9 @@
     "dev:wp": "vite --mode wp",
     "build": "vite build",
     "build:wp": "vite build --mode wp",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "wp:sync": "node scripts/wp-sync.mjs",
+    "wp:check": "node scripts/wp-check.mjs"
   },
   "browserslist": [
     "> 0.5% in JP",
